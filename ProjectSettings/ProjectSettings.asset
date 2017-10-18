@@ -586,11 +586,13 @@ PlayerSettings:
     daydream:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Build: 1
+    UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: 947234d6-19cb-41e1-9aaf-2414e096e725
-  projectName: University Domination A1-2 (1)
+  projectName: University Domination A1-2
   organizationId: uni-sepr
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
