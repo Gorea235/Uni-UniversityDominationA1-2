@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IUnit : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public interface IUnit {
+    int Health { get; set; }
+    int Attack { get; }
+    int MaxMove { get; }
+    int Defence { get; }
+    IPlayer Owner { get; }
+    College.College College { get; }  //I think the descriptive properties of this particular line are nonexistent
 }

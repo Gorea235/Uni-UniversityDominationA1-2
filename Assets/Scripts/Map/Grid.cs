@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour {
 
+    public Sector gridCoord { get; set; }
+
+
 	// Use this for initialization
 	void Start () {
 		

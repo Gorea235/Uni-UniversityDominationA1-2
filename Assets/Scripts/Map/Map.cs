@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Map : MonoBehaviour {
 
+    public Grid Grid { get; }
+    public Sector[] Sectors { get; }
+
 	// Use this for initialization
 	void Start () {
 		

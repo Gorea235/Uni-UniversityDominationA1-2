@@ -1,16 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿
+//a namespace instead of a class ? Do we need a class for a single enum?
+//is this how you would use a namespace?
 
-public class College : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+namespace College
+{
+    public enum College
+    {
+        Alcuin,
+        Constantine,
+        Derwent,
+        Goodricke,
+        Halifax,
+        James,
+        Langwith,
+        Vanbrugh,
+        Wentworth
+    }
 }

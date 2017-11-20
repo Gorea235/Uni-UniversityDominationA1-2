@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Context : MonoBehaviour {
 
+    public IPlayer[] Players { get; }
+    public GUI Gui { get; }
+    public Map Map { get; }
+    public AudioManager Audio { get; }
+    
 	// Use this for initialization
 	void Start () {
 		
