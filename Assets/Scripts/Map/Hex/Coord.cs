@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
 
-public class Coord
+namespace Map.Hex
 {
-	
+    public class Coord
+    {
+
+    }
 }
