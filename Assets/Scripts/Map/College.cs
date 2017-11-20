@@ -1,8 +1,4 @@
-﻿
-//a namespace instead of a class ? Do we need a class for a single enum?
-//is this how you would use a namespace?
-
-namespace College
+﻿namespace Map
 {
     public enum College
     {
