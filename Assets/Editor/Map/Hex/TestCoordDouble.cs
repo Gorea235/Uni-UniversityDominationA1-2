@@ -10,7 +10,11 @@ public class TestCoordDouble
 {
     bool EnsureCubeCoord(CoordDouble coord)
     {
-        return Math.Abs(coord.Q + coord.R + coord.S) < double.Epsilon;
+        //Console.WriteLine(coord.Q + coord.R + coord.S);
+        //Console.WriteLine(Math.Abs(Math.Round(coord.Q + coord.R + coord.S, 14)));
+        //return Math.Abs(coord.Q + coord.R + coord.S) < (0 + float.Epsilon);
+        return Math.Abs(Math.Round(coord.Q + coord.R + coord.S, 14)) < double.Epsilon;
+        //return Mathf.Approximately((float)(coord.Q + coord.R + coord.S), 0);
     }
 
     [Test]
@@ -27,11 +31,15 @@ public class TestCoordDouble
 
         Assert.That(EnsureCubeCoord(new CoordDouble(5.5, 3, -8.5)),
                     Is.True);
-        Assert.That(EnsureCubeCoord(new CoordDouble(1.2, -3.8, 2.6)),
+        Assert.That(EnsureCubeCoord(new CoordDouble(1.2, -3.8)),
                     Is.True);
         Assert.That(EnsureCubeCoord(new CoordDouble(-10.5, 3.25, 7.25)),
                     Is.True);
         Assert.That(EnsureCubeCoord(new CoordDouble(-31.9, 46.4, -14.5)),
+                    Is.True);
+        Assert.That(EnsureCubeCoord(new CoordDouble(5.2, 6.8, -12)),
+                    Is.True);
+        Assert.That(EnsureCubeCoord(new CoordDouble(-4.4, -8.8, 13.2)),
                     Is.True);
     }
 
@@ -68,11 +76,11 @@ public class TestCoordDouble
         CoordDouble c = new CoordDouble(0, -1, 1);
         Assert.That(new CoordDouble(a.Q * 0.4 + b.Q * 0.3 + c.Q * 0.3,
                                     a.R * 0.4 + b.R * 0.3 + c.R * 0.3,
-                                    a.S * 0.4 + b.S * 0.3 + c.S * 0.3),
+                                    a.S * 0.4 + b.S * 0.3 + c.S * 0.3).Round(),
                     Is.EqualTo(a.Round()));
         Assert.That(new CoordDouble(a.Q * 0.3 + b.Q * 0.3 + c.Q * 0.4,
                                     a.R * 0.3 + b.R * 0.3 + c.R * 0.4,
-                                    a.S * 0.3 + b.S * 0.3 + c.S * 0.4),
+                                    a.S * 0.3 + b.S * 0.3 + c.S * 0.4).Round(),
                     Is.EqualTo(c.Round()));
     }
 
@@ -85,8 +93,8 @@ public class TestCoordDouble
         CoordDouble a = new CoordDouble(0, 0, 0);
         CoordDouble b = new CoordDouble(1, -1, 0);
         Assert.That(new CoordDouble(0, 0, 0).Lerp(new CoordDouble(10, -20, 10), 0.5).Round(),
-                    Is.EqualTo(new CoordDouble(5, -10, 5)));
+                    Is.EqualTo(new Coord(5, -10, 5)));
         Assert.That(a.Lerp(b, 0.499).Round(), Is.EqualTo(a.Round()));
-        Assert.That(a.Lerp(b, 0.499).Round(), Is.EqualTo(b.Round()));
+        Assert.That(a.Lerp(b, 0.501).Round(), Is.EqualTo(b.Round()));
     }
 }

@@ -49,7 +49,9 @@ namespace Map.Hex
         /// <param name="s">S</param>
         public CoordDouble(double q, double r, double s)
         {
-            if (Math.Abs(q + r + s) > float.Epsilon) // allow for floating point errors
+            //if (Math.Abs(q + r + s) > float.Epsilon) // allow for floating point errors
+            //if (!Mathf.Approximately((float)(q + r + s), 0)) // allow for floating point errors
+            if (Math.Abs(Math.Round(q + r + s, 14)) > double.Epsilon)
                 throw new ArgumentException("Q + R + S must equal 0");
             Q = q;
             R = r;
