@@ -1,16 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IUnit : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+namespace Map
+{
+    public interface IUnit
+    {
+        int Health { get; set; }
+        int Attack { get; }
+        int MaxMove { get; }
+        int Defence { get; }
+        IPlayer Owner { get; }
+        College College { get; }
+    }
 }

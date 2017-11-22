@@ -1,16 +1,38 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Map.Hex;
 using UnityEngine;
 
-public class Grid : MonoBehaviour {
+namespace Map
+{
+    public class Grid : MonoBehaviour
+    {
+        Dictionary<Coord, Sector> _gridStore = new Dictionary<Coord, Sector>();
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        public Sector this[Coord coord]
+        {
+            get
+            {
+               return _gridStore[coord];
+            }
+            set
+            {
+                _gridStore[coord] = value;
+            }
+        }
+
+
+        // Use this for initialization
+        void Start()
+        {
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+    }
 }

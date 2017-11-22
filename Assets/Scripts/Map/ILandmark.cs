@@ -1,16 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Manager;
+using Map.Hex;
 using UnityEngine;
 
-public class ILandmark : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+namespace Map
+{
+    public interface ILandmark
+    {
+        void StartBonus(IPlayer player, Coord coord, Context context);
+        void TurnBonus(IPlayer player, Coord coord, Context context);
+    }
 }
