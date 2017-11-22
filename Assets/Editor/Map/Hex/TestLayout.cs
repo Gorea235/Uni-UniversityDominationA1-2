@@ -9,31 +9,31 @@ public class TestLayout
     [Test]
     public void TestDefault()
     {
-        
+        Assert.Ignore("Not Implemented");
     }
 
     [Test]
     public void TestHexToPixel()
     {
-        
+        Assert.Ignore("Not Implemented");
     }
 
     [Test]
     public void TextPixelToHex()
     {
-        
+        Assert.Ignore("Not Implemented");
     }
 
     [Test]
     public void TestHexCornerOffset()
     {
-        
+        Assert.Ignore("Not Implemented");
     }
 
     [Test]
     public void TestPolygonCorners()
     {
-        
+        Assert.Ignore("Not Implemented");
     }
     //static public void TestLayout()
     //{

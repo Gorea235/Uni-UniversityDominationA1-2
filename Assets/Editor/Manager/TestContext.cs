@@ -6,9 +6,9 @@ using UnityEngine.TestTools;
 [TestFixture]
 public class TestContext
 {
-    [Test]
-    public void TestA()
-    {
-
-    }
+    //[Test]
+    //public void TestA()
+    //{
+    //    Assert.Ignore("Not Implemented");
+    //}
 }

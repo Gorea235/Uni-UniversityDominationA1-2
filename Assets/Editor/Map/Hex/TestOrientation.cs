@@ -7,8 +7,8 @@ using UnityEngine.TestTools;
 public class TestOrentation
 {
     [Test]
-    public void TestA()
+    public void TestInit()
     {
-
+        Assert.Ignore("Not Implemented");
     }
 }

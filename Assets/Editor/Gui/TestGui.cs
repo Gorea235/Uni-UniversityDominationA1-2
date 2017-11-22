@@ -6,9 +6,9 @@ using UnityEngine.TestTools;
 [TestFixture]
 public class TestGui
 {
-    [Test]
-    public void TestA()
-    {
-
-    }
+    //[Test]
+    //public void TestA()
+    //{
+    //    Assert.Ignore("Not Implemented");
+    //}
 }
