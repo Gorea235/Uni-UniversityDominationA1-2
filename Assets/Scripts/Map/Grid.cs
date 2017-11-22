@@ -8,17 +8,17 @@ namespace Map
 {
     public class Grid : MonoBehaviour
     {
+        Dictionary<Coord, Sector> _gridStore = new Dictionary<Coord, Sector>();
 
         public Sector this[Coord coord]
         {
             get
             {
-                throw new NotImplementedException();
+               return _gridStore[coord];
             }
-
             set
             {
-                throw new NotImplementedException();
+                _gridStore[coord] = value;
             }
         }
 
