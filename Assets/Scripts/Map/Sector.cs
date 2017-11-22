@@ -7,25 +7,43 @@ namespace Map
 {
     public class Sector : MonoBehaviour
     {
-        Hex.Coord currentCoord;
-        GameObject plot;
+        #region Unity Bindings
+
+        public Texture testTexture;
+
+        #endregion
+
+        #region Private fields
+
+        Hex.Coord _currentCoord;
+
+        #endregion
+
+        #region Public Properties
 
         public IUnit OccupyingUnit { get; set; }
         public ILandmark Landmark { get; set; }
 
+        #endregion
 
+        #region Initialisation
 
-        public void Init(Hex.Coord positionCoord, Hex.SectorTexture texture)
+        public void Init(Hex.Coord currentCoord, SectorTexture texture)
         {
-            currentCoord = positionCoord;
-            plot = (GameObject)Resources.Load("/Assets/Prefabs/<name-of-prefab>", typeof(GameObject)); //cast predefined prefab of textureless hex shape as a GameObject
-           // plot.GetComponent<Renderer>().material.SetTexture("<name-of-texture>", texture);           //render a material mesh from a predefined texture set. TODO: finish the SectorTexture enum to implement this
+            _currentCoord = currentCoord;
+
+            // Set texture
+            switch (texture)
+            {
+                case SectorTexture.TestTexture:
+                    gameObject.GetComponent<Renderer>().material.mainTexture = testTexture;
+                    break;
+            }
         }
 
-        public GameObject GetPlot { get { return plot; } }
-        public Hex.Coord GetCoord { get { return currentCoord; } }
+        #endregion
 
-
+        #region MonoBehaviour
 
         // Use this for initialization
         void Start()
@@ -38,5 +56,7 @@ namespace Map
         {
 
         }
+
+        #endregion
     }
 }

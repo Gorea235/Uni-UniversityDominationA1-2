@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Map.Hex
+namespace Map
 {
     public enum SectorTexture
     {
-        //populate with materials
+        TestTexture
     }
 }
