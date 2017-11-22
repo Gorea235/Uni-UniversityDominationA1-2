@@ -227,6 +227,19 @@ namespace Map.Hex
         }
 
         /// <summary>
+        /// Computes the product of <c>k</c> and <c>a</c>, yielding a new <see cref="T:Map.Hex.Coord"/>.
+        /// </summary>
+        /// <param name="k">The <see cref="int"/> to multiply.</param>
+        /// <param name="a">The <see cref="T:Map.Hex.Coord"/> to multiply.</param>
+        /// <returns>The <see cref="T:Map.Hex.Coord"/> that is the <c>k</c> * <c>a</c>
+        /// (internally just swiches to <c>a</c> * <c>k</c>).</returns>
+        static public Coord operator *(int k, Coord a)
+        {
+            //return new Coord(a.Q * k, a.R * k, a.S * k);
+            return a * k;
+        }
+
+        /// <summary>
         /// Determines whether a specified instance of <see cref="T:Map.Hex.Coord"/>
         /// is equal to another specified <see cref="T:Map.Hex.Coord"/>.
         /// </summary>
@@ -283,15 +296,20 @@ namespace Map.Hex
         /// the base version, is that it ensures properly distributed hashes,
         /// while also ensuring 2 instantiations of <see cref="T:Map.Hex.Coord"/>
         /// will always produce the same hash, since they should be identical.
+        /// 
+        /// Since according to
+        /// https://msdn.microsoft.com/en-us/library/system.object.gethashcode(v=vs.110).aspx
+        /// if 2 objects are equal, there hashes are, meaning base implementation
+        /// should be fine.
         /// </remarks>
         public override int GetHashCode()
         {
-            int hash = 887;
-            hash = hash * 101 + Q.GetHashCode();
-            hash = hash * 103 + R.GetHashCode();
-            // ignore S as it is always implied
-            return hash;
-            //return base.GetHashCode();
+            //int hash = 41;
+            //hash = hash * 101 + Q.GetHashCode();
+            //hash = hash * 103 + R.GetHashCode();
+            //// ignore S as it is always implied
+            //return hash;
+            return base.GetHashCode();
         }
 
         /// <summary>
