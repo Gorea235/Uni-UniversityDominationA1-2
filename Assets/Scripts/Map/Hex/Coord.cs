@@ -19,11 +19,7 @@ namespace Map.Hex
     {
         #region Properties
 
-        /// <summary>
-        /// Direction lookup table.
-        /// </summary>
-        /// <value>The directions.</value>
-        public static Dictionary<Direction, Coord> Directions { get; } = new Dictionary<Direction, Coord>
+        static Dictionary<Direction, Coord> _directions = new Dictionary<Direction, Coord>
         {
             { Direction.NorthEast, new Coord(1, 0, -1) },
             { Direction.East, new Coord(1, -1, 0) },
@@ -39,6 +35,14 @@ namespace Map.Hex
             { Direction.DiagonalSouthWest, new Coord(-2, 1, 1) },
             { Direction.DiagonalNorthWest, new Coord(-1, 2, -1) }
         };
+        /// <summary>
+        /// Direction lookup table.
+        /// </summary>
+        /// <value>The directions.</value>
+        public static Dictionary<Direction, Coord> Directions
+        {
+            get { return _directions; }
+        }
 
         /// <summary>
         /// Q in cube/axial.

@@ -12,11 +12,11 @@ namespace Map.Hex
     /// with a default Z value. Vector3 can be implicitly converted to
     /// Vector2, in case we need to use them.
     /// </summary>
-    public struct Layout
+    public class Layout
     {
         #region Default Layout w/ Lazy Init
 
-        static Layout? _default;
+        static Layout _default;
         /// <summary>
         /// Gets the default layout.
         /// </summary>
@@ -26,8 +26,8 @@ namespace Map.Hex
             get
             {
                 if (_default == null)
-                    _default = new Layout(Pointy, DefaultSize, DefaultOrigin);
-                return (Layout)_default;
+                    _default = new Layout(_pointy, _defaultSize, _defaultOrigin);
+                return _default;
             }
         }
 
@@ -35,10 +35,10 @@ namespace Map.Hex
 
         #region Pre-Calculated Values
 
-        static float DefaultZ { get; } = 0;
-        static Vector3 DefaultSize { get; } = new Vector3(10, 10, DefaultZ); // adjust this to how big the grid should be
-        static Vector3 DefaultOrigin { get; } = new Vector3(0, 0, DefaultZ);
-        static Orientation Pointy { get; } = new Orientation(Math.Sqrt(3.0),
+        static float _defaultZ = 0;
+        static Vector3 _defaultSize = new Vector3(10, 10, _defaultZ); // adjust this to how big the grid should be
+        static Vector3 _defaultOrigin = new Vector3(0, 0, _defaultZ);
+        static Orientation _pointy = new Orientation(Math.Sqrt(3.0),
                                                              Math.Sqrt(3.0) / 2.0,
                                                              0.0,
                                                              3.0 / 2.0,
@@ -100,7 +100,7 @@ namespace Map.Hex
             Orientation M = Orientation;
             double x = (M.F0 * h.Q + M.F1 * h.R) * Size.x;
             double y = (M.F2 * h.Q + M.F3 * h.R) * Size.y;
-            return new Vector3((float)x + Origin.x, (float)y + Origin.y, DefaultZ);
+            return new Vector3((float)x + Origin.x, (float)y + Origin.y, _defaultZ);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Map.Hex
         public CoordDouble PixelToHex(Vector3 p)
         {
             Orientation M = Orientation;
-            Vector3 pt = new Vector3((p.x - Origin.x) / Size.x, (p.y - Origin.y) / Size.y, DefaultZ);
+            Vector3 pt = new Vector3((p.x - Origin.x) / Size.x, (p.y - Origin.y) / Size.y, _defaultZ);
             double q = M.B0 * pt.x + M.B1 * pt.y;
             double r = M.B2 * pt.x + M.B3 * pt.y;
             return new CoordDouble(q, r);
@@ -121,7 +121,7 @@ namespace Map.Hex
         {
             Orientation M = Orientation;
             double angle = 2.0 * Math.PI * (M.StartAngle - corner) / 6;
-            return new Vector3(Size.x * (float)Math.Cos(angle), Size.y * (float)Math.Sin(angle), DefaultZ);
+            return new Vector3(Size.x * (float)Math.Cos(angle), Size.y * (float)Math.Sin(angle), _defaultZ);
         }
 
         public List<Vector3> PolygonCorners(Coord h)
@@ -131,7 +131,7 @@ namespace Map.Hex
             for (int i = 0; i < 6; i++)
             {
                 Vector3 offset = HexCornerOffset(i);
-                corners.Add(new Vector3(center.x + offset.x, center.y + offset.y, DefaultZ));
+                corners.Add(new Vector3(center.x + offset.x, center.y + offset.y, _defaultZ));
             }
             return corners;
         }
