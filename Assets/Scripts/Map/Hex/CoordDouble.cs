@@ -88,7 +88,7 @@ namespace Map.Hex
         /// <param name="a">The first Coord item.</param>
         /// <param name="b">The second Coord item.</param>
         /// <param name="t">t I guess...</param>
-        public static double Lerp(double a, double b, double t)
+        static double Lerp(double a, double b, double t)
         {
             return a * (1 - t) + b * t;
         }
