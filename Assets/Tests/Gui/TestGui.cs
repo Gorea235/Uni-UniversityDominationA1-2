@@ -1,11 +1,14 @@
-using System;  
-using Microsoft.VisualStudio.TestTools.UnitTesting; 
+using System.Collections;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.TestTools;
 
-namespace TestGui 
+[TestFixture]
+public class TestGui
 {
-    public class Guitest 
+    [Test]
+    public void TestA()
     {
-        
-    }
 
+    }
 }

@@ -1,7 +1,14 @@
-using System;  
-using Microsoft.VisualStudio.TestTools.UnitTesting; 
+using System.Collections;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.TestTools;
 
-namespace TestGuiEventArgs 
+[TestFixture]
+public class TestGuiEventArgs
 {
-    
+    [Test]
+    public void TestA()
+    {
+
+    }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 
 [TestFixture]
-public class TestContext
+public class TestSector
 {
     [Test]
     public void TestA()

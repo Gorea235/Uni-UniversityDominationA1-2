@@ -1,9 +1,14 @@
-using System;  
-using Microsoft.VisualStudio.TestTools.UnitTesting; 
+using System.Collections;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.TestTools;
 
-namespace TestMap
+[TestFixture]
+public class TestMap
 {
-    public class maptest
-    {}
-    
+    [Test]
+    public void TestA()
+    {
+
+    }
 }

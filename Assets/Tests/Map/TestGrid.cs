@@ -1,7 +1,14 @@
-using System;  
-using Microsoft.VisualStudio.TestTools.UnitTesting; 
+using System.Collections;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.TestTools;
 
-namespace TestGrid 
+[TestFixture]
+public class TestGrid
 {
-    
+    [Test]
+    public void TestA()
+    {
+
+    }
 }
