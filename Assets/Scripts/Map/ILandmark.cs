@@ -9,7 +9,6 @@ namespace Map
 {
     public interface ILandmark
     {
-
         void StartBonus(IPlayer player, Coord coord, Context context);
         void TurnBonus(IPlayer player, Coord coord, Context context);
     }

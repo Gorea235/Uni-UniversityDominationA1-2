@@ -12,6 +12,6 @@ namespace Map
         int MaxMove { get; }
         int Defence { get; }
         IPlayer Owner { get; }
-        College College { get; }  //I think the descriptive properties of this particular line are nonexistent
+        College College { get; }
     }
 }

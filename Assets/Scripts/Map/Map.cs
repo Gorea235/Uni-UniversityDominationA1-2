@@ -7,7 +7,6 @@ namespace Map
 {
     public class Map : MonoBehaviour
     {
-
         public Grid Grid { get; }
 
         // Use this for initialization
