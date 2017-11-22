@@ -26,14 +26,7 @@ namespace Map.Hex
             { Direction.SouthEast, new Coord(0, -1, 1) },
             { Direction.SouthWest, new Coord(-1, 0, 1) },
             { Direction.West, new Coord(-1, 1, 0) },
-            { Direction.NorthWest, new Coord(0, 1, -1) },
-
-            { Direction.DiagonalNorth, new Coord(1, 1, -2) },
-            { Direction.DiagonalNorthEast, new Coord(2, -1, -1) },
-            { Direction.DiagonalSouthEast, new Coord(1, -2, 1) },
-            { Direction.DiagonalSouth, new Coord(-1, -1, 2) },
-            { Direction.DiagonalSouthWest, new Coord(-2, 1, 1) },
-            { Direction.DiagonalNorthWest, new Coord(-1, 2, -1) }
+            { Direction.NorthWest, new Coord(0, 1, -1) }
         };
         /// <summary>
         /// Direction lookup table.
@@ -42,6 +35,24 @@ namespace Map.Hex
         public static Dictionary<Direction, Coord> Directions
         {
             get { return _directions; }
+        }
+
+        static Dictionary<DiagonalDirection, Coord> _diagonalDirections = new Dictionary<DiagonalDirection, Coord>
+        {
+            { DiagonalDirection.North, new Coord(1, 1, -2) },
+            { DiagonalDirection.NorthEast, new Coord(2, -1, -1) },
+            { DiagonalDirection.SouthEast, new Coord(1, -2, 1) },
+            { DiagonalDirection.South, new Coord(-1, -1, 2) },
+            { DiagonalDirection.SouthWest, new Coord(-2, 1, 1) },
+            { DiagonalDirection.NorthWest, new Coord(-1, 2, -1) }
+        };
+        /// <summary>
+        /// Diagonal direction lookup table.
+        /// </summary>
+        /// <value>The directions.</value>
+        public static Dictionary<DiagonalDirection, Coord> DiagonalDirections
+        {
+            get { return _diagonalDirections; }
         }
 
         /// <summary>
@@ -124,6 +135,16 @@ namespace Map.Hex
         public Coord Neighbor(Direction direction)
         {
             return this + Directions[direction];
+        }
+
+        /// <summary>
+        /// Gets the diagonal coord.
+        /// </summary>
+        /// <returns>The neighbor.</returns>
+        /// <param name="direction">Direction to get.</param>
+        public Coord Diagonal(DiagonalDirection direction)
+        {
+            return this + DiagonalDirections[direction];
         }
 
         /// <summary>
@@ -271,6 +292,15 @@ namespace Map.Hex
             // ignore S as it is always implied
             return hash;
             //return base.GetHashCode();
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:Map.Hex.Coord"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Map.Hex.Coord"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("Coord({0}, {1}, {2})", Q, R, S);
         }
 
         #endregion

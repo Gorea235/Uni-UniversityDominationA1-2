@@ -3,13 +3,13 @@ using System.Collections;
 
 namespace Map.Hex
 {
-    public enum Direction
+    public enum DiagonalDirection
     {
+        North,
         NorthEast,
-        East,
         SouthEast,
+        South,
         SouthWest,
-        West,
         NorthWest
     }
 }
