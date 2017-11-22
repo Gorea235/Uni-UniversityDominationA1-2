@@ -9,7 +9,7 @@ using UnityEngine.TestTools;
 [TestFixture]
 public class TestCoord
 {
-    bool EnsureCubeCoord(Coord coord)
+    bool IsCubeCoord(Coord coord)
     {
         return (coord.Q + coord.R + coord.S) == 0;
     }
@@ -17,23 +17,15 @@ public class TestCoord
     [Test]
     public void TestInit()
     {
-        Assert.That(EnsureCubeCoord(new Coord(1, 2)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new Coord(12, -98)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new Coord(-6, 4)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new Coord(-3, -8)),
-                    Is.True);
+        Assert.That(IsCubeCoord(new Coord(1, 2)));
+        Assert.That(IsCubeCoord(new Coord(12, -98)));
+        Assert.That(IsCubeCoord(new Coord(-6, 4)));
+        Assert.That(IsCubeCoord(new Coord(-3, -8)));
 
-        Assert.That(EnsureCubeCoord(new Coord(5, 3, -8)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new Coord(1, -3, 2)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new Coord(-10, 3, 7)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new Coord(-31, 45, -14)),
-                    Is.True);
+        Assert.That(IsCubeCoord(new Coord(5, 3, -8)));
+        Assert.That(IsCubeCoord(new Coord(1, -3, 2)));
+        Assert.That(IsCubeCoord(new Coord(-10, 3, 7)));
+        Assert.That(IsCubeCoord(new Coord(-31, 45, -14)));
     }
 
     [Test]
@@ -212,26 +204,26 @@ public class TestCoord
     public void TestEqual()
     {
         Coord c = new Coord(1, 2, -3);
-        Assert.That(c == new Coord(1, 2, -3), Is.True);
-        Assert.That(new Coord(1, 2, -3) == c, Is.True);
-        Assert.That(c.Equals(new Coord(1, 2, -3)), Is.True);
+        Assert.That(c == new Coord(1, 2, -3));
+        Assert.That(new Coord(1, 2, -3) == c);
+        Assert.That(c.Equals(new Coord(1, 2, -3)));
         c = new Coord(6, 3, -9);
-        Assert.That(c == new Coord(6, 3, -9), Is.True);
-        Assert.That(new Coord(6, 3, -9) == c, Is.True);
-        Assert.That(c.Equals(new Coord(6, 3, -9)), Is.True);
+        Assert.That(c == new Coord(6, 3, -9));
+        Assert.That(new Coord(6, 3, -9) == c);
+        Assert.That(c.Equals(new Coord(6, 3, -9)));
     }
 
     [Test]
     public void TestNotEqual()
     {
         Coord c = new Coord(1, 2, -3);
-        Assert.That(c != new Coord(1, 3, -4), Is.True);
-        Assert.That(new Coord(1, 3, -4) != c, Is.True);
-        Assert.That(!c.Equals(new Coord(1, 3, -4)), Is.True);
+        Assert.That(c != new Coord(1, 3, -4));
+        Assert.That(new Coord(1, 3, -4) != c);
+        Assert.That(!c.Equals(new Coord(1, 3, -4)));
         c = new Coord(6, 3, -9);
-        Assert.That(c != new Coord(2, 7, -9), Is.True);
-        Assert.That(new Coord(2, 7, -9) != c, Is.True);
-        Assert.That(!c.Equals(new Coord(2, 7, -9)), Is.True);
+        Assert.That(c != new Coord(2, 7, -9));
+        Assert.That(new Coord(2, 7, -9) != c);
+        Assert.That(!c.Equals(new Coord(2, 7, -9)));
     }
 
     //[Test]

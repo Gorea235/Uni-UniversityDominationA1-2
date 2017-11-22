@@ -8,7 +8,7 @@ using UnityEngine.TestTools;
 [TestFixture]
 public class TestCoordDouble
 {
-    bool EnsureCubeCoord(CoordDouble coord)
+    bool IsCubeCoord(CoordDouble coord)
     {
         //Console.WriteLine(coord.Q + coord.R + coord.S);
         //Console.WriteLine(Math.Abs(Math.Round(coord.Q + coord.R + coord.S, 14)));
@@ -20,27 +20,17 @@ public class TestCoordDouble
     [Test]
     public void TestInit()
     {
-        Assert.That(EnsureCubeCoord(new CoordDouble(0.5, 1.2)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new CoordDouble(10.3, -4.7)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new CoordDouble(-6, 4.1)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new CoordDouble(-3.14, -8)),
-                    Is.True);
+        Assert.That(IsCubeCoord(new CoordDouble(0.5, 1.2)));
+        Assert.That(IsCubeCoord(new CoordDouble(10.3, -4.7)));
+        Assert.That(IsCubeCoord(new CoordDouble(-6, 4.1)));
+        Assert.That(IsCubeCoord(new CoordDouble(-3.14, -8)));
 
-        Assert.That(EnsureCubeCoord(new CoordDouble(5.5, 3, -8.5)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new CoordDouble(1.2, -3.8)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new CoordDouble(-10.5, 3.25, 7.25)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new CoordDouble(-31.9, 46.4, -14.5)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new CoordDouble(5.2, 6.8, -12)),
-                    Is.True);
-        Assert.That(EnsureCubeCoord(new CoordDouble(-4.4, -8.8, 13.2)),
-                    Is.True);
+        Assert.That(IsCubeCoord(new CoordDouble(5.5, 3, -8.5)));
+        Assert.That(IsCubeCoord(new CoordDouble(1.2, -3.8)));
+        Assert.That(IsCubeCoord(new CoordDouble(-10.5, 3.25, 7.25)));
+        Assert.That(IsCubeCoord(new CoordDouble(-31.9, 46.4, -14.5)));
+        Assert.That(IsCubeCoord(new CoordDouble(5.2, 6.8, -12)));
+        Assert.That(IsCubeCoord(new CoordDouble(-4.4, -8.8, 13.2)));
     }
 
     [Test]
