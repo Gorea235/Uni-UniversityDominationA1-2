@@ -5,6 +5,18 @@ namespace Map
 {
     public enum SectorTexture
     {
-        TestTexture
+        Grass,
+        Water,
+        Stone,
+        Concrete,
+        Alcuin,
+        Constantine,
+        Derwent,
+        Goodricke,
+        Halifax,
+        James,
+        Langwith,
+        Vanbrugh,
+        Wentworth
     }
 }
