@@ -1,21 +1,15 @@
 fileFormatVersion: 2
-guid: 98ab7946ab6b62c4882a3a2d6c0504de
-timeCreated: 1511642636
+guid: 2800dd13d66136e40ab77297584c6484
+timeCreated: 1511733952
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: CINEMA_4D_Editor
-    100002: Extrude_1
-    100004: //RootNode
-    400000: CINEMA_4D_Editor
-    400002: Extrude_1
-    400004: //RootNode
-    2000000: CINEMA_4D_Editor
-    2300000: Extrude_1
-    3300000: Extrude_1
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
     4300000: Extrude_1
-    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -85,7 +79,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
