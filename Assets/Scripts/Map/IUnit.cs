@@ -11,7 +11,7 @@ namespace Map
         int Attack { get; }
         int MaxMove { get; }
         int Defence { get; }
-        IPlayer Owner { get; }
+        Manager.IPlayer Owner { get; }
         College College { get; }
     }
 }

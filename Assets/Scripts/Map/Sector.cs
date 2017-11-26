@@ -9,7 +9,19 @@ namespace Map
     {
         #region Unity Bindings
 
-        public Texture testTexture;
+        public Material MatGrass;
+        public Material MatWater;
+        public Material MatStone;
+        public Material MatConcrete;
+        public Material MatAlcuin;
+        public Material MatConstantine;
+        public Material MatDerwent;
+        public Material MatGoodricke;
+        public Material MatHalifax;
+        public Material MatJames;
+        public Material MatLangwith;
+        public Material MatVanbrugh;
+        public Material MatWentworth;
 
         #endregion
 
@@ -36,43 +48,43 @@ namespace Map
             switch (texture)
             {
                 case SectorTexture.Grass:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/grass", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatGrass;
                     break;
                 case SectorTexture.Water:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/water", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatWater;
                     break;
                 case SectorTexture.Stone:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/stone", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatStone;
                     break;
                 case SectorTexture.Concrete:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/concrete", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatConcrete;
                     break;
                 case SectorTexture.Alcuin:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/alcuin", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatAlcuin;
                     break;
                 case SectorTexture.Constantine:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/constantine", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatConstantine;
                     break;
                 case SectorTexture.Derwent:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/derwent", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatDerwent;
                     break;
                 case SectorTexture.Goodricke:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/goodricke", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatGoodricke;
                     break;
                 case SectorTexture.Halifax:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/halifax", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatHalifax;
                     break;
                 case SectorTexture.James:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/james", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatJames;
                     break;
                 case SectorTexture.Langwith:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/langwith", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatLangwith;
                     break;
                 case SectorTexture.Vanbrugh:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/vanbrugh", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatVanbrugh;
                     break;
                 case SectorTexture.Wentworth:
-                    gameObject.GetComponent<Renderer>().material.mainTexture = Resources.Load(path: "Assets/Prefabs/Textures/wentworth", systemTypeInstance: typeof(Texture)) as Texture;
+                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatWentworth;
                     break;
             }
         }
@@ -84,7 +96,8 @@ namespace Map
         // Use this for initialization
         void Start()
         {
-
+            // dev testing
+            //Init(new Hex.Coord(), SectorTexture.Grass);
         }
 
         // Update is called once per frame
