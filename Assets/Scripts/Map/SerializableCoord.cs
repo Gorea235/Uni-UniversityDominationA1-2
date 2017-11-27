@@ -2,7 +2,7 @@
 using Map.Hex;
 
 [System.Serializable]
-public class SerializableCoord {
+public struct SerializableCoord {
     public int Q;
     public int R;
     public int S;

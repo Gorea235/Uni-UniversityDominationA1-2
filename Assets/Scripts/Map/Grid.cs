@@ -26,12 +26,10 @@ namespace Map
 
         private void LoadMapData() {
             string filePath = Path.Combine("somepathtomapdata", mapDataFileName);
-            List<GridItem> loadedMap = new List<GridItem>();
-
             if (File.Exists(filePath))
             {
                 string mapAsJson = File.ReadAllText(filePath);
-                loadedMap.Add(JsonUtility.FromJson<GridItem>(mapAsJson));
+                List<GridItem> loadedMap = JsonUtility.FromJson<List<GridItem>>(mapAsJson);
             }
             else
             {
