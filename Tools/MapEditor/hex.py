@@ -101,6 +101,9 @@ class Coord:
             results.append(round(a_nudge.lerp(b_nudge, step * i)))
         return results
 
+    def __repr__(self):
+        return "<Coord(Q:{}, R:{}, S:{})>".format(self.q, self.r, self.s)
+
 
 coord_directions = {
     Direction.NorthEast: Coord(1, 0, -1),

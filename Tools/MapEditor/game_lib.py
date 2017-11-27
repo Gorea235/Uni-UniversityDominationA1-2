@@ -50,7 +50,7 @@ class Renderer():
     def instantiate(self, obj, *args, **kwargs):
         nobj = obj(*args, **kwargs)
         self.__render_objects.append(nobj)
-        return obj
+        return nobj
 
     def perform_render(self):
         self.__screen.fill(self.bg)
@@ -142,43 +142,43 @@ class RenderableObject():
 
 class RenderableImage(RenderableObject):
     def __init__(self, imgpath):
-        super().__init__(pygame.image.load(imgpath).convert())
+        super().__init__(pygame.image.load(imgpath).convert_alpha())
 
     def __scale_surface__(self):
         self.surface = pygame.transform.scale(self.surface, (self.w, self.h))
 
     @property
     def w(self):
-        return self.w
+        return RenderableObject.w.fget(self)
 
     @w.setter
     def w(self, value):
-        super().w = value
+        RenderableObject.w.fset(self, value)
         self.__scale_surface__()
 
     @property
     def h(self):
-        return self.h
+        return RenderableObject.h.fget(self)
 
     @h.setter
     def h(self, value):
-        super().h = value
+        RenderableObject.h.fset(self, value)
         self.__scale_surface__()
 
     @property
     def size(self):
-        return self.size
+        return RenderableObject.size.fget(self)
 
     @size.setter
     def size(self, value):
-        super().size = value
+        RenderableObject.size.fset(self, value)
         self.__scale_surface__()
 
     @property
     def rect_details(self):
-        return super().rect_details
+        return RenderableObject.rect_details.fget(self)
 
     @rect_details.setter
     def rect_details(self, value):
-        super().rect_details = value
+        RenderableObject.rect_details.fset(self, value)
         self.__scale_surface__()
