@@ -1,5 +1,6 @@
 # a bunch of this code was pulled from a small example file
 # I made a while ago
+# although, I have edited it very heavily
 import pygame
 
 

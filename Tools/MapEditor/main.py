@@ -9,7 +9,7 @@ import hex
 
 pygame.init()
 
-WINDOW_TITLE = "weed simulator 2000"
+WINDOW_TITLE = "title"
 SIZE = WIDTH, HEIGHT = 600, 600
 
 
