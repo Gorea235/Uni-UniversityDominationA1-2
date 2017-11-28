@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Map.Hex;
 using UnityEngine;
 
 namespace Map
@@ -27,22 +28,33 @@ namespace Map
 
         #region Private fields
 
-        Hex.Coord _currentCoord;
+        Coord _currentCoord;
+        IUnit _occupyingUnit;
+        ILandmark _landmark;
 
         #endregion
 
         #region Public Properties
 
-        public IUnit OccupyingUnit { get; set; }
+        public IUnit OccupyingUnit
+        {
+            get { return _occupyingUnit; }
+            set
+            {
+                _occupyingUnit = value;
+                _occupyingUnit.Position = Layout.Default.HexToPixel(_currentCoord);
+            }
+        }
         public ILandmark Landmark { get; set; }
 
         #endregion
 
         #region Initialisation
 
-        public void Init(Hex.Coord currentCoord, SectorTexture texture)
+        public void Init(Coord currentCoord, SectorTexture texture)
         {
             _currentCoord = currentCoord;
+            gameObject.transform.position = Layout.Default.HexToPixel(currentCoord);
 
             // Set texture
             switch (texture)
@@ -87,6 +99,9 @@ namespace Map
                     gameObject.GetComponentInChildren<MeshRenderer>().material = MatWentworth;
                     break;
             }
+            Debug.Log(gameObject.GetComponent<Renderer>().bounds.size.x);
+            Debug.Log(gameObject.GetComponent<Renderer>().bounds.size.y);
+            Debug.Log(gameObject.GetComponent<Renderer>().bounds.size.z);
         }
 
         #endregion

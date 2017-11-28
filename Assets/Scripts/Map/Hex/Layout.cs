@@ -36,7 +36,7 @@ namespace Map.Hex
         #region Pre-Calculated Values
 
         static float _defaultZ = 0;
-        static Vector3 _defaultSize = new Vector3(10, 10, _defaultZ); // adjust this to how big the grid should be
+        static Vector3 _defaultSize = new Vector3(0.457735f, 0.457735f, _defaultZ); // adjust this to how big the grid should be
         static Vector3 _defaultOrigin = new Vector3(0, 0, _defaultZ);
         static Orientation _pointy = new Orientation(Math.Sqrt(3.0),
                                                              Math.Sqrt(3.0) / 2.0,

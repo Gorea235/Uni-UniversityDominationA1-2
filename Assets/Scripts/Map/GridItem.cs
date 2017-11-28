@@ -1,8 +1,13 @@
-﻿using Map;
+﻿using System;
+using Map;
 using Map.Hex;
 
-[System.Serializable]
-public class GridItem  {
-    public SerializableCoord coordinate;
-    public SectorTexture texture;
+namespace Map
+{
+    [Serializable]
+    public class GridItem
+    {
+        public SerializableCoord coordinate;
+        public string texture;
+    }
 }

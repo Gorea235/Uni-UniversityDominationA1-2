@@ -7,50 +7,45 @@ using System.IO;
 
 namespace Map
 {
-    public class Grid : MonoBehaviour
+    public class Grid
     {
+        #region Private Fields
+
         Dictionary<Coord, Sector> _gridStore = new Dictionary<Coord, Sector>();
-        string mapDataFileName = "output.json"; //json created by Map Editor tool
+
+        #endregion
+
+        #region Public Properties
 
         public Sector this[Coord coord]
         {
             get
             {
-               return _gridStore[coord];
-            }
-            set
-            {
-                _gridStore[coord] = value;
+                return _gridStore[coord];
             }
         }
 
-        private void LoadMapData() {
-            string filePath = Path.Combine(Application.streamingAssetsPath, mapDataFileName); //streamingAssetsPath points to Assets/StreamingAssets
-            if (File.Exists(filePath))
-            {
-                string mapAsJson = File.ReadAllText(filePath);
-                List<GridItem> loadedMap = JsonUtility.FromJson<List<GridItem>>(mapAsJson);
-            }
-            else
-            {
-                throw new System.Runtime.Serialization.SerializationException();
-            }
-         }
-        
+        #endregion
 
+        #region Constructor
 
-
-
-        // Use this for initialization
-        void Start()
+        public Grid(GameObject parent, GameObject sectorPrefab, string mapData)
         {
-
+            MapData preProcessedMap = JsonUtility.FromJson<MapData>(mapData);
+            GameObject tmpSectorObj;
+            Sector tmpSector;
+            Coord tmpCoord;
+            foreach (var gridItem in preProcessedMap.sectors)
+            {
+                tmpCoord = (Coord)gridItem.coordinate;
+                tmpSectorObj = UnityEngine.Object.Instantiate(sectorPrefab, parent.transform);
+                tmpSector = tmpSectorObj.GetComponent<Sector>();
+                tmpSector.Init(tmpCoord, (SectorTexture)Enum.Parse(typeof(SectorTexture), gridItem.texture));
+                _gridStore.Add(tmpCoord, tmpSector);
+            }
+            // todo: landmark processing
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        #endregion
     }
 }
