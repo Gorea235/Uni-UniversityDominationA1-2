@@ -134,7 +134,7 @@ class Sector(game_lib.RenderableImage):
         self.__img = img
         self.__layout = layout
         self.__offsetx = layout.origin.x / 2
-        self.__offsety = layout.origin.y / 2
+        self.__offsety = layout.origin.y
         self.size = (layout.size.x, layout.size.y)
         self.pos = pos if pos is not None else hex.Coord(0, 0)
 
@@ -159,7 +159,7 @@ class Sector(game_lib.RenderableImage):
         self.__pos = value
         p = self.__layout.hex_to_pixel(value)
         self.cx = (p.x / 2) + self.__offsetx
-        self.cy = (p.y / 2) + self.__offsety
+        self.cy = (-p.y / 2) + self.__offsety
 
 
 class App():
@@ -201,8 +201,8 @@ class App():
     def parse_grid(self, grid):
         parsed = {}
         for k, v in grid.items():
-                parsed[k] = self.renderer.init_world_obj(
-                    Sector, v, self.layout, k)
+            parsed[k] = self.renderer.init_world_obj(
+                Sector, v, self.layout, k)
         return parsed
 
     def init_gui(self):
@@ -276,7 +276,7 @@ class App():
 
     def get_hex_at(self, pos):
         point = hex.Point((pos[0] - (self.layout.origin.x / 2)) * 2,
-                          (pos[1] - (self.layout.origin.y / 2)) * 2)
+                          -(pos[1] - (self.layout.origin.y)) * 2)
         pos = self.layout.pixel_to_hex(point)
         return round(pos)
 
