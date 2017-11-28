@@ -9,10 +9,10 @@ namespace Map.Unit
     {
         //arbitrary (for now, tweak after balance testing) values for
         //attack units stats
-        int _health = 5;
-        int _baseAttack = 3;
-        int _baseMove = 4;
-        int _baseDefence = 2;
+        int _health = 100;
+        int _baseAttack = 30;
+        int _baseMove = 3;
+        int _baseDefence = 20;
         IPlayer _owner;
         College _college;
 
@@ -22,17 +22,11 @@ namespace Map.Unit
             get { return _health; }
             set { _health = value; }
         }
-
         public int Attack { get { return _baseAttack; } }
-
         public int MaxMove { get { return _baseMove; } }
-
         public int Defence { get { return _baseDefence; } }
-
         public IPlayer Owner { get { return _owner; } }
-
         public College College { get { return _college; } }
-
         public Vector3 Position
         {
             get { return gameObject.transform.position; }
