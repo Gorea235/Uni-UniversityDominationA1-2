@@ -10,7 +10,7 @@ namespace Map
     public class Grid : MonoBehaviour
     {
         Dictionary<Coord, Sector> _gridStore = new Dictionary<Coord, Sector>();
-        string mapDataFileName; // TODO: Map .json to here
+        string mapDataFileName = "output.json"; //json created by Map Editor tool
 
         public Sector this[Coord coord]
         {
@@ -25,7 +25,7 @@ namespace Map
         }
 
         private void LoadMapData() {
-            string filePath = Path.Combine("somepathtomapdata", mapDataFileName);
+            string filePath = Path.Combine(Application.streamingAssetsPath, mapDataFileName); //streamingAssetsPath points to Assets/StreamingAssets
             if (File.Exists(filePath))
             {
                 string mapAsJson = File.ReadAllText(filePath);
