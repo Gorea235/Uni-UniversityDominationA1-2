@@ -46,6 +46,12 @@ class Coord:
     def s(self):
         return self.__s
 
+    def __eq__(self, other):
+        return self.q == other.q and self.r == other.r
+
+    def __ne__(self, other):
+        return not self == other
+
     def __add__(self, other):
         return Coord(self.q + other.q, self.r + other.r)
 
@@ -76,6 +82,9 @@ class Coord:
             else:
                 s = -q - r
         return Coord(q, r, s)
+
+    def __hash__(self):
+        return hash((self.q, self.r, self.s))
 
     def rotate_left(self):
         return Coord(-self.s, -self.q)
@@ -112,6 +121,16 @@ class Coord:
         for i in range(0, N + 1):
             results.append(round(a_nudge.lerp(b_nudge, step * i)))
         return results
+
+    def to_serializable(self):
+        return {
+            "q": self.q,
+            "r": self.r
+        }
+
+    @staticmethod
+    def from_serializable(obj):
+        return Coord(obj["q"], obj["r"])
 
     def __repr__(self):
         return "<Coord(Q:{}, R:{}, S:{})>".format(self.q, self.r, self.s)

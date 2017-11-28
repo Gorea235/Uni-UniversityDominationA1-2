@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 import argparse
+import json
 import math
 import os
 import sys
@@ -15,11 +16,9 @@ DEF_OUT = "output.json"
 
 IMAGE_DIR = "images"
 WINDOW_TITLE = "Map Editor"
-DEF_FONT = "Arial"
-DEF_FONT_SIZE = 20
 
 SIZE = WIDTH, HEIGHT = 1000, 800
-HEX_SIZE = hex.Point(100, 100)
+HEX_SIZE = hex.Point(70, 70)
 # HEX_ORIGIN = hex.Point(int((WIDTH / 2) - (HEX_SIZE.x / 2)),
 #                        int((HEIGHT / 2) - (HEX_SIZE.y / 2)))
 HEX_ORIGIN = hex.Point(WIDTH // 2, HEIGHT // 2)
@@ -130,13 +129,26 @@ class Button(game_lib.RenderableObject, game_lib.RectObject):
 
 
 class Sector(game_lib.RenderableImage):
-    def __init__(self, imgpath, layout, pos=None):
-        super().__init__(imgpath)
+    def __init__(self, img, layout, pos=None):
+        super().__init__(hex_images[img])
+        self.__img = img
         self.__layout = layout
         self.__offsetx = layout.origin.x / 2
         self.__offsety = layout.origin.y / 2
         self.size = (layout.size.x, layout.size.y)
         self.pos = pos if pos is not None else hex.Coord(0, 0)
+
+    def set_image(self, img):
+        self.img = img
+
+    @property
+    def img(self):
+        return self.__img
+
+    @img.setter
+    def img(self, value):
+        self.__img = value
+        super().set_image(hex_images[value])
 
     @property
     def pos(self):
@@ -168,19 +180,31 @@ class App():
         self.args = self.parser.parse_args()
 
         # setup grid using default or load from input file
-        self.grid = {}
+        toparse = None
         if self.args.input is None:
-            for k, v in DEF_GRID.items():
-                self.grid[k] = self.renderer.init_world_obj(
-                    Sector, hex_images[v], self.layout, k)
+            toparse = DEF_GRID
         else:
-            self.grid = self.load_grid(self.args.input)
+            toparse = self.load_grid(self.args.input)
+        self.grid = self.parse_grid(toparse)
 
         # setup GUI
         self.init_gui()
 
+        # init state tracking vars
+        self.cam_moving = False
+        self.current_hex = None
+
+        print("init complete")
+        # do main loop
         self.loop()
-    
+
+    def parse_grid(self, grid):
+        parsed = {}
+        for k, v in grid.items():
+                parsed[k] = self.renderer.init_world_obj(
+                    Sector, v, self.layout, k)
+        return parsed
+
     def init_gui(self):
         self.buttons = {}
         btn = self.renderer.init_screen_obj(
@@ -200,6 +224,7 @@ class App():
         btn.y = 10
         btn.w = 80
         btn.h = 40
+        btn.active = False
         setattr(btn, hex_img_attr, None)
         self.buttons[hex_button_none] = btn
         self.hex_image_buttons = {}
@@ -232,11 +257,11 @@ class App():
             btn.h = hbh
             hby += hbh + hbspace
             # config button
-            # btn.active = False
+            btn.active = False
             setattr(btn, hex_img_attr, v[0])
             # save button
             self.buttons[k] = btn
-        self.hex_image_buttons[hex_button_none] = True
+        self.hex_image_buttons[hex_button_none] = (None, btn.fg, btn.bg)
 
     def get_hex_image_button_name(self, img):
         return "sethex-{}".format(img)
@@ -244,6 +269,10 @@ class App():
     def add_hex_image_button(self, img, color, white):
         self.hex_image_buttons[self.get_hex_image_button_name(img)] = (
             img, (255, 255, 255) if white else (0, 0, 0), color)
+
+    def set_hex_button_active(self, active):
+        for k in self.hex_image_buttons.keys():
+            self.buttons[k].active = active
 
     def get_hex_at(self, pos):
         point = hex.Point((pos[0] - (self.layout.origin.x / 2)) * 2,
@@ -263,38 +292,80 @@ class App():
                 self.save_grid(self.args.output)
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                print(event)
+                pass
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                print(event)
-                pressed = self.get_button_pressed(event)
-                if pressed is not None:
-                    print("button", pressed, "was pressed")
-                    if pressed == "save":
-                        self.buttons["save"].active = False
-                    elif pressed in self.hex_image_buttons:
-                        print("hex img button pressed")
-                        print(self.buttons[pressed].img_to_set)
-                else:
-                    hex = self.get_hex_at(event.pos)
-                    print(hex)
-                    if hex in self.grid:
-                        self.grid[hex].set_image(hex_images[Images.Stones])
+                if event.button == 1:
+                    pressed = self.get_button_pressed(event)
+                    if pressed is not None:
+                        if pressed == "save":
+                            self.save_grid(self.args.output)
+                        elif self.current_hex is not None and pressed in self.hex_image_buttons:
+                            img = self.buttons[pressed].img_to_set
+                            print("setting hex", self.current_hex, "to", img)
+                            if img is None:
+                                if self.current_hex in self.grid:
+                                    self.renderer.remove_obj(
+                                        self.grid[self.current_hex])
+                                    del self.grid[self.current_hex]
+                            elif self.current_hex in self.grid:
+                                self.grid[self.current_hex].img = img
+                            else:
+                                self.grid[self.current_hex] = self.renderer.init_world_obj(
+                                    Sector, img, self.layout, self.current_hex)
+                            self.current_hex = None
+                            self.set_hex_button_active(False)
                     else:
-                        self.grid[hex] = self.renderer.init_world_obj(
-                            Sector, hex_images[Images.Stones], self.layout, hex)
+                        self.current_hex = self.get_hex_at(
+                            self.renderer.camera.screen_to_world(*event.pos))
+                        self.set_hex_button_active(True)
+                        print("current hex is", self.current_hex)
+                elif event.button == 3:
+                    self.cam_moving = True
+                elif event.button == 4:
+                    pass  # zoom in
+                elif event.button == 5:
+                    pass  # zoom out
             elif event.type == pygame.MOUSEBUTTONUP:
-                print(event)
+                if event.button == 3:
+                    self.cam_moving = False
+
+    def do_mouse_processing(self):
+        rx, ry = pygame.mouse.get_rel()
+        if self.cam_moving:
+            self.renderer.camera.x -= rx
+            self.renderer.camera.y -= ry
 
     def loop(self):
+        print("game loop started")
         while True:
             self.do_events()
+            self.do_mouse_processing()
             self.renderer.perform_render()
 
     def load_grid(self, file):
-        pass
+        map = None
+        with open(file) as fp:
+            map = json.load(fp)
+        grid = {}
+        for item in map["sectors"]:
+            grid[hex.Coord.from_serializable(
+                item["coordinate"])] = Images[item["texture"]]
+        return grid
 
     def save_grid(self, file):
-        pass
+        print("saving map to", file)
+        map = {}
+        gridlst = []
+        for k, v in self.grid.items():
+            gridlst.append({
+                "coordinate": k.to_serializable(),
+                "texture": v.img.name
+            })
+        print("\t", len(gridlst), "sectors set")
+        map["sectors"] = gridlst
+        with open(file, "w") as fp:
+            json.dump(map, fp)
+        print("saved")
 
 
 if __name__ == "__main__":

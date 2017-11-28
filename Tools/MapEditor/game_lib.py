@@ -76,6 +76,15 @@ class Renderer():
     def init_screen_obj(self, obj, *args, **kwargs):
         return self.__init_obj__(obj, RenderMode.Screen, self.__render_objs_screen, *args, **kwargs)
 
+    def remove_obj(self, obj):
+        try:
+            self.__render_objs_world.remove(obj)
+        except ValueError:
+            try:
+                self.__render_objs_screen.remove(obj)
+            except ValueError:
+                raise ValueError("object given is not tracked by renderer")
+
     def __do_render_for__(self, collection):
         for obj in collection:
             if obj.active:
