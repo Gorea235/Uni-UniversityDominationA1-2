@@ -30,9 +30,21 @@ class Coord:
     def __init__(self, q, r, s=None):
         if s is not None and abs(round(q + r + s, 14)) > sys.float_info.epsilon:
             raise ValueError("q + r + s must equal 0")
-        self.q = q
-        self.r = r
-        self.s = s if s is not None else -q - r
+        self.__q = q
+        self.__r = r
+        self.__s = s if s is not None else -q - r
+
+    @property
+    def q(self):
+        return self.__q
+
+    @property
+    def r(self):
+        return self.__r
+
+    @property
+    def s(self):
+        return self.__s
 
     def __add__(self, other):
         return Coord(self.q + other.q, self.r + other.r)
