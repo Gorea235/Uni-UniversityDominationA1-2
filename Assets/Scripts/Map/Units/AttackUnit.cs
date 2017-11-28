@@ -9,45 +9,57 @@ namespace Map.Unit
     {
         //arbitrary (for now, tweak after balance testing) values for
         //attack units stats
-        int hp = 5;
-        int att = 3;
-        int mov = 4;
-        int def = 2;
-        IPlayer owner;
-        College college;
+        int _health = 5;
+        int _baseAttack = 3;
+        int _baseMove = 4;
+        int _baseDefence = 2;
+        IPlayer _owner;
+        College _college;
 
         //iplemented methods from IUnit
         public int Health
         {
-            get
-            {
-                return hp;
-            }
+            get { return _health; }
+            set { _health = value; }
+        }
 
-            set
+        public int Attack { get { return _baseAttack; } }
+
+        public int MaxMove { get { return _baseMove; } }
+
+        public int Defence { get { return _baseDefence; } }
+
+        public IPlayer Owner { get { return _owner; } }
+
+        public College College { get { return _college; } }
+
+        public Vector3 Position
+        {
+            get { return gameObject.transform.position; }
+            set { gameObject.transform.position = value; }
+        }
+
+        //instantiation of a single AttackUnit
+        public void Init(IPlayer owner, College college, Vector3 position)
+        {
+            _owner = owner;
+            _college = college;
+            Position = position;
+
+            switch (college)
             {
-                hp = value;
+                // setup model application
             }
         }
 
-        public int Attack { get { return att; } }
+        public void ApplyEffect(IEffect effect)
+        {
 
-        public int MaxMove { get { return mov; } }
+        }
 
-        public int Defence { get { return def; } }
+        public void ProcessEffects()
+        {
 
-        public IPlayer Owner { get { return owner; } }
-
-        public College College { get { return College; } }
-
-        //instantiation of a single AttackUnit
-        public AttackUnit Init(IPlayer ownedby, College incollege) {
-            /*TO DO: add a case statement to handle model rendering dependent on College similar to Sector's textures*/
-
-            AttackUnit attacker = new AttackUnit();
-            attacker.college = incollege;
-            attacker.owner = ownedby;
-            return attacker;
         }
 
         // Use this for initialization
