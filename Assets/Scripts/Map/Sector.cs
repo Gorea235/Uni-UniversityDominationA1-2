@@ -99,9 +99,6 @@ namespace Map
                     gameObject.GetComponentInChildren<MeshRenderer>().material = MatWentworth;
                     break;
             }
-            Debug.Log(gameObject.GetComponent<Renderer>().bounds.size.x);
-            Debug.Log(gameObject.GetComponent<Renderer>().bounds.size.y);
-            Debug.Log(gameObject.GetComponent<Renderer>().bounds.size.z);
         }
 
         #endregion
