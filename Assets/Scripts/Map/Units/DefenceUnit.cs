@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Map.Unit
 {
-    public class AttackUnit : MonoBehaviour, IUnit
+    public class DefenceUnit : MonoBehaviour, IUnit
     {
         //arbitrary (for now, tweak after balance testing) values for
-        //attack units stats
-        int hp = 4;
-        int att = 3;
-        int mov = 3;
+        //defence units stats
+        int hp = 8;
+        int att = 1;
+        int mov = 1;
         int def = 2;
         IPlayer owner;
         College college;

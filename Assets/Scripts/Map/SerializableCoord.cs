@@ -3,7 +3,6 @@ using Map.Hex;
 
 [System.Serializable]
 public struct SerializableCoord {
-    public int Q;
-    public int R;
-    public int S;
+    public int q;
+    public int r;
 }
