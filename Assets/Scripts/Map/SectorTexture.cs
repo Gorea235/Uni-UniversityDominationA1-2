@@ -7,7 +7,7 @@ namespace Map
     {
         Grass,
         Water,
-        Stone,
+        Stones,
         Concrete,
         Alcuin,
         Constantine,

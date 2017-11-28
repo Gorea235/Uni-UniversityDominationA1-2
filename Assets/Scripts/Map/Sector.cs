@@ -65,7 +65,7 @@ namespace Map
                 case SectorTexture.Water:
                     gameObject.GetComponentInChildren<MeshRenderer>().material = MatWater;
                     break;
-                case SectorTexture.Stone:
+                case SectorTexture.Stones:
                     gameObject.GetComponentInChildren<MeshRenderer>().material = MatStone;
                     break;
                 case SectorTexture.Concrete:
