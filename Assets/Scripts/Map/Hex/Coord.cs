@@ -321,6 +321,17 @@ namespace Map.Hex
             return string.Format("Coord({0}, {1}, {2})", Q, R, S);
         }
 
+        /// <summary>
+        /// Converts the <see cref="T:Map.Hex.Coord"/> to a
+        /// <see cref="T:Map.Hex.SerializableCoord"/> via an explict cast.
+        /// </summary>
+        /// <returns>The serializable coordinate.</returns>
+        /// <param name="coord">The standard doordinate.</param>
+        public static explicit operator SerializableCoord(Coord coord)
+        {
+            return new SerializableCoord(coord.Q, coord.R);
+        }
+
         #endregion
     }
 }
