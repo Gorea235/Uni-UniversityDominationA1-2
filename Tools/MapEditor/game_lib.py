@@ -1,7 +1,7 @@
 # a bunch of this code was pulled from a small example file
 # I made a while ago
 # although, I have edited it very heavily
-from enum import Enum, auto
+from enum import Enum
 import pygame
 
 DEFAULT_FONT_NAME = 'Arial'
@@ -9,8 +9,8 @@ DEFAULT_FONT_SIZE = 20
 
 
 class RenderMode(Enum):
-    World = auto()
-    Screen = auto()
+    World = 1
+    Screen = 2
 
 
 class Camera():
