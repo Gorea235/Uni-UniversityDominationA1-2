@@ -5,19 +5,8 @@ using UnityEngine;
 
 namespace Gui
 {
-    public class GuiAction : MonoBehaviour
+    public enum GuiAction
     {
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

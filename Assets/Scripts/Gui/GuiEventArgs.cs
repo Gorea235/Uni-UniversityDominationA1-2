@@ -5,19 +5,15 @@ using UnityEngine;
 
 namespace Gui
 {
-    public class GuiEventArgs : MonoBehaviour
+    public class GuiEventArgs : EventArgs
     {
+        GuiAction Action { get; }
+        Vector3 ClickPosition { get; }
 
-        // Use this for initialization
-        void Start()
+        public GuiEventArgs(GuiAction action, Vector3 position)
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            Action = action;
+            ClickPosition = position;
         }
     }
 }
