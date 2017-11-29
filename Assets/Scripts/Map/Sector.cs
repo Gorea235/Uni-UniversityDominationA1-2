@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using Map.Hex;
@@ -31,6 +32,11 @@ namespace Map
         Coord _currentCoord;
         IUnit _occupyingUnit;
         ILandmark _landmark;
+        bool _traversable;
+
+        SectorTexture[] notTraversableTextures = {
+            SectorTexture.Water
+        };
 
         #endregion
 
@@ -46,12 +52,24 @@ namespace Map
             }
         }
         public ILandmark Landmark { get; set; }
+        public bool Traversable { get; private set; }
 
         #endregion
 
         #region Initialisation
 
-        public void Init(Coord currentCoord, SectorTexture texture)
+        /// <summary>
+        /// Initialised the Sector. <paramref name="traversable"/> will be ignored
+        /// if the texture in in the 'not traversable' textures list.
+        /// </summary>
+        /// <returns>The init.</returns>
+        /// <param name="currentCoord">The coordinate of the Sector.</param>
+        /// <param name="texture">The texture of the Sector.</param>
+        /// <param name="traversable">
+        /// Whether the sector is traversable (ignored
+        /// if texture is in the 'not traversable' list).
+        /// </param>
+        public void Init(Coord currentCoord, SectorTexture texture, bool traversable)
         {
             _currentCoord = currentCoord;
             gameObject.transform.position = Layout.Default.HexToPixel(currentCoord);
@@ -99,6 +117,17 @@ namespace Map
                     gameObject.GetComponentInChildren<MeshRenderer>().material = MatWentworth;
                     break;
             }
+
+            if (!notTraversableTextures.Contains(texture))
+            {
+                Traversable = traversable;
+                if (!traversable)
+                {
+                    // todo: process material shadowing
+                }
+            }
+            else
+                Traversable = false;
         }
 
         #endregion

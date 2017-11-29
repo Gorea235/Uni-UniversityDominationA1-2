@@ -9,5 +9,6 @@ namespace Map
     {
         public SerializableCoord coordinate;
         public string texture;
+        public bool traversable;
     }
 }
