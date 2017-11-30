@@ -30,6 +30,11 @@ namespace Map
 
         Dictionary<SectorTexture, Dictionary<SectorMaterialType, Material>> _materials;
 
+        const float _emissionChangeTime = 1f;
+        float _emissionTo = 0.3f;
+        float _emissionFrom = 0.5f;
+        float _emissionCurrentTime = 0;
+
         #endregion
 
         #region Initialisation
@@ -58,7 +63,7 @@ namespace Map
             {
                 // add bright texture
                 tmpMat = GetFromDefaultMat(texture);
-                tmpMat.SetColor("_EmissionColor", GetGrey(0.5f));
+                tmpMat.SetColor("_EmissionColor", GetGrey(_emissionFrom));
                 tmpMat.EnableKeyword("_EMISSION");
                 _materials[texture].Add(SectorMaterialType.Bright, tmpMat);
                 // add dark texture without change if sector type is traversable by default
@@ -98,6 +103,30 @@ namespace Map
         public Material GetMaterial(SectorTexture texture, SectorMaterialType type)
         {
             return _materials[texture][type];
+        }
+
+        #endregion
+
+        #region MonoBehaviour
+
+        void Update()
+        {
+            // process highlight glow
+            _emissionCurrentTime += Time.deltaTime;
+            Color currentEmission = GetGrey(Mathf.Lerp(_emissionFrom,
+                                                       _emissionTo,
+                                                       _emissionCurrentTime / _emissionChangeTime));
+            foreach (var mat in _materials.Values)
+            {
+                mat[SectorMaterialType.Bright].SetColor("_EmissionColor", currentEmission);
+            }
+            if (_emissionCurrentTime >= _emissionChangeTime)
+            {
+                float tmp = _emissionTo;
+                _emissionTo = _emissionFrom;
+                _emissionFrom = tmp;
+                _emissionCurrentTime = 0;
+            }
         }
 
         #endregion
