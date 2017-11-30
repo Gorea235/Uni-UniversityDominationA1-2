@@ -17,6 +17,7 @@ namespace Map
         #region Private Fields
 
         Grid _grid;
+        SectorMaterials _sectorMaterials;
 
         #endregion
 
@@ -31,7 +32,9 @@ namespace Map
         // Equivilent to constructor but for MonoBehaviour
         void Awake()
         {
-            _grid = new Grid(gameObject, sectorPrefab, mapData.text);
+            _sectorMaterials = gameObject.GetComponent<SectorMaterials>();
+            _sectorMaterials.Init();
+            _grid = new Grid(gameObject, sectorPrefab, _sectorMaterials, mapData.text);
         }
 
         // Use this for initialization
