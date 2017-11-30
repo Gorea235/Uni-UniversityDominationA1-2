@@ -25,7 +25,6 @@ namespace Map
         Material _highlighMaterial;
         bool _highlighted;
 
-        Coord _currentCoord;
         IUnit _occupyingUnit;
         ILandmark _landmark;
 
@@ -39,7 +38,7 @@ namespace Map
             set
             {
                 _occupyingUnit = value;
-                _occupyingUnit.Position = Layout.Default.HexToPixel(_currentCoord);
+                _occupyingUnit.Transform.parent = gameObject.transform;
             }
         }
         public ILandmark Landmark
@@ -73,7 +72,6 @@ namespace Map
             // setup base vars
             _renderer = gameObject.GetComponentInChildren<MeshRenderer>();
 
-            _currentCoord = currentCoord;
             gameObject.transform.position = Layout.Default.HexToPixel(currentCoord);
 
             if (!notTraversableTextures.Contains(texture))

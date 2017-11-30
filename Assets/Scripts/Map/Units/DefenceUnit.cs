@@ -28,11 +28,7 @@ namespace Map.Unit
         public int Defence { get { return _baseDefence; } }
         public IPlayer Owner { get { return _owner; } }
         public College College { get { return _college; } }
-        public Vector3 Position
-        {
-            get { return gameObject.transform.position; }
-            set { gameObject.transform.position = value; }
-        }
+        public Transform Transform { get { return gameObject.transform; } }
 
         //instantiation of a single AttackUnit
         public void Init(IPlayer owner, College college)
