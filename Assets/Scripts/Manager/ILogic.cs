@@ -5,19 +5,8 @@ using UnityEngine;
 
 namespace Manager
 {
-    public class ILogic : MonoBehaviour
+    public interface ILogic
     {
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

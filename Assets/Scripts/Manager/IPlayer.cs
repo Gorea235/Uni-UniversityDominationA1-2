@@ -5,19 +5,8 @@ using UnityEngine;
 
 namespace Manager
 {
-    public class IPlayer : MonoBehaviour
+    public interface IPlayer
     {
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }
