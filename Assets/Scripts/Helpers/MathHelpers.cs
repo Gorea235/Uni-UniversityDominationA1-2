@@ -58,8 +58,8 @@ namespace Helpers
         {
             t = CT(t);
             return t < 0.5 ?
-                        EaseInPolynomial(t * 2, power) / 2 :
-                        EaseOutPolynomial(t * 2 - 1, power) / 2 + 0.5f;
+                        EaseInPolynomial(t * 2, power) * 0.5f :
+                        (EaseOutPolynomial(t * 2 - 1, power) + 1) * 0.5f;
         }
     }
 }
