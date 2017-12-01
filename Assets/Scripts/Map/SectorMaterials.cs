@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Helpers;
 using UnityEngine;
 
 namespace Map
@@ -113,9 +114,18 @@ namespace Map
         {
             // process highlight glow
             _emissionCurrentTime += Time.deltaTime;
-            Color currentEmission = GetGrey(Mathf.Lerp(_emissionFrom,
-                                                       _emissionTo,
-                                                       _emissionCurrentTime / _emissionChangeTime));
+
+            // the following is a little odd, but I'm gonna walk through it
+            // here (mostly so I know what's going on)
+            Color currentEmission = GetGrey( // GetGrey will get the colour grey that's t percent
+                                             //(between 0-1) between black and white
+                                            Mathf.Lerp(_emissionFrom,  // the emission that is being transitioned to
+                                                       _emissionTo, // the emission that is being transitioned to
+                                                       MathHelpers.EaseInOutPolynomial( // ease the transition
+                                                                                       // the percent of the transition we are through
+                                                                                       _emissionCurrentTime / _emissionChangeTime,
+                                                                                       2))); // sets easing to cubic
+
             foreach (var mat in _materials.Values)
             {
                 mat[SectorMaterialType.Bright].SetColor("_EmissionColor", currentEmission);
