@@ -112,8 +112,8 @@ namespace Map
 
         void Update()
         {
-            // process highlight glow
-            _emissionCurrentTime += Time.deltaTime;
+            // === process highlight glow ===
+            _emissionCurrentTime += Time.deltaTime; // the current time through the transition
 
             // the following is a little odd, but I'm gonna walk through it
             // here (mostly so I know what's going on)
@@ -124,12 +124,14 @@ namespace Map
                                                        MathHelpers.EaseInOutPolynomial( // ease the transition
                                                                                        // the percent of the transition we are through
                                                                                        _emissionCurrentTime / _emissionChangeTime,
-                                                                                       2))); // sets easing to cubic
+                                                                                       2))); // sets easing to quadratic
 
+            // set the emission color for all the bright materials
             foreach (var mat in _materials.Values)
             {
                 mat[SectorMaterialType.Bright].SetColor("_EmissionColor", currentEmission);
             }
+            // if the transition has completed, reverse the direction
             if (_emissionCurrentTime >= _emissionChangeTime)
             {
                 float tmp = _emissionTo;
