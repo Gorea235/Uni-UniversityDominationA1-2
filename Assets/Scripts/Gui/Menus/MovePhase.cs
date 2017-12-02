@@ -10,16 +10,14 @@ namespace Gui.Menus
 
         public bool IsEnabled { get; set; }
 
-        // Use this for initialization
-        void Start()
+        public void TestButton_OnClick()
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            // event handlers can options have a string arg
+            // e.g. 'public void TestButton_OnClick(string arg) { }'
+            // when setting up the OnClick handler, you can give the string to
+            // be passed in (leaving it blank would pass in a string of "",
+            // which wouldn't be too helpful).
+            Debug.Log("button click event fired");
         }
     }
 }
