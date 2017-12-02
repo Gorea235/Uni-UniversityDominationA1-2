@@ -18,10 +18,7 @@ namespace Helpers
         /// </summary>
         /// <returns>The clamped version of t.</returns>
         /// <param name="t">The value to clamp.</param>
-        static float CT(float t)
-        {
-            return Mathf.Clamp(t, 0, 1);
-        }
+        static float CT(float t) => Mathf.Clamp(t, 0, 1);
 
         /// <summary>
         /// Eases in <paramref name="t"/> using <paramref name="power"/>
@@ -30,10 +27,7 @@ namespace Helpers
         /// <returns>The eased <paramref name="t"/>.</returns>
         /// <param name="t">The value to ease in. This will be clamped between 0 and 1.</param>
         /// <param name="power">Power to ease at (2 is quadratic easing, 3 is cubic etc).</param>
-        public static float EaseInPolynomial(float t, float power)
-        {
-            return Mathf.Pow(CT(t), power);
-        }
+        public static float EaseInPolynomial(float t, float power) => Mathf.Pow(CT(t), power);
 
         /// <summary>
         /// Eases out <paramref name="t"/> using <paramref name="power"/>
@@ -42,10 +36,7 @@ namespace Helpers
         /// <returns>The eased <paramref name="t"/>.</returns>
         /// <param name="t">The value to ease out. This will be clamped between 0 and 1.</param>
         /// <param name="power">Power to ease at (2 is quadratic easing, 3 is cubic etc).</param>
-        public static float EaseOutPolynomial(float t, float power)
-        {
-            return 1 - Mathf.Abs(Mathf.Pow(CT(t) - 1, power));
-        }
+        public static float EaseOutPolynomial(float t, float power) => 1 - Mathf.Abs(Mathf.Pow(CT(t) - 1, power));
 
         /// <summary>
         /// Eases in or out <paramref name="t"/> using <paramref name="power"/>
