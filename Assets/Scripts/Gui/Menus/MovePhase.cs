@@ -4,11 +4,17 @@ using UnityEngine;
 
 namespace Gui.Menus
 {
-    public class MovePhase : MonoBehaviour, IMenu
+    public class MovePhase : PhaseLogic
     {
-        public event EventHandler<GuiEventArgs> OnAction;
+        protected override void OnMouseLeftClick(Vector3 position)
+        {
+            throw new NotImplementedException();
+        }
 
-        public bool IsEnabled { get; set; }
+        protected override void Update()
+        {
+            base.Update();
+        }
 
         public void TestButton_OnClick()
         {
@@ -18,6 +24,7 @@ namespace Gui.Menus
             // be passed in (leaving it blank would pass in a string of "",
             // which wouldn't be too helpful).
             Debug.Log("button click event fired");
+            SkipCurrentFrameMouseClick = true;
         }
     }
 }
