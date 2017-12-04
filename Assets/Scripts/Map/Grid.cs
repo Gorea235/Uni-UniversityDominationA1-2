@@ -29,8 +29,10 @@ namespace Map
 
         #region Constructor
 
-        public Grid(GameObject parent, GameObject sectorPrefab, string mapData)
+        public Grid(GameObject parent, GameObject sectorPrefab, SectorMaterials sectorMaterials, string mapData)
         {
+            Debug.Log("Initialising grid");
+            float startTime = Time.realtimeSinceStartup;
             MapData preProcessedMap = JsonUtility.FromJson<MapData>(mapData);
             GameObject tmpSectorObj;
             Sector tmpSector;
@@ -40,10 +42,15 @@ namespace Map
                 tmpCoord = (Coord)gridItem.coordinate;
                 tmpSectorObj = UnityEngine.Object.Instantiate(sectorPrefab, parent.transform);
                 tmpSector = tmpSectorObj.GetComponent<Sector>();
-                tmpSector.Init(tmpCoord, (SectorTexture)Enum.Parse(typeof(SectorTexture), gridItem.texture));
+                tmpSector.Init(sectorMaterials,
+                               tmpCoord,
+                               (SectorTexture)Enum.Parse(typeof(SectorTexture), gridItem.texture),
+                               gridItem.traversable);
                 _gridStore.Add(tmpCoord, tmpSector);
             }
             // todo: landmark processing
+            float elapsedTime = Time.realtimeSinceStartup - startTime;
+            Debug.Log(string.Format("Grid initialised in {0} seconds", elapsedTime));
         }
 
         #endregion

@@ -5,19 +5,9 @@ using UnityEngine;
 
 namespace Gui
 {
-    public class IMenu : MonoBehaviour
+    public interface IMenu
     {
-
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        event EventHandler<GuiEventArgs> OnAction;
+        bool IsEnabled { get; set; }
     }
 }
