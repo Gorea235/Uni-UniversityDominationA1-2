@@ -119,7 +119,7 @@ namespace Map
             // here (mostly so I know what's going on)
             Color currentEmission = GetGrey( // GetGrey will get the colour grey that's t percent
                                              //(between 0-1) between black and white
-                                            Mathf.Lerp(_emissionFrom,  // the emission that is being transitioned to
+                                            Mathf.Lerp(_emissionFrom,  // the emission that is being transitioned from
                                                        _emissionTo, // the emission that is being transitioned to
                                                        MathHelpers.EaseInOutPolynomial( // ease the transition
                                                                                        // the percent of the transition we are through
