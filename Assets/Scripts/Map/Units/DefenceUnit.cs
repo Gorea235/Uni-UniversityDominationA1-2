@@ -30,7 +30,7 @@ namespace Map.Unit
         public College College { get { return _college; } }
         public Transform Transform { get { return gameObject.transform; } }
 
-        //instantiation of a single AttackUnit
+        //instantiation of a single DefenceUnit
         public void Init(IPlayer owner, College college)
         {
             _owner = owner;

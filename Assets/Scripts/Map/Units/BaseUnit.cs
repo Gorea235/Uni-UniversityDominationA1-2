@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace Map.Unit
 {
-    public class ScoutUnit : MonoBehaviour, IUnit
+    public class BaseUnit : MonoBehaviour, IUnit
     {
         //arbitrary (for now, tweak after balance testing) values for
-        //scout units stats
-        int _health = 70;
-        int _baseAttack = 20;
-        int _baseMove = 5;
+        //base units stats
+        int _health = 1000;
         int _baseDefence = 15;
+        int _baseAttack = 0;
+        int _baseMove = 0;
         IPlayer _owner;
         College _college;
 
@@ -23,14 +23,15 @@ namespace Map.Unit
             set { _health = value; }
         }
 
-        public int Attack { get { return _baseAttack; } }
-        public int MaxMove { get { return _baseMove; } }
         public int Defence { get { return _baseDefence; } }
         public IPlayer Owner { get { return _owner; } }
         public College College { get { return _college; } }
         public Transform Transform { get { return gameObject.transform; } }
 
-        //instantiation of a single ScoutUnit
+        public int Attack { get { return _baseAttack; } }
+        public int MaxMove { get { return _baseMove; } }
+
+        //instantiation of a single BaseUnit
         public void Init(IPlayer owner, College college)
         {
             _owner = owner;
