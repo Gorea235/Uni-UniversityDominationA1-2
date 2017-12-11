@@ -41,4 +41,4 @@ sysinfo.txt
 __pycache__/
 
 # Keep project version
-ProjectVersion.txt
+/ProjectSettings/ProjectVersion.txt
