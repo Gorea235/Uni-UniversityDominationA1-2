@@ -7,6 +7,17 @@ namespace Map.Unit
 {
     public class DefenceUnit : MonoBehaviour, IUnit
     {
+
+        public Material MatAlcuin;
+        public Material MatConstantine;
+        public Material MatDerwent;
+        public Material MatGoodricke;
+        public Material MatHalifax;
+        public Material MatJames;
+        public Material MatLangwith;
+        public Material MatVanbrugh;
+        public Material MatWentworth;
+
         //arbitrary (for now, tweak after balance testing) values for
         //defence units stats
         int _health = 160;
@@ -38,7 +49,35 @@ namespace Map.Unit
 
             switch (college)
             {
-                // setup model application
+                //As GetComponentsInChildren returns an array of the matching type components from BOTH parent and child
+                //the indexing is for referencing the only child (as we are using a hierarchy of Unit > torso for all units)
+                case College.Alcuin:
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatAlcuin;
+                    break;
+                case College.Constantine:
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatConstantine;
+                    break;
+                case College.Derwent:
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatDerwent;
+                    break;
+                case College.Goodricke:
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatGoodricke;
+                    break;
+                case College.Halifax:
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatHalifax;
+                    break;
+                case College.James:
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatJames;
+                    break;
+                case College.Langwith:
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatLangwith;
+                    break;
+                case College.Vanbrugh:
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatVanbrugh;
+                    break;
+                case College.Wentworth:
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatWentworth;
+                    break;
             }
         }
 
@@ -55,7 +94,7 @@ namespace Map.Unit
         // Use this for initialization
         void Start()
         {
-
+            
         }
 
         // Update is called once per frame

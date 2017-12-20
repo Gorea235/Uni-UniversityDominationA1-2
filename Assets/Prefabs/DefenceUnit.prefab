@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33791624200568664}
   - component: {fileID: 23896993233118644}
   - component: {fileID: 95642624807864556}
+  - component: {fileID: 114772970456816698}
   m_Layer: 0
   m_Name: DefenceUnit
   m_TagString: Untagged
@@ -53,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1369620463003568}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.932, y: 0, z: 0}
   m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
   m_Children:
   - {fileID: 4810168861783794}
@@ -171,3 +172,23 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114772970456816698
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1369620463003568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5447412e7ab11104ea7e0eacf05f725d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MatAlcuin: {fileID: 2100000, guid: 8c9b3d962a97db94ca8790e98a5c996a, type: 2}
+  MatConstantine: {fileID: 2100000, guid: e39471fdcfe977a4bbc2b0e506a3973c, type: 2}
+  MatDerwent: {fileID: 2100000, guid: 0b5c317c8d9f2f14cb81ff49495d6baa, type: 2}
+  MatGoodricke: {fileID: 2100000, guid: c8751e6fdc650664b9df23d02b09babd, type: 2}
+  MatHalifax: {fileID: 2100000, guid: 6b7c10805d9d5e648a9b52c05c25bdfc, type: 2}
+  MatJames: {fileID: 2100000, guid: b5eb9172049420b49bcf1420417f4a2d, type: 2}
+  MatLangwith: {fileID: 2100000, guid: e896346dfd94988438262f9c7223169e, type: 2}
+  MatVanbrugh: {fileID: 2100000, guid: b23edbb6481ffb048bbacea2226fe5c4, type: 2}
+  MatWentworth: {fileID: 2100000, guid: 400faef3c656421478ee364626fd912b, type: 2}
