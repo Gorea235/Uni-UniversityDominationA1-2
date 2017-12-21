@@ -6,9 +6,19 @@ namespace Gui.Menus
 {
     public class MovePhase : PhaseLogic
     {
+
+        RaycastHit selectedSector;
+
         protected override void OnMouseLeftClick(Vector3 position)
         {
-            throw new NotImplementedException();
+            Ray rayFromCamera = Camera.main.ScreenPointToRay(position);
+            if (Physics.Raycast(rayFromCamera, out selectedSector))
+            {
+                Collider sectorCollider = selectedSector.collider;
+                sectorCollider.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
+            }
+            Debug.DrawRay(rayFromCamera.origin, rayFromCamera.direction*50, Color.yellow); // *50 modifier is just so its visible in the Editor. Note that it won't display in game view
+            //throw new NotImplementedException();
         }
 
         protected override void Update()
