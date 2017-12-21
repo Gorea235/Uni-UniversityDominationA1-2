@@ -8,16 +8,6 @@ namespace Map.Unit
     public class DefenceUnit : MonoBehaviour, IUnit
     {
 
-        public Material MatAlcuin;
-        public Material MatConstantine;
-        public Material MatDerwent;
-        public Material MatGoodricke;
-        public Material MatHalifax;
-        public Material MatJames;
-        public Material MatLangwith;
-        public Material MatVanbrugh;
-        public Material MatWentworth;
-
         //arbitrary (for now, tweak after balance testing) values for
         //defence units stats
         int _health = 160;
@@ -47,36 +37,40 @@ namespace Map.Unit
             _owner = owner;
             _college = college;
 
+            //making a reference to the non-static fields for the materials from SectorMaterials
+            GameObject mapObj = GameObject.Find("Map");
+            SectorMaterials mats = mapObj.GetComponent<SectorMaterials>();
+
             switch (college)
             {
                 //As GetComponentsInChildren returns an array of the matching type components from BOTH parent and child
                 //the indexing is for referencing the only child (as we are using a hierarchy of Unit > torso for all units)
                 case College.Alcuin:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatAlcuin;
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatAlcuin;
                     break;
                 case College.Constantine:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatConstantine;
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatConstantine;
                     break;
                 case College.Derwent:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatDerwent;
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatDerwent;
                     break;
                 case College.Goodricke:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatGoodricke;
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatGoodricke;
                     break;
                 case College.Halifax:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatHalifax;
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatHalifax;
                     break;
                 case College.James:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatJames;
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatJames;
                     break;
                 case College.Langwith:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatLangwith;
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatLangwith;
                     break;
                 case College.Vanbrugh:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatVanbrugh;
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatVanbrugh;
                     break;
                 case College.Wentworth:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = MatWentworth;
+                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatWentworth;
                     break;
             }
         }
