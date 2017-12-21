@@ -30,7 +30,7 @@ namespace Map.Unit
         public Transform Transform { get { return gameObject.transform; } }
 
         //instantiation of a single AttackUnit
-        public void Init(IPlayer owner, College college)
+        public void Init(SectorMaterials torsoMaterials, IPlayer owner, College college)
         {
             _owner = owner;
             _college = college;

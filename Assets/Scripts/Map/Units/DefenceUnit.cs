@@ -16,6 +16,8 @@ namespace Map.Unit
         int _baseDefence = 40;
         IPlayer _owner;
         College _college;
+        SectorMaterials _torsoMaterials;
+        Material _torso;
 
         //iplemented methods from IUnit
         public int Health
@@ -32,47 +34,14 @@ namespace Map.Unit
         public Transform Transform { get { return gameObject.transform; } }
 
         //instantiation of a single DefenceUnit
-        public void Init(IPlayer owner, College college)
+        public void Init(SectorMaterials torsoMaterials, IPlayer owner, College college)
         {
             _owner = owner;
             _college = college;
+            _torsoMaterials = torsoMaterials;
+            _torso = _torsoMaterials.GetMaterial(college);
 
-            //making a reference to the non-static fields for the materials from SectorMaterials
-            GameObject mapObj = GameObject.Find("Map");
-            SectorMaterials mats = mapObj.GetComponent<SectorMaterials>();
-
-            switch (college)
-            {
-                //As GetComponentsInChildren returns an array of the matching type components from BOTH parent and child
-                //the indexing is for referencing the only child (as we are using a hierarchy of Unit > torso for all units)
-                case College.Alcuin:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatAlcuin;
-                    break;
-                case College.Constantine:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatConstantine;
-                    break;
-                case College.Derwent:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatDerwent;
-                    break;
-                case College.Goodricke:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatGoodricke;
-                    break;
-                case College.Halifax:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatHalifax;
-                    break;
-                case College.James:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatJames;
-                    break;
-                case College.Langwith:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatLangwith;
-                    break;
-                case College.Vanbrugh:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatVanbrugh;
-                    break;
-                case College.Wentworth:
-                    gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = mats.MatWentworth;
-                    break;
-            }
+            gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = _torso;
         }
 
         public void ApplyEffect(IEffect effect)

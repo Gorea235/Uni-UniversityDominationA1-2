@@ -32,7 +32,7 @@ namespace Map.Unit
         public int MaxMove { get { return _baseMove; } }
 
         //instantiation of a single BaseUnit
-        public void Init(IPlayer owner, College college)
+        public void Init(SectorMaterials torsoMaterials, IPlayer owner, College college)
         {
             _owner = owner;
             _college = college;

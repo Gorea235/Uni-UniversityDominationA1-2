@@ -100,10 +100,15 @@ namespace Map
         #endregion
 
         #region Material Fetching
-
+        //for Sectors
         public Material GetMaterial(SectorTexture texture, SectorMaterialType type)
         {
             return _materials[texture][type];
+        }
+        //for Units
+        public Material GetMaterial(College texture)
+        {
+            return _materials[(SectorTexture)texture][SectorMaterialType.Normal];
         }
 
         #endregion

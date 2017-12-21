@@ -14,7 +14,7 @@ namespace Map
         Manager.IPlayer Owner { get; }
         College College { get; }
         Transform Transform { get; }
-        void Init(Manager.IPlayer player, College college);
+        void Init(SectorMaterials torso, Manager.IPlayer player, College college);
         void ApplyEffect(IEffect effect);
         void ProcessEffects(); // called on all units of a player on turn start
     }
