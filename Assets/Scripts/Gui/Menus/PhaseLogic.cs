@@ -188,7 +188,10 @@ namespace Gui
             if (coord.HasValue)
             {
                 SelectedSector = Map.Grid[(Coord)coord];
-                SelectedSector.Highlighted = true;
+                if (SelectedSector.Traversable)
+                    SelectedSector.Highlighted = true;
+                else
+                    SelectedSector = null;
             }
             else
                 SelectedSector = null;
