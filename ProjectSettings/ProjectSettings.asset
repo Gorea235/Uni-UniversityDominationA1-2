@@ -147,7 +147,11 @@ PlayerSettings:
   resolutionScalingMode: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Android: com.devsprime.starmix.UniDominationA2
+    Standalone: com.devsprime.starmix.UniDominationA2
+    iOS: com.devsprime.starmix.UniDominationA2
+    tvOS: com.devsprime.starmix.UniDominationA2
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
