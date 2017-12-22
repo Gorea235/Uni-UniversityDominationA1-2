@@ -16,8 +16,6 @@ namespace Map.Unit
         int _baseDefence = 40;
         IPlayer _owner;
         College _college;
-        SectorMaterials _torsoMaterials;
-        Material _torso;
 
         //iplemented methods from IUnit
         public int Health
@@ -34,14 +32,12 @@ namespace Map.Unit
         public Transform Transform { get { return gameObject.transform; } }
 
         //instantiation of a single DefenceUnit
-        public void Init(SectorMaterials torsoMaterials, IPlayer owner, College college)
+        public void Init(SectorMaterials materials, IPlayer owner, College college)
         {
             _owner = owner;
             _college = college;
-            _torsoMaterials = torsoMaterials;
-            _torso = _torsoMaterials.GetMaterial(college);
 
-            gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = _torso;
+            gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = materials.GetMaterial(college);
         }
 
         public void ApplyEffect(IEffect effect)

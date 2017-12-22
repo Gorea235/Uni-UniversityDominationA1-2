@@ -100,15 +100,27 @@ namespace Map
         #endregion
 
         #region Material Fetching
-        //for Sectors
+
+        /// <summary>
+        /// Gets the material for the SectorTexture and SectorMaterialType.
+        /// </summary>
+        /// <returns>The material.</returns>
+        /// <param name="texture">The texture to get.</param>
+        /// <param name="type">The version of the texture to get.</param>
         public Material GetMaterial(SectorTexture texture, SectorMaterialType type)
         {
             return _materials[texture][type];
         }
-        //for Units
-        public Material GetMaterial(College texture)
+
+        /// <summary>
+        /// Gets the material for the given college. It will use
+        /// <see cref="T:SectorMaterialType.Normal"/> for the material type.
+        /// </summary>
+        /// <returns>The material.</returns>
+        /// <param name="college">The college texture to get.</param>
+        public Material GetMaterial(College college)
         {
-            return _materials[(SectorTexture)texture][SectorMaterialType.Normal];
+            return GetMaterial((SectorTexture)college, SectorMaterialType.Normal);
         }
 
         #endregion
