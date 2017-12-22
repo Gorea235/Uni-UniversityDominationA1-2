@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
+using Map;
 using Map.Hex;
 using UnityEngine;
 
 namespace Gui
 {
-    public abstract class PhaseLogic : MonoBehaviour
+    public abstract class PhaseLogic : MonoBehaviour, IMenu
     {
         #region Private Fields
 
@@ -74,6 +75,14 @@ namespace Gui
                 _cameraIsPanning &= value; // if value is false, stop panning
             }
         }
+
+        protected Sector SelectedSector { get; private set; }
+
+        #endregion
+
+        #region Public Properties
+
+        public abstract bool IsEnabled { get; set; }
 
         #endregion
 
@@ -170,6 +179,19 @@ namespace Gui
             if (Physics.Raycast(rayFromCamera, out hit))
                 return Layout.Default.PixelToHex(hit.collider.transform.position).Round();
             return null;
+        }
+
+        protected void SelectSector(Coord? coord)
+        {
+            if (SelectedSector != null)
+                SelectedSector.Highlighted = false;
+            if (coord.HasValue)
+            {
+                SelectedSector = Map.Grid[(Coord)coord];
+                SelectedSector.Highlighted = true;
+            }
+            else
+                SelectedSector = null;
         }
 
         #endregion

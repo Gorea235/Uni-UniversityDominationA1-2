@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Map;
 using Map.Hex;
 using UnityEngine;
 
@@ -8,8 +7,23 @@ namespace Gui.Menus
 {
     public class MovePhase : PhaseLogic
     {
-
-        Sector selectedSector;
+        public override bool IsEnabled
+        {
+            get
+            {
+                return gameObject.activeInHierarchy;
+            }
+            set
+            {
+                gameObject.SetActive(value);
+                if (value)
+                {} // menu active processing
+                else
+                {
+                    SelectSector(null);
+                }
+            }
+        }
 
         protected override void OnMouseLeftClick(Vector3 position)
         {
@@ -23,16 +37,7 @@ namespace Gui.Menus
             //throw new NotImplementedException();
             Coord? fetchCoord = GetSectorAtScreen(position);
             Debug.Log(fetchCoord);
-            if (selectedSector != null)
-                selectedSector.Highlighted = false;
-            if (fetchCoord.HasValue)
-            {
-                Coord coord = (Coord)fetchCoord;
-                selectedSector = Map.Grid[coord];
-                selectedSector.Highlighted = true;
-            }
-            else
-                selectedSector = null;
+            SelectSector(fetchCoord);
         }
 
         protected override void Update()

@@ -7,7 +7,6 @@ namespace Gui
 {
     public interface IMenu
     {
-        event EventHandler<GuiEventArgs> OnAction;
         bool IsEnabled { get; set; }
     }
 }
