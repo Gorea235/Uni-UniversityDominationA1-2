@@ -40,7 +40,7 @@ namespace Map
 
         #region Initialisation
 
-        public void Init()
+        void Awake() // use the MonoBehaviour initialisation for better robustness
         {
             // init material dictionary
             _materials = new Dictionary<SectorTexture, Dictionary<SectorMaterialType, Material>>();
