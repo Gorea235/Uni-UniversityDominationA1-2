@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Map.Hex;
 using UnityEngine;
 
 namespace Gui
@@ -38,6 +39,8 @@ namespace Gui
         #endregion
 
         #region Protected Properties
+
+        protected Map.Map Map { get; private set; }
 
         /// <summary>
         /// Gets or sets whether to skip mouse click checking for
@@ -85,6 +88,11 @@ namespace Gui
         #endregion
 
         #region Processing Methods
+
+        protected virtual void Awake()
+        {
+            Map = GameObject.Find("Map").GetComponent<Map.Map>();
+        }
 
         /// <summary>
         /// Does generic Update process.
@@ -149,6 +157,19 @@ namespace Gui
 
             // reset per-frame properties
             SkipCurrentFrameMouseClick = false;
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        protected Coord? GetSectorAtScreen(Vector3 position)
+        {
+            Ray rayFromCamera = Camera.main.ScreenPointToRay(position);
+            RaycastHit hit;
+            if (Physics.Raycast(rayFromCamera, out hit))
+                return Layout.Default.PixelToHex(hit.collider.transform.position).Round();
+            return null;
         }
 
         #endregion
