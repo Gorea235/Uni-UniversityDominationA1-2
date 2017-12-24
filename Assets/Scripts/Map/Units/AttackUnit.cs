@@ -7,6 +7,7 @@ namespace Map.Unit
 {
     public class AttackUnit : MonoBehaviour, IUnit
     {
+
         //arbitrary (for now, tweak after balance testing) values for
         //attack units stats
         int _health = 100;
@@ -30,15 +31,12 @@ namespace Map.Unit
         public Transform Transform { get { return gameObject.transform; } }
 
         //instantiation of a single AttackUnit
-        public void Init(SectorMaterials torsoMaterials, IPlayer owner, College college)
+        public void Init(SectorMaterials materials, IPlayer owner, College college)
         {
             _owner = owner;
             _college = college;
 
-            switch (college)
-            {
-                // setup model application
-            }
+            gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = materials.GetMaterial(college);
         }
 
         public void ApplyEffect(IEffect effect)
