@@ -31,15 +31,12 @@ namespace Map.Unit
         public Transform Transform { get { return gameObject.transform; } }
 
         //instantiation of a single ScoutUnit
-        public void Init(SectorMaterials torsoMaterials, IPlayer owner, College college)
+        public void Init(SectorMaterials materials, IPlayer owner, College college)
         {
             _owner = owner;
             _college = college;
 
-            switch (college)
-            {
-                // setup model application
-            }
+            gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = materials.GetMaterial(college);
         }
 
         public void ApplyEffect(IEffect effect)
