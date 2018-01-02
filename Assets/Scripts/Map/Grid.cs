@@ -25,6 +25,61 @@ namespace Map
             }
         }
 
+        //return a list of keys (the coordinates) of all sectors
+        public Coord[] GetAllCoord()
+        {
+            Coord[] coords = new Coord[_gridStore.Keys.Count];
+            _gridStore.Keys.CopyTo(coords, 0);
+            return coords;
+        }
+
+        /// <summary>
+        /// Path finding algorithm between two coordinates.
+        /// Used https://www.redblobgames.com/pathfinding/a-star/introduction.html as a main resource
+        /// Only the early-exit flood-fill and Breath-first search are implemented
+        /// </summary>
+        /// <param name="start">Coord from which to start the path finding</param>
+        /// <param name="finish">Coordinate we are looking how to get to</param>
+        /// <returns>Queue of Coord values representing the path from start to finish</returns>
+        public Queue<Coord> PathFind(Coord start, Coord finish)
+        {
+            Coord current;
+            Queue<Coord> path = new Queue<Coord>();
+            Queue<Coord> frontier = new Queue<Coord>();
+            frontier.Enqueue(start);
+            Dictionary<Coord, Coord> cameFrom = new Dictionary<Coord, Coord>();
+            cameFrom[start] = start;
+            
+            while (frontier.Count > 0)
+            {
+                current = frontier.Dequeue();
+                if (current.Equals(finish))
+                {
+                    break;
+                }
+
+                Coord neighborList = Array.Find(GetAllCoord(), element => element == current);
+                foreach (Coord next in neighborList.Neighbor())
+                {
+                    if (!cameFrom.ContainsKey(next) && _gridStore[next].Traversable)
+                    {
+                        frontier.Enqueue(next);
+                        cameFrom[next] = current;
+                    }
+                }
+            }
+
+            current = finish;
+
+            while (current != start)
+            {
+                path.Enqueue(current);
+                current = cameFrom[current];
+            }
+
+            return path;
+        }
+
         #endregion
 
         #region Constructor

@@ -7,7 +7,6 @@ namespace Map.Unit
 {
     public class AttackUnit : MonoBehaviour, IUnit
     {
-
         //arbitrary (for now, tweak after balance testing) values for
         //attack units stats
         int _health = 100;

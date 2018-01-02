@@ -136,7 +136,24 @@ namespace Map.Hex
         {
             return this + Directions[direction];
         }
+        ///<summary>
+        ///Gets the coordinates of the 6 Sector neighbourhood.
+        ///</summary>
+        ///<returns>6 Sector neighborhood</returns>
+        public Coord[] Neighbor()
+        {
+            Coord[] sixSectorNeigborhood = new Coord[6];
+            Direction[] adjacentNeighbors = new Direction[6];
+            Directions.Keys.CopyTo(adjacentNeighbors,0);
+            
+            for (int i = 0; i < 6; i++)
+            {
+                sixSectorNeigborhood[i] = this.Neighbor(adjacentNeighbors[i]);
+            }
 
+            return sixSectorNeigborhood;
+        }
+            
         /// <summary>
         /// Gets the diagonal coord.
         /// </summary>
@@ -183,7 +200,7 @@ namespace Map.Hex
                 results.Add(a_nudge.Lerp(b_nudge, step * i).Round());
             return results;
         }
-
+        
         #endregion
 
         #region Operators

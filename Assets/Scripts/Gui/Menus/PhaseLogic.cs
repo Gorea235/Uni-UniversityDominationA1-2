@@ -145,7 +145,10 @@ namespace Gui
                     // if not panning and mouse move length is larger than
                     // min move length
                     if (!_cameraIsPanning && (mousePosition - _mousePanStartPos).magnitude > _minMouseMoveLength)
+                    {
                         _cameraIsPanning = true;
+                        
+                    }
 
                     // if the camera is currently being panned, to
                     // processing

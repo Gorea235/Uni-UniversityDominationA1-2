@@ -22,25 +22,21 @@ namespace Map.Unit
             get { return _health; }
             set { _health = value; }
         }
-
         public int Defence { get { return _baseDefence; } }
         public IPlayer Owner { get { return _owner; } }
         public College College { get { return _college; } }
         public Transform Transform { get { return gameObject.transform; } }
 
-        public int Attack { get { return _baseAttack; } }
-        public int MaxMove { get { return _baseMove; } }
+        public int Attack { get { return _baseAttack; } } //needed as part of IUnits, but not used for Base
+        public int MaxMove { get { return _baseMove; } }  //needed as part of IUnits, but not used for Base
 
         //instantiation of a single BaseUnit
-        public void Init(SectorMaterials torsoMaterials, IPlayer owner, College college)
+        public void Init(SectorMaterials materials, IPlayer owner, College college)
         {
             _owner = owner;
             _college = college;
 
-            switch (college)
-            {
-                // setup model application
-            }
+            gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = materials.GetMaterial(college);
         }
 
         public void ApplyEffect(IEffect effect)
