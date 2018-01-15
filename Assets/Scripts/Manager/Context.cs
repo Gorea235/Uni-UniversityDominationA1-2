@@ -5,24 +5,19 @@ using UnityEngine;
 
 namespace Manager
 {
-    public class Context : MonoBehaviour
+    public class Context
     {
-
-        public IPlayer[] Players { get; }
+        public List<IPlayer> Players { get; }
         public Gui.Gui Gui { get; }
         public Map.Map Map { get; }
         public AudioManager Audio { get; }
 
-        // Use this for initialization
-        void Start()
+        public Context(List<IPlayer> players, Gui.Gui gui, Map.Map map, AudioManager audio)
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            Players = players;
+            Gui = gui;
+            Map = map;
+            Audio = audio;
         }
     }
 }

@@ -2,14 +2,14 @@
 {
     public enum College
     {
-        Alcuin,
-        Constantine,
-        Derwent,
-        Goodricke,
-        Halifax,
-        James,
-        Langwith,
-        Vanbrugh,
-        Wentworth
+        Alcuin = SectorTexture.Alcuin,
+        Constantine = SectorTexture.Constantine,
+        Derwent = SectorTexture.Derwent,
+        Goodricke = SectorTexture.Goodricke,
+        Halifax = SectorTexture.Halifax,
+        James = SectorTexture.James,
+        Langwith = SectorTexture.Langwith,
+        Vanbrugh = SectorTexture.Vanbrugh,
+        Wentworth = SectorTexture.Wentworth
     }
 }

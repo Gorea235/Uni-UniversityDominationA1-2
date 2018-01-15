@@ -160,39 +160,75 @@ class RectObject():
         self.__change_pos_event__()
 
     @property
-    def left(self):
+    def l(self):
         return self._rect.left
 
-    @left.setter
-    def left(self, value):
+    @l.setter
+    def l(self, value):
         self._rect.left = value
         self.__change_pos_event__()
 
     @property
-    def top(self):
+    def t(self):
         return self._rect.top
 
-    @top.setter
-    def top(self, value):
+    @t.setter
+    def t(self, value):
         self._rect.top = value
         self.__change_pos_event__()
 
     @property
-    def right(self):
+    def r(self):
         return self._rect.right
 
-    @right.setter
-    def right(self, value):
+    @r.setter
+    def r(self, value):
         self._rect.right = value
         self.__change_pos_event__()
 
     @property
-    def bottom(self):
+    def b(self):
         return self._rect.bottom
 
-    @bottom.setter
-    def bottom(self, value):
-        self._rect.top = value
+    @b.setter
+    def b(self, value):
+        self._rect.bottom = value
+        self.__change_pos_event__()
+
+    @property
+    def tl(self):
+        return self._rect.topleft
+
+    @tl.setter
+    def tl(self, value):
+        self._rect.topleft = value
+        self.__change_pos_event__()
+
+    @property
+    def tr(self):
+        return self._rect.topright
+
+    @tr.setter
+    def tr(self, value):
+        self._rect.topright = value
+        self.__change_pos_event__()
+
+    @property
+    def bl(self):
+        return self._rect.bottomleft
+
+    @bl.setter
+    def bl(self, value):
+        self._rect.bottomleft = value
+        self.__change_pos_event__()
+
+    @property
+    def br(self):
+        return self._rect.br
+
+    @br.setter
+    def br(self, value):
+        self._rect.bottomright = value
         self.__change_pos_event__()
 
     @property
@@ -214,6 +250,15 @@ class RectObject():
         self.__change_pos_event__()
 
     @property
+    def c(self):
+        return self._rect.center
+
+    @c.setter
+    def c(self, value):
+        self._rect.center = value
+        self.__change_pos_event__()
+
+    @property
     def w(self):
         return self._rect.w
 
@@ -232,29 +277,11 @@ class RectObject():
         self.__change_size_event__()
 
     @property
-    def width(self):
-        return self._rect.width
-
-    @width.setter
-    def width(self, value):
-        self._rect.width = value
-        self.__change_size_event__()
-
-    @property
-    def height(self):
-        return self._rect.hight
-
-    @h.setter
-    def hight(self, value):
-        self._rect.hight = value
-        self.__change_size_event__()
-
-    @property
-    def size(self):
+    def s(self):
         return self._rect.size
 
-    @size.setter
-    def size(self, value):
+    @s.setter
+    def s(self, value):
         self._rect.size = value
         self.__change_size_event__()
 
@@ -268,6 +295,7 @@ class RectObject():
         self.y = value[1]
         self.w = value[2]
         self.h = value[3]
+        self.__change_pos_event__()
         self.__change_size_event__()
 
 
@@ -296,7 +324,7 @@ class RenderableImage(RenderableSurface):
 
     def set_image(self, imgpath):
         self._surface = self.__get_img_surface__(imgpath)
-        self.size = self.size  # cause a rescale of the surface
+        self.s = self.s  # cause a rescale of the surface
 
 
 class RenderableText(RenderableObject):
