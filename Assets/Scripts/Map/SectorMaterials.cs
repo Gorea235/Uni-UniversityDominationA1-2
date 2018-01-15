@@ -40,7 +40,7 @@ namespace Map
 
         #region Initialisation
 
-        public void Init()
+        void Awake() // use the MonoBehaviour initialisation for better robustness
         {
             // init material dictionary
             _materials = new Dictionary<SectorTexture, Dictionary<SectorMaterialType, Material>>();
@@ -101,9 +101,26 @@ namespace Map
 
         #region Material Fetching
 
+        /// <summary>
+        /// Gets the material for the SectorTexture and SectorMaterialType.
+        /// </summary>
+        /// <returns>The material.</returns>
+        /// <param name="texture">The texture to get.</param>
+        /// <param name="type">The version of the texture to get.</param>
         public Material GetMaterial(SectorTexture texture, SectorMaterialType type)
         {
             return _materials[texture][type];
+        }
+
+        /// <summary>
+        /// Gets the material for the given college. It will use
+        /// <see cref="T:SectorMaterialType.Normal"/> for the material type.
+        /// </summary>
+        /// <returns>The material.</returns>
+        /// <param name="college">The college texture to get.</param>
+        public Material GetMaterial(College college)
+        {
+            return GetMaterial((SectorTexture)college, SectorMaterialType.Normal);
         }
 
         #endregion

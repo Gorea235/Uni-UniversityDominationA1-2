@@ -5,15 +5,14 @@ using UnityEngine;
 
 namespace Map.Unit
 {
-    public class DefenceUnit : MonoBehaviour, IUnit
+    public class BaseUnit : MonoBehaviour, IUnit
     {
-
         //arbitrary (for now, tweak after balance testing) values for
-        //defence units stats
-        int _health = 160;
-        int _baseAttack = 15;
-        int _baseMove = 2;
-        int _baseDefence = 40;
+        //base units stats
+        int _health = 1000;
+        int _baseDefence = 15;
+        int _baseAttack = 0;
+        int _baseMove = 0;
         IPlayer _owner;
         College _college;
 
@@ -23,15 +22,15 @@ namespace Map.Unit
             get { return _health; }
             set { _health = value; }
         }
-
-        public int Attack { get { return _baseAttack; } }
-        public int MaxMove { get { return _baseMove; } }
         public int Defence { get { return _baseDefence; } }
         public IPlayer Owner { get { return _owner; } }
         public College College { get { return _college; } }
         public Transform Transform { get { return gameObject.transform; } }
 
-        //instantiation of a single DefenceUnit
+        public int Attack { get { return _baseAttack; } } //needed as part of IUnits, but not used for Base
+        public int MaxMove { get { return _baseMove; } }  //needed as part of IUnits, but not used for Base
+
+        //instantiation of a single BaseUnit
         public void Init(SectorMaterials materials, IPlayer owner, College college)
         {
             _owner = owner;
@@ -53,7 +52,7 @@ namespace Map.Unit
         // Use this for initialization
         void Start()
         {
-            
+
         }
 
         // Update is called once per frame

@@ -183,7 +183,7 @@ namespace Map.Hex
                 results.Add(a_nudge.Lerp(b_nudge, step * i).Round());
             return results;
         }
-
+        
         #endregion
 
         #region Operators

@@ -33,14 +33,12 @@ namespace Map
         void Awake()
         {
             _sectorMaterials = gameObject.GetComponent<SectorMaterials>();
-            _sectorMaterials.Init();
-            _grid = new Grid(gameObject, sectorPrefab, _sectorMaterials, mapData.text);
         }
 
         // Use this for initialization
         void Start()
         {
-
+            _grid = new Grid(gameObject, sectorPrefab, _sectorMaterials, mapData.text);
         }
 
         // Update is called once per frame

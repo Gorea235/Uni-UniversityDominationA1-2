@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
+using Map;
+using Map.Hex;
 using UnityEngine;
 
 namespace Gui
 {
-    public abstract class PhaseLogic : MonoBehaviour
+    public abstract class PhaseLogic : MonoBehaviour, IMenu
     {
         #region Private Fields
 
@@ -39,6 +41,8 @@ namespace Gui
 
         #region Protected Properties
 
+        protected Map.Map Map { get; private set; }
+
         /// <summary>
         /// Gets or sets whether to skip mouse click checking for
         /// the current frame.
@@ -72,6 +76,14 @@ namespace Gui
             }
         }
 
+        protected Sector SelectedSector { get; private set; }
+
+        #endregion
+
+        #region Public Properties
+
+        public abstract bool IsEnabled { get; set; }
+
         #endregion
 
         #region Abstract Methods
@@ -85,6 +97,11 @@ namespace Gui
         #endregion
 
         #region Processing Methods
+
+        protected virtual void Awake()
+        {
+            Map = GameObject.Find("Map").GetComponent<Map.Map>();
+        }
 
         /// <summary>
         /// Does generic Update process.
@@ -128,7 +145,10 @@ namespace Gui
                     // if not panning and mouse move length is larger than
                     // min move length
                     if (!_cameraIsPanning && (mousePosition - _mousePanStartPos).magnitude > _minMouseMoveLength)
+                    {
                         _cameraIsPanning = true;
+                        
+                    }
 
                     // if the camera is currently being panned, to
                     // processing
@@ -149,6 +169,35 @@ namespace Gui
 
             // reset per-frame properties
             SkipCurrentFrameMouseClick = false;
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        protected Coord? GetSectorAtScreen(Vector3 position)
+        {
+            Ray rayFromCamera = Camera.main.ScreenPointToRay(position);
+            RaycastHit hit;
+            if (Physics.Raycast(rayFromCamera, out hit))
+                return Layout.Default.PixelToHex(hit.collider.transform.position).Round();
+            return null;
+        }
+
+        protected void SelectSector(Coord? coord)
+        {
+            if (SelectedSector != null)
+                SelectedSector.Highlighted = false;
+            if (coord.HasValue)
+            {
+                SelectedSector = Map.Grid[(Coord)coord];
+                if (SelectedSector.Traversable)
+                    SelectedSector.Highlighted = true;
+                else
+                    SelectedSector = null;
+            }
+            else
+                SelectedSector = null;
         }
 
         #endregion

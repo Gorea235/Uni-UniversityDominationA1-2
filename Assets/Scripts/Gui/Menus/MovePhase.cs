@@ -1,14 +1,43 @@
 using System;
 using System.Collections;
+using Map.Hex;
 using UnityEngine;
 
 namespace Gui.Menus
 {
     public class MovePhase : PhaseLogic
     {
+        public override bool IsEnabled
+        {
+            get
+            {
+                return gameObject.activeInHierarchy;
+            }
+            set
+            {
+                gameObject.SetActive(value);
+                if (value)
+                {} // menu active processing
+                else
+                {
+                    SelectSector(null);
+                }
+            }
+        }
+
         protected override void OnMouseLeftClick(Vector3 position)
         {
-            throw new NotImplementedException();
+            //Ray rayFromCamera = Camera.main.ScreenPointToRay(position);
+            //if (Physics.Raycast(rayFromCamera, out selectedSector))
+            //{
+            //    Collider sectorCollider = selectedSector.collider;
+            //    sectorCollider.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
+            //}
+            //Debug.DrawRay(rayFromCamera.origin, rayFromCamera.direction*50, Color.yellow); // *50 modifier is just so its visible in the Editor. Note that it won't display in game view
+            //throw new NotImplementedException();
+            Coord? fetchCoord = GetSectorAtScreen(position);
+            Debug.Log(fetchCoord);
+            SelectSector(fetchCoord);
         }
 
         protected override void Update()
