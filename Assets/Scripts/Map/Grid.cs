@@ -25,14 +25,6 @@ namespace Map
             }
         }
 
-        //return a list of keys (the coordinates) of all sectors
-        public Coord[] GetAllCoord()
-        {
-            Coord[] coords = new Coord[_gridStore.Keys.Count];
-            _gridStore.Keys.CopyTo(coords, 0);
-            return coords;
-        }
-
         /// <summary>
         /// Path finding algorithm between two coordinates.
         /// Used https://www.redblobgames.com/pathfinding/a-star/introduction.html as a main resource
@@ -58,9 +50,9 @@ namespace Map
                     break;
                 }
 
-                Coord neighborList = Array.Find(GetAllCoord(), element => element == current);
-                foreach (Coord next in neighborList.Neighbor())
+                foreach (Direction direct in Enum.GetValues(typeof(Direction)))
                 {
+                    Coord next = current.Neighbor(direct);
                     if (!cameFrom.ContainsKey(next) && _gridStore[next].Traversable)
                     {
                         frontier.Enqueue(next);
