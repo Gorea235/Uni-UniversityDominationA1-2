@@ -155,10 +155,10 @@ public class TestCoord
         //Tests.EqualHexArray("hex_linedraw", new List<Hex> { new Hex(0, 0, 0), new Hex(0, -1, 1), new Hex(0, -2, 2), new Hex(1, -3, 2), new Hex(1, -4, 3), new Hex(1, -5, 4) }, FractionalHex.HexLinedraw(new Hex(0, 0, 0), new Hex(1, -5, 4)));
         Coord c = new Coord(0, 0, 0);
         Assert.That(c.Linedraw(new Coord(1, -5, 4)),
-                    Is.EqualTo(new List<Coord> {
+                    Is.EqualTo(new Queue<Coord>(new List<Coord> {
             new Coord(0, 0, 0), new Coord(0, -1, 1), new Coord(0, -2, 2),
             new Coord(1, -3, 2), new Coord(1, -4, 3), new Coord(1, -5, 4)
-        }));
+        })));
     }
 
     [Test]
