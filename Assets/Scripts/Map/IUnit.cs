@@ -52,6 +52,19 @@ namespace Map
         /// <value><c>true</c> if buildable; otherwise, <c>false</c>.</value>
         bool Buildable { get; }
         /// <summary>
+        /// The active effects that have been applied to the unit.
+        /// Currently, effects are planned to all take effect at the start of
+        /// each turn. However, if some effects should be processed at specific
+        /// points in the phases or are passive (i.e. change how damage is
+        /// taken etc.), IEffect should specify when the effect should be applied,
+        /// and what it should do. If effects are to be applied only at specified
+        /// points in the turn cycle, then this should move to a
+        /// <c>Dictionary&lt;EffectApplyEnum, IEffect&gt;</c>, where
+        /// <c>EffectApplyEnum</c> is the enum that will specify the apply point.
+        /// </summary>
+        /// <value>The active effects.</value>
+        List<IEffect> ActiveEffects { get; }
+        /// <summary>
         /// The player that owns the unit.
         /// </summary>
         /// <value>The owner.</value>
@@ -73,16 +86,5 @@ namespace Map
         /// <param name="player">The owning player.</param>
         /// <param name="college">The college the unit is from.</param>
         void Init(SectorMaterials unitColor, Manager.IPlayer player, College college);
-        /// <summary>
-        /// Applies the given effect to the unit.
-        /// </summary>
-        /// <param name="effect">Effect to apply.</param>
-        void ApplyEffect(IEffect effect);
-        /// <summary>
-        /// Process all effects currently applied to the unit.
-        /// This should also handle finishing of effects.
-        /// Called on all units of a player on turn start.
-        /// </summary>
-        void ProcessEffects();
     }
 }
