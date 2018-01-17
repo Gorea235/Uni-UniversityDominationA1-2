@@ -30,6 +30,14 @@ namespace Manager
         void Start()
         {
             // player initialisation is done here
+            IPlayer playerOne = new HumanPlayer(1);
+            IPlayer playerTwo = new HumanPlayer(2);
+
+            List<IPlayer> currentPlayers = new List<IPlayer>()
+            {
+                playerOne,
+                playerTwo
+            };
         }
 
         void Update()
