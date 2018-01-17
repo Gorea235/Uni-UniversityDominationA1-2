@@ -69,7 +69,7 @@
   <Class Name="Manager.Manager">
     <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Assets\Scripts\Manager\Manager.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -176,7 +176,7 @@
     </TypeIdentifier>
   </Struct>
   <Struct Name="Map.Hex.SerializableCoord">
-    <Position X="29.75" Y="4.25" Width="1.5" />
+    <Position X="23.25" Y="11.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAACABAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Map\Hex\SerializableCoord.cs</FileName>
@@ -267,7 +267,7 @@
     </TypeIdentifier>
   </Enum>
   <Enum Name="Map.Hex.Direction">
-    <Position X="29.75" Y="6.5" Width="1.5" />
+    <Position X="29.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACACABABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAQ=</HashCode>
       <FileName>Assets\Scripts\Map\Hex\Direction.cs</FileName>
