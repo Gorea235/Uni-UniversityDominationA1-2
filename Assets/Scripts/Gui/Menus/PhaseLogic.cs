@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Manager;
 using Map;
 using Map.Hex;
 using UnityEngine;
@@ -41,7 +42,10 @@ namespace Gui
 
         #region Protected Properties
 
-        protected Map.Map Map { get; private set; }
+        /// <summary>
+        /// The main game manager.
+        /// </summary>
+        protected MainManager Main { get; private set; }
 
         /// <summary>
         /// Gets or sets whether to skip mouse click checking for
@@ -100,7 +104,7 @@ namespace Gui
 
         protected virtual void Awake()
         {
-            Map = GameObject.Find("Map").GetComponent<Map.Map>();
+            Main = GameObject.Find("Manager").GetComponent<MainManager>();
         }
 
         /// <summary>
@@ -190,7 +194,7 @@ namespace Gui
                 SelectedSector.Highlighted = false;
             if (coord.HasValue)
             {
-                SelectedSector = Map.Grid[(Coord)coord];
+                SelectedSector = Main.GameContext.Map.Grid[(Coord)coord];
                 if (SelectedSector.Traversable)
                     SelectedSector.Highlighted = true;
                 else

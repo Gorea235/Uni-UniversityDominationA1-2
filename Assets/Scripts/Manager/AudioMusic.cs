@@ -7,6 +7,6 @@ namespace Manager
 {
     public enum AudioMusic
     {
-        
+        None
     }
 }

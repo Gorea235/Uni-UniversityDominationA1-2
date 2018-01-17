@@ -7,17 +7,42 @@ namespace Manager
 {
     public class AudioManager : MonoBehaviour
     {
+        #region Public Properties
 
-        // Use this for initialization
+        AudioMusic _audioMusic = AudioMusic.None;
+        public AudioMusic CurrentMusic
+        {
+            get { return _audioMusic; }
+            set
+            {
+
+                _audioMusic = value;
+            }
+        }
+
+        #endregion
+
+        #region Public Function
+
+        public void PlaySound(AudioSound sound)
+        {
+
+        }
+
+        #endregion
+
+        #region MonoBehaviour
+
         void Start()
         {
 
         }
-
-        // Update is called once per frame
+        
         void Update()
         {
 
         }
+
+        #endregion
     }
 }
