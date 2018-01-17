@@ -100,7 +100,7 @@ namespace Gui
 
         #endregion
 
-        #region Processing Methods
+        #region MonoBehaviour
 
         protected virtual void Awake()
         {
