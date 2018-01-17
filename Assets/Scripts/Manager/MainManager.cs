@@ -30,8 +30,16 @@ namespace Manager
             // basic default players
             // for full game, the menu that deals with allowing users to set up the game
             // and available players in said game will add each player instance.
-            GameContext.Players.Add(new HumanPlayer(0));
-            GameContext.Players.Add(new HumanPlayer(1));
+            GameContext.Players.Add(new HumanPlayer(0)
+            {
+                Mana = 10,
+                MaxMana = 10
+            });
+            GameContext.Players.Add(new HumanPlayer(1)
+            {
+                Mana = 10,
+                MaxMana = 10
+            });
         }
 
         void Start()
