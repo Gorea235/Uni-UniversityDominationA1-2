@@ -41,7 +41,7 @@ namespace Map
             frontier.Enqueue(start);
             Dictionary<Coord, Coord> cameFrom = new Dictionary<Coord, Coord>();
             cameFrom[start] = start;
-            
+
             while (frontier.Count > 0)
             {
                 current = frontier.Dequeue();

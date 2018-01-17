@@ -7,6 +7,7 @@ namespace Gui
 {
     public enum MenuType
     {
+        None,
         MovePhase,
         AttackPhase
     }

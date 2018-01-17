@@ -172,15 +172,15 @@ namespace Map.Hex
         /// </summary>
         /// <returns>The list of Coords</returns>
         /// <param name="b">The Coord to draw to.</param>
-        public List<Coord> Linedraw(Coord b)
+        public Queue<Coord> Linedraw(Coord b)
         {
             int N = DistanceTo(b);
             CoordDouble a_nudge = new CoordDouble(Q + 0.000001, R + 0.000001, S - 0.000002);
             CoordDouble b_nudge = new CoordDouble(b.Q + 0.000001, b.R + 0.000001, b.S - 0.000002);
-            List<Coord> results = new List<Coord> { };
+            Queue<Coord> results = new Queue<Coord>();
             double step = 1.0 / Math.Max(N, 1);
             for (int i = 0; i <= N; i++)
-                results.Add(a_nudge.Lerp(b_nudge, step * i).Round());
+                results.Enqueue(a_nudge.Lerp(b_nudge, step * i).Round());
             return results;
         }
         

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Map
 {
-    public class Map : MonoBehaviour
+    public class MapManager : MonoBehaviour
     {
         #region Unity Bindings
 
