@@ -29,6 +29,11 @@ namespace Map
 
         #region Helper Functions
 
+        /// <summary>
+        /// Checks whether a sector is traversable in a null-safe way.
+        /// </summary>
+        /// <param name="coord">The position of the sector to check.</param>
+        /// <returns></returns>
         bool IsTraversable(Coord coord) => _gridStore.ContainsKey(coord) && _gridStore[coord].Traversable;
 
         /// <summary>
