@@ -39,6 +39,7 @@ namespace Map
             {
                 _occupyingUnit = value;
                 _occupyingUnit.Transform.parent = gameObject.transform;
+                _occupyingUnit.Transform.localPosition = _occupyingUnit.DefaultOffset;
             }
         }
         public ILandmark Landmark
@@ -47,7 +48,7 @@ namespace Map
             set
             {
                 _landmark = value;
-                //_landmark.Position = Layout.Default.HexToPixel(_currentCoord);
+                _landmark.Transform.parent = gameObject.transform;
             }
         }
         public bool Traversable { get; private set; }

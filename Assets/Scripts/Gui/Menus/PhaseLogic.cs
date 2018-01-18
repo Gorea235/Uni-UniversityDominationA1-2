@@ -48,11 +48,6 @@ namespace Gui
         protected MainManager Main { get; private set; }
 
         /// <summary>
-        /// ID of player whos turn it is.
-        /// </summary>
-        protected uint currentPlayer;
-
-        /// <summary>
         /// Gets or sets whether to skip mouse click checking for
         /// the current frame.
         /// </summary>
