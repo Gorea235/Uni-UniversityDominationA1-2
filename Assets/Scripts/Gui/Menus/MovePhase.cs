@@ -3,6 +3,8 @@ using System.Collections;
 using Map.Hex;
 using UnityEngine;
 using Manager;
+using Map;
+using System.Collections.Generic;
 
 namespace Gui.Menus
 {
@@ -32,6 +34,13 @@ namespace Gui.Menus
             Coord? fetchCoord = GetSectorAtScreen(position);
             Debug.Log(fetchCoord);
             SelectSector(fetchCoord);
+            Coord selected = (Coord)fetchCoord;
+            Queue<Coord> path = Main.GameContext.Map.Grid.PathFind(selected, new Coord(selected.Q, selected.R+2));
+            foreach (Coord plot in path)
+            {
+                SelectSector(plot);
+                Debug.Log(plot);
+            }
         }
 
         protected override void Update()
@@ -50,11 +59,24 @@ namespace Gui.Menus
             SkipCurrentFrameMouseClick = true;
         }
 
+        public IUnit selectOccupyingUnit(Vector3 position)
+        {
+            return null;
+        }
+
 
 
         public void BuyAttackUnit()
         {
-          //TBD
+            //TBD
+        }
+        public void BuyDefenceUnit()
+        {
+            //TBD
+        }
+        public void BuyScoutUnit()
+        {
+            //TBD
         }
     }
 }
