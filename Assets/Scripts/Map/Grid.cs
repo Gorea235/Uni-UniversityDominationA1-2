@@ -29,6 +29,8 @@ namespace Map
 
         #region Helper Functions
 
+        bool IsTraversable(Coord coord) => _gridStore.ContainsKey(coord) && _gridStore[coord].Traversable;
+
         /// <summary>
         /// Path finding algorithm between two coordinates.
         /// Used https://www.redblobgames.com/pathfinding/a-star/introduction.html as a main resource
@@ -57,7 +59,7 @@ namespace Map
                 foreach (Direction direct in Enum.GetValues(typeof(Direction)))
                 {
                     Coord next = current.Neighbor(direct);
-                    if (!cameFrom.ContainsKey(next) && _gridStore[next].Traversable)
+                    if (!cameFrom.ContainsKey(next) && IsTraversable(next))
                     {
                         frontier.Enqueue(next);
                         cameFrom[next] = current;
@@ -89,7 +91,7 @@ namespace Map
                     foreach (Direction direction in Enum.GetValues(typeof(Direction)))
                     {
                         Coord neighbor = plot.Neighbor(direction);
-                        if (!visited.Contains(neighbor) && _gridStore.ContainsKey(neighbor) && _gridStore[neighbor].Traversable)
+                        if (!visited.Contains(neighbor) && _gridStore.ContainsKey(neighbor) && IsTraversable(neighbor))
                         {
                             visited.Add(neighbor);
                             fringes[i].Add(neighbor);

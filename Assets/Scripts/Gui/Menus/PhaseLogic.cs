@@ -197,7 +197,7 @@ namespace Gui
             if (coord.HasValue)
             {
                 SelectedSector = Main.GameContext.Map.Grid[(Coord)coord];
-                if (SelectedSector.Traversable)
+                if (SelectedSector != null && SelectedSector.Traversable)
                     SelectedSector.Highlighted = true;
                 else
                     SelectedSector = null;
