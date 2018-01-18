@@ -72,6 +72,33 @@ namespace Map
             return path;
         }
 
+        public ArrayList MovementRange(Coord start, int maxMovement)
+        {
+            ArrayList visited = new ArrayList();
+            visited.Add(start);
+            ArrayList fringes = new ArrayList();
+            fringes.Add(new List<Coord>() { start });
+
+            for (int i = 1; i <= maxMovement; i++)
+            {
+                fringes.Add(new List<Coord>());
+                foreach (Coord plot in fringes)
+                {
+                    foreach (Direction direct in Enum.GetValues(typeof(Direction)))
+                    {
+                        Coord neighbor = plot.Neighbor(direct);
+                        if (!visited.Contains(neighbor) && _gridStore.ContainsKey(neighbor) && _gridStore[neighbor].Traversable)
+                        {
+                            visited.Add(neighbor);
+                            fringes.Add(neighbor);
+                        }
+                    }
+                }
+            }
+
+            return visited;
+        }
+
         #endregion
 
         #region Constructor

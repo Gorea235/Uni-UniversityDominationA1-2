@@ -4,6 +4,7 @@ using Manager;
 using Map;
 using Map.Hex;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Gui
 {
@@ -200,6 +201,25 @@ namespace Gui
                     SelectedSector.Highlighted = true;
                 else
                     SelectedSector = null;
+            }
+            else
+                SelectedSector = null;
+        }
+
+        protected void SelectSector(Coord? coord, int movementRange)
+        {
+
+            if (SelectedSector != null)
+                SelectedSector.Highlighted = false;
+            if (coord.HasValue)
+            {
+                ArrayList range = Main.GameContext.Map.Grid.MovementRange((Coord)coord, movementRange);
+
+                foreach (Coord plot in range)
+                {
+                    SelectedSector = Main.GameContext.Map.Grid[(Coord)plot];
+                    SelectedSector.Highlighted = true;
+                }
             }
             else
                 SelectedSector = null;

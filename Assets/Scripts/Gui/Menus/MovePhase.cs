@@ -33,14 +33,10 @@ namespace Gui.Menus
         {
             Coord? fetchCoord = GetSectorAtScreen(position);
             Debug.Log(fetchCoord);
-            SelectSector(fetchCoord);
-            Coord selected = (Coord)fetchCoord;
-            Queue<Coord> path = Main.GameContext.Map.Grid.PathFind(selected, new Coord(selected.Q, selected.R+2));
-            foreach (Coord plot in path)
-            {
-                SelectSector(plot);
-                Debug.Log(plot);
-            }
+            SelectSector(fetchCoord, 3);
+            //Coord selected = (Coord)fetchCoord;
+            //Queue<Coord> path = Main.GameContext.Map.Grid.PathFind(selected, new Coord(selected.Q, selected.R+2));
+
         }
 
         protected override void Update()
