@@ -213,11 +213,11 @@ namespace Gui
                 SelectedSector.Highlighted = false;
             if (coord.HasValue)
             {
-                ArrayList range = Main.GameContext.Map.Grid.MovementRange((Coord)coord, movementRange);
+                HashSet<Coord> range = Main.GameContext.Map.Grid.MovementRange((Coord)coord, movementRange);
 
                 foreach (Coord plot in range)
                 {
-                    SelectedSector = Main.GameContext.Map.Grid[(Coord)plot];
+                    SelectedSector = Main.GameContext.Map.Grid[plot];
                     SelectedSector.Highlighted = true;
                 }
             }

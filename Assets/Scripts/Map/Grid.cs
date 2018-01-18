@@ -25,6 +25,10 @@ namespace Map
             }
         }
 
+        #endregion
+
+        #region Helper Functions
+
         /// <summary>
         /// Path finding algorithm between two coordinates.
         /// Used https://www.redblobgames.com/pathfinding/a-star/introduction.html as a main resource
@@ -72,25 +76,23 @@ namespace Map
             return path;
         }
 
-        public ArrayList MovementRange(Coord start, int maxMovement)
+        public HashSet<Coord> MovementRange(Coord start, int maxMovement)
         {
-            ArrayList visited = new ArrayList();
-            visited.Add(start);
-            ArrayList fringes = new ArrayList();
-            fringes.Add(new List<Coord>() { start });
+            HashSet<Coord> visited = new HashSet<Coord> { start };
+            List<List<Coord>> fringes = new List<List<Coord>> { new List<Coord>() { start } };
 
             for (int i = 1; i <= maxMovement; i++)
             {
                 fringes.Add(new List<Coord>());
-                foreach (Coord plot in fringes)
+                foreach (Coord plot in fringes[i - 1])
                 {
-                    foreach (Direction direct in Enum.GetValues(typeof(Direction)))
+                    foreach (Direction direction in Enum.GetValues(typeof(Direction)))
                     {
-                        Coord neighbor = plot.Neighbor(direct);
+                        Coord neighbor = plot.Neighbor(direction);
                         if (!visited.Contains(neighbor) && _gridStore.ContainsKey(neighbor) && _gridStore[neighbor].Traversable)
                         {
                             visited.Add(neighbor);
-                            fringes.Add(neighbor);
+                            fringes[i].Add(neighbor);
                         }
                     }
                 }
