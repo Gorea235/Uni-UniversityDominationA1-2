@@ -32,8 +32,23 @@ namespace Gui.Menus
         protected override void OnMouseLeftClick(Vector3 position)
         {
             Coord? fetchCoord = GetSectorAtScreen(position);
+            Sector selectedSector = Main.GameContext.Map.Grid[(Coord)fetchCoord];
+
             Debug.Log(fetchCoord);
-            SelectSector(fetchCoord, 3);
+
+            if (selectedSector.OccupyingUnit != null)
+            {
+                highlightOccupyingUnit((Coord)fetchCoord);
+            }
+            //else if ()
+            //{
+
+            //}
+            else
+            {
+                SelectSector(fetchCoord);
+            }
+            
             //Coord selected = (Coord)fetchCoord;
             //Queue<Coord> path = Main.GameContext.Map.Grid.PathFind(selected, new Coord(selected.Q, selected.R+2));
 
@@ -55,10 +70,20 @@ namespace Gui.Menus
             SkipCurrentFrameMouseClick = true;
         }
 
-        public IUnit selectOccupyingUnit(Vector3 position)
+        public void highlightOccupyingUnit(Coord selectedSectorCoord)
         {
-            return null;
+            IUnit selectedUnit = Main.GameContext.Map.Grid[selectedSectorCoord].OccupyingUnit;
+            if (selectedUnit.Owner.Id == Main.GameContext.CurrentPlayer && selectedUnit.AvailableMove > 0)
+            {
+                SelectSector(selectedSectorCoord,selectedUnit.MaxMove);
+            }
         }
+
+        public void MoveUnit()
+        {
+
+        }
+
 
 
 
