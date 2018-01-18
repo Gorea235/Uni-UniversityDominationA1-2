@@ -11,5 +11,6 @@ namespace Map
     {
         void StartBonus(IPlayer player, Coord coord, Context context);
         void TurnBonus(IPlayer player, Coord coord, Context context);
+        Transform Transform { get; }
     }
 }

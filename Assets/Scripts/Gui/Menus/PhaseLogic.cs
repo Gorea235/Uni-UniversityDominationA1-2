@@ -107,6 +107,7 @@ namespace Gui
             Main = GameObject.Find("Manager").GetComponent<MainManager>();
         }
 
+
         /// <summary>
         /// Does generic Update process.
         /// Implementing classes that override this method should call it
