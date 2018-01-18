@@ -36,15 +36,19 @@ namespace Gui.Menus
 
             Debug.Log(fetchCoord);
 
-            if (selectedSector.OccupyingUnit != null)
-            {
-                highlightOccupyingUnit((Coord)fetchCoord);
-            }
-            else
-            {
-                SelectSector(fetchCoord);
-            }
-            
+            //if (selectedSector.OccupyingUnit != null)
+            //{
+            //    highlightOccupyingUnit((Coord)fetchCoord);
+            //}
+            //else
+            //{
+            //    SelectSector(fetchCoord);
+            //}
+
+            SelectSector(fetchCoord);
+            if (SelectedSector == null)
+                fetchCoord = null;
+            SelectRangeAround(fetchCoord, 3);
             //Coord selected = (Coord)fetchCoord;
             //Queue<Coord> path = Main.GameContext.Map.Grid.PathFind(selected, new Coord(selected.Q, selected.R+2));
 
@@ -71,8 +75,9 @@ namespace Gui.Menus
             IUnit selectedUnit = Main.GameContext.Map.Grid[selectedSectorCoord].OccupyingUnit;
             if (selectedUnit.Owner.Id == Main.GameContext.CurrentPlayer && selectedUnit.AvailableMove > 0)
             {
-                SelectSector(selectedSectorCoord,selectedUnit.MaxMove);
+                SelectRangeAround(selectedSectorCoord,selectedUnit.MaxMove);
             }
+
         }
 
         public void MoveUnit()

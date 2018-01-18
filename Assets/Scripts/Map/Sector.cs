@@ -22,8 +22,9 @@ namespace Map
         MeshRenderer _renderer;
         SectorMaterials _sectorMaterials;
         Material _defaultMaterial;
-        Material _highlighMaterial;
-        bool _highlighted;
+        Material _highlightBrightMaterial;
+        Material _highlightDimmedMaterial;
+        HighlightLevels _highlightLevel;
 
         IUnit _occupyingUnit;
         ILandmark _landmark;
@@ -83,7 +84,8 @@ namespace Map
             // Setup materials
             _sectorMaterials = sectorMaterials;
             _defaultMaterial = _sectorMaterials.GetMaterial(texture, Traversable ? SectorMaterialType.Normal : SectorMaterialType.Dark);
-            _highlighMaterial = _sectorMaterials.GetMaterial(texture, SectorMaterialType.Bright);
+            _highlightBrightMaterial = _sectorMaterials.GetMaterial(texture, SectorMaterialType.Bright);
+            _highlightDimmedMaterial = _sectorMaterials.GetMaterial(texture, SectorMaterialType.Dimmed);
             ApplyMaterial(_defaultMaterial);
         }
 
@@ -91,16 +93,24 @@ namespace Map
 
         #region Material Modifications
 
-        public bool Highlighted
+        public HighlightLevels Highlight
         {
-            get { return _highlighted; }
+            get { return _highlightLevel; }
             set
             {
-                _highlighted = value;
-                if (value)
-                    ApplyMaterial(_highlighMaterial);
-                else
-                    ApplyMaterial(_defaultMaterial);
+                _highlightLevel = value;
+                switch (value)
+                {
+                    case HighlightLevels.Bright:
+                        ApplyMaterial(_highlightBrightMaterial);
+                        break;
+                    case HighlightLevels.Dimmed:
+                        ApplyMaterial(_highlightDimmedMaterial);
+                        break;
+                    case HighlightLevels.None:
+                        ApplyMaterial(_defaultMaterial);
+                        break;
+                }
             }
         }
 
