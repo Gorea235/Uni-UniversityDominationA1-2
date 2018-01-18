@@ -40,10 +40,6 @@ namespace Gui.Menus
             {
                 highlightOccupyingUnit((Coord)fetchCoord);
             }
-            //else if ()
-            //{
-
-            //}
             else
             {
                 SelectSector(fetchCoord);
