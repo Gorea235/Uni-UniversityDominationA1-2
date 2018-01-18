@@ -196,6 +196,11 @@ namespace Gui
 
         #region Helper Methods
 
+        /// <summary>
+        /// Get the coordinate that is under the given screen position.
+        /// </summary>
+        /// <param name="position">The position to look at.</param>
+        /// <returns>The coordinate at the screen position.</returns>
         protected Coord? GetSectorAtScreen(Vector3 position)
         {
             Ray rayFromCamera = Camera.main.ScreenPointToRay(position);
@@ -205,6 +210,10 @@ namespace Gui
             return null;
         }
 
+        /// <summary>
+        /// Select the sector at the given coordinate.
+        /// </summary>
+        /// <param name="coord">The coordinate of the sector to select. If null, will deselect.</param>
         protected void SelectSector(Coord? coord)
         {
             if (SelectedSector != null)
@@ -217,10 +226,14 @@ namespace Gui
             }
         }
 
+        /// <summary>
+        /// Selects the range around the given coordinate, exlcuding the given one.
+        /// </summary>
+        /// <param name="coord">The starting coordinate. If null, will deselect.</param>
+        /// <param name="movementRange">The size of the range.</param>
         protected void SelectRangeAround(Coord? coord, int movementRange)
         {
-            if (SelectedRange != null)
-                SelectedRangeHighlight = HighlightLevels.None;
+            SelectedRangeHighlight = HighlightLevels.None;
             if (coord.HasValue)
             {
                 HashSet<Coord> range = Main.GameContext.Map.Grid.MovementRange(coord.Value, movementRange);
