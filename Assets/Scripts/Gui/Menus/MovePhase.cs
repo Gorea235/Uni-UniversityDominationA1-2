@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using Map.Hex;
 using UnityEngine;
+using Manager;
 
 namespace Gui.Menus
 {
     public class MovePhase : PhaseLogic
     {
+        
         public override bool IsEnabled
         {
             get
@@ -27,14 +29,6 @@ namespace Gui.Menus
 
         protected override void OnMouseLeftClick(Vector3 position)
         {
-            //Ray rayFromCamera = Camera.main.ScreenPointToRay(position);
-            //if (Physics.Raycast(rayFromCamera, out selectedSector))
-            //{
-            //    Collider sectorCollider = selectedSector.collider;
-            //    sectorCollider.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
-            //}
-            //Debug.DrawRay(rayFromCamera.origin, rayFromCamera.direction*50, Color.yellow); // *50 modifier is just so its visible in the Editor. Note that it won't display in game view
-            //throw new NotImplementedException();
             Coord? fetchCoord = GetSectorAtScreen(position);
             Debug.Log(fetchCoord);
             SelectSector(fetchCoord);
@@ -54,6 +48,13 @@ namespace Gui.Menus
             // which wouldn't be too helpful).
             Debug.Log("button click event fired");
             SkipCurrentFrameMouseClick = true;
+        }
+
+
+
+        public void BuyAttackUnit()
+        {
+          //TBD
         }
     }
 }

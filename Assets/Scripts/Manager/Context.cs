@@ -15,6 +15,7 @@ namespace Manager
         public GuiManager Gui { get; }
         public MapManager Map { get; }
         public AudioManager Audio { get; }
+        public uint CurrentPlayer { get; }
 
         #endregion
 
