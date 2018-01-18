@@ -32,8 +32,10 @@ namespace Map
         Dictionary<SectorTexture, Dictionary<SectorMaterialType, Material>> _materials;
 
         const float _emissionChangeTime = 1f;
-        float _emissionTo = 0.3f;
-        float _emissionFrom = 0.5f;
+        float _brightEmissionFrom = 0.5f;
+        float _brightEmissionTo = 0.3f;
+        float _dimmedEmissionFrom = 0.75f;
+        float _dimmedEmissionTo = 0.6f;
         float _emissionCurrentTime = 0;
 
         #endregion
@@ -64,9 +66,14 @@ namespace Map
             {
                 // add bright texture
                 tmpMat = GetFromDefaultMat(texture);
-                tmpMat.SetColor("_EmissionColor", GetGrey(_emissionFrom));
+                tmpMat.SetColor("_EmissionColor", GetGrey(_brightEmissionFrom));
                 tmpMat.EnableKeyword("_EMISSION");
                 _materials[texture].Add(SectorMaterialType.Bright, tmpMat);
+                // add dimmed texture
+                tmpMat = GetFromDefaultMat(texture);
+                tmpMat.SetColor("_EmissionColor", GetGrey(_dimmedEmissionFrom));
+                tmpMat.EnableKeyword("_EMISSION");
+                _materials[texture].Add(SectorMaterialType.Dimmed, tmpMat);
                 // add dark texture without change if sector type is traversable by default
                 if (Sector.notTraversableTextures.Contains(texture))
                     _materials[texture].Add(SectorMaterialType.Dark, GetFromDefaultMat(texture));
@@ -87,15 +94,9 @@ namespace Map
             });
         }
 
-        Material GetFromDefaultMat(SectorTexture texture)
-        {
-            return new Material(_materials[texture][SectorMaterialType.Normal]);
-        }
+        Material GetFromDefaultMat(SectorTexture texture) => new Material(_materials[texture][SectorMaterialType.Normal]);
 
-        Color GetGrey(float amountWhite)
-        {
-            return Color.Lerp(Color.white, Color.black, amountWhite);
-        }
+        Color GetGrey(float amountWhite) => Color.Lerp(Color.white, Color.black, amountWhite);
 
         #endregion
 
@@ -107,10 +108,7 @@ namespace Map
         /// <returns>The material.</returns>
         /// <param name="texture">The texture to get.</param>
         /// <param name="type">The version of the texture to get.</param>
-        public Material GetMaterial(SectorTexture texture, SectorMaterialType type)
-        {
-            return _materials[texture][type];
-        }
+        public Material GetMaterial(SectorTexture texture, SectorMaterialType type) => _materials[texture][type];
 
         /// <summary>
         /// Gets the material for the given college. It will use
@@ -118,10 +116,7 @@ namespace Map
         /// </summary>
         /// <returns>The material.</returns>
         /// <param name="college">The college texture to get.</param>
-        public Material GetMaterial(College college)
-        {
-            return GetMaterial((SectorTexture)college, SectorMaterialType.Normal);
-        }
+        public Material GetMaterial(College college) => GetMaterial((SectorTexture)college, SectorMaterialType.Normal);
 
         #endregion
 
@@ -131,32 +126,45 @@ namespace Map
         {
             // === process highlight glow ===
             _emissionCurrentTime += Time.deltaTime; // the current time through the transition
-
-            // the following is a little odd, but I'm gonna walk through it
-            // here (mostly so I know what's going on)
-            Color currentEmission = GetGrey( // GetGrey will get the colour grey that's t percent
-                                             //(between 0-1) between black and white
-                                            Mathf.Lerp(_emissionFrom,  // the emission that is being transitioned from
-                                                       _emissionTo, // the emission that is being transitioned to
-                                                       MathHelpers.EaseInOutPolynomial( // ease the transition
-                                                                                       // the percent of the transition we are through
-                                                                                       _emissionCurrentTime / _emissionChangeTime,
-                                                                                       2))); // sets easing to quadratic
+            Color currentEmission;
 
             // set the emission color for all the bright materials
+            currentEmission = GetEmissionLevel(_brightEmissionFrom, _brightEmissionTo);
             foreach (var mat in _materials.Values)
-            {
                 mat[SectorMaterialType.Bright].SetColor("_EmissionColor", currentEmission);
-            }
+
+            // set the emission color for all the dimmed materials
+            currentEmission = GetEmissionLevel(_dimmedEmissionFrom, _dimmedEmissionTo);
+            foreach (var mat in _materials.Values)
+                mat[SectorMaterialType.Dimmed].SetColor("_EmissionColor", currentEmission);
+
             // if the transition has completed, reverse the direction
             if (_emissionCurrentTime >= _emissionChangeTime)
             {
-                float tmp = _emissionTo;
-                _emissionTo = _emissionFrom;
-                _emissionFrom = tmp;
+                float tmp = _brightEmissionTo;
+                _brightEmissionTo = _brightEmissionFrom;
+                _brightEmissionFrom = tmp;
+                tmp = _dimmedEmissionTo;
+                _dimmedEmissionTo = _dimmedEmissionFrom;
+                _dimmedEmissionFrom = tmp;
                 _emissionCurrentTime = 0;
             }
         }
+
+        #endregion
+
+        #region Helpers
+
+        // the following is a little odd, but I'm gonna walk through it
+        // here (mostly so I know what's going on)
+        Color GetEmissionLevel(float from, float to) => GetGrey( // GetGrey will get the colour grey that's t percent
+                                                                 //(between 0-1) between black and white
+                                                                 Mathf.Lerp(from,  // the emission that is being transitioned from
+                                                                     to, // the emission that is being transitioned to
+                                                                     MathHelpers.EaseInOutPolynomial( // ease the transition
+                                                                                                      // the percent of the transition we are through
+                                                                         _emissionCurrentTime / _emissionChangeTime,
+                                                                         2))); // sets easing to quadratic
 
         #endregion
     }

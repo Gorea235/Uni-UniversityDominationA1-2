@@ -33,7 +33,10 @@ namespace Gui.Menus
         {
             Coord? fetchCoord = GetSectorAtScreen(position);
             Debug.Log(fetchCoord);
-            SelectSector(fetchCoord, 3);
+            SelectSector(fetchCoord);
+            if (SelectedSector == null)
+                fetchCoord = null;
+            SelectRangeAround(fetchCoord, 3);
             //Coord selected = (Coord)fetchCoord;
             //Queue<Coord> path = Main.GameContext.Map.Grid.PathFind(selected, new Coord(selected.Q, selected.R+2));
 

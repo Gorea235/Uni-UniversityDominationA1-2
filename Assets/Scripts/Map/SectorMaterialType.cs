@@ -6,7 +6,8 @@ namespace Map
     public enum SectorMaterialType
     {
         Normal,
+        Dark,
         Bright,
-        Dark
+        Dimmed
     }
 }

@@ -81,7 +81,22 @@ namespace Gui
             }
         }
 
+        /// <summary>
+        /// The currently selected sector.
+        /// </summary>
         protected Sector SelectedSector { get; private set; }
+        /// <summary>
+        /// The currently selected range.
+        /// </summary>
+        protected HashSet<Sector> SelectedRange { get; private set; } = new HashSet<Sector>();
+        protected HighlightLevels SelectedRangeHighlight
+        {
+            set
+            {
+                foreach (Sector sector in SelectedRange)
+                    sector.Highlight = value;
+            }
+        }
 
         #endregion
 
@@ -153,7 +168,7 @@ namespace Gui
                     if (!_cameraIsPanning && (mousePosition - _mousePanStartPos).magnitude > _minMouseMoveLength)
                     {
                         _cameraIsPanning = true;
-                        
+
                     }
 
                     // if the camera is currently being panned, to
@@ -193,36 +208,29 @@ namespace Gui
         protected void SelectSector(Coord? coord)
         {
             if (SelectedSector != null)
-                SelectedSector.Highlighted = false;
-            if (coord.HasValue)
+                SelectedSector.Highlight = HighlightLevels.None;
+            SelectedSector = null;
+            if (coord.HasValue && Main.GameContext.Map.Grid.IsTraversable(coord.Value))
             {
-                SelectedSector = Main.GameContext.Map.Grid[(Coord)coord];
-                if (SelectedSector != null && SelectedSector.Traversable)
-                    SelectedSector.Highlighted = true;
-                else
-                    SelectedSector = null;
+                SelectedSector = Main.GameContext.Map.Grid[coord.Value];
+                SelectedSector.Highlight = HighlightLevels.Bright;
             }
-            else
-                SelectedSector = null;
         }
 
-        protected void SelectSector(Coord? coord, int movementRange)
+        protected void SelectRangeAround(Coord? coord, int movementRange)
         {
-
-            if (SelectedSector != null)
-                SelectedSector.Highlighted = false;
+            if (SelectedRange != null)
+                SelectedRangeHighlight = HighlightLevels.None;
             if (coord.HasValue)
             {
-                HashSet<Coord> range = Main.GameContext.Map.Grid.MovementRange((Coord)coord, movementRange);
-
-                foreach (Coord plot in range)
-                {
-                    SelectedSector = Main.GameContext.Map.Grid[plot];
-                    SelectedSector.Highlighted = true;
-                }
+                HashSet<Coord> range = Main.GameContext.Map.Grid.MovementRange(coord.Value, movementRange);
+                range.Remove(coord.Value);
+                SelectedRange.Clear();
+                foreach (Coord c in range)
+                    if (Main.GameContext.Map.Grid.IsTraversable(c))
+                        SelectedRange.Add(Main.GameContext.Map.Grid[c]);
+                SelectedRangeHighlight = HighlightLevels.Dimmed;
             }
-            else
-                SelectedSector = null;
         }
 
         #endregion

@@ -34,7 +34,7 @@ namespace Map
         /// </summary>
         /// <param name="coord">The position of the sector to check.</param>
         /// <returns></returns>
-        bool IsTraversable(Coord coord) => _gridStore.ContainsKey(coord) && _gridStore[coord].Traversable;
+        public bool IsTraversable(Coord coord) => _gridStore.ContainsKey(coord) && _gridStore[coord].Traversable;
 
         /// <summary>
         /// Path finding algorithm between two coordinates.
