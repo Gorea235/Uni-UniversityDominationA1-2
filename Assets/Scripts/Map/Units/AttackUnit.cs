@@ -7,8 +7,8 @@ namespace Map.Unit
 {
     public class AttackUnit : MonoBehaviour, IUnit
     {
-        //arbitrary (for now, tweak after balance testing) values for
-        //attack units stats
+        #region Private Fields
+
         int _health = 100;
         const int _baseAttack = 30;
         const int _baseMove = 3;
@@ -19,6 +19,11 @@ namespace Map.Unit
         readonly List<IEffect> _activeEffects = new List<IEffect>();
         IPlayer _owner;
         College _college;
+        readonly Vector3 _defaultOffset = new Vector3(0, 0, 0);
+
+        #endregion
+
+        #region Public Properties
 
         // implemented properties from IUnit
         public int Health
@@ -40,8 +45,12 @@ namespace Map.Unit
         public IPlayer Owner { get { return _owner; } }
         public College College { get { return _college; } }
         public Transform Transform { get { return gameObject.transform; } }
+        public Vector3 DefaultOffset { get { return _defaultOffset; } }
 
-        //instantiation of a single AttackUnit
+        #endregion
+
+        #region Initialisation
+        
         public void Init(SectorMaterials materials, IPlayer owner, College college)
         {
             _owner = owner;
@@ -50,16 +59,20 @@ namespace Map.Unit
             gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = materials.GetMaterial(college);
         }
 
-        // Use this for initialization
+        #endregion
+
+        #region MonoBehaviour
+
         void Start()
         {
 
         }
-
-        // Update is called once per frame
+        
         void Update()
         {
 
         }
+
+        #endregion
     }
 }

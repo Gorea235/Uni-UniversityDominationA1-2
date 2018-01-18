@@ -80,11 +80,15 @@ namespace Map
         /// <value>The transform property.</value>
         Transform Transform { get; }
         /// <summary>
+        /// The default value to offset the GameObject by.
+        /// </summary>
+        Vector3 DefaultOffset { get; }
+        /// <summary>
         /// Initialises the unit with the given colour, player and college.
         /// </summary>
-        /// <param name="unitColor">The unit colour.</param>
+        /// <param name="materials">The SectorMaterials GameObject.</param>
         /// <param name="player">The owning player.</param>
         /// <param name="college">The college the unit is from.</param>
-        void Init(SectorMaterials unitColor, Manager.IPlayer player, College college);
+        void Init(SectorMaterials materials, Manager.IPlayer player, College college);
     }
 }
