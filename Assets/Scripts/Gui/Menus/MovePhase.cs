@@ -11,9 +11,14 @@ namespace Gui.Menus
 {
     public class MovePhase : PhaseLogic
     {
-        [SerializeField] private GameObject _BuildMenuPanel;
-        [SerializeField] private GameObject _ErrorPanel;
+        #region Private Fields
 
+        GameObject _BuildMenuPanel;
+        GameObject _ErrorPanel;
+
+        #endregion
+
+        #region Public Properties
 
         public override bool IsEnabled
         {
@@ -25,7 +30,7 @@ namespace Gui.Menus
             {
                 gameObject.SetActive(value);
                 if (value)
-                {} // menu active processing
+                { } // menu active processing
                 else
                 {
                     SelectSector(null);
@@ -33,40 +38,10 @@ namespace Gui.Menus
             }
         }
 
-        protected override void OnMouseLeftClick(Vector3 position)
-        {
-            Coord? fetchCoord = GetSectorAtScreen(position);
-            Sector selectedPlot = Main.GameContext.Map.Grid[(Coord)fetchCoord];
+        #endregion
 
-            Debug.Log(fetchCoord);
-            if (SelectedSector == null)
-            {
-                fetchCoord = null;
-            }
-            else {
-                if (selectedPlot.OccupyingUnit != null)
-                {
-                    highlightOccupyingUnit((Coord)fetchCoord);
+        #region MonoBehaviour
 
-                    if (selectedPlot.OccupyingUnit is Map.Unit.BaseUnit )
-                    {
-                        BuildMenuButton_OnClick();
-                    }
-
-                }
-                else
-                {
-                    SelectSector(fetchCoord,true);
-                }
-            }
-
-            // SelectRangeAround(fetchCoord, 3);
-            //Coord selected = (Coord)fetchCoord;
-            //Queue<Coord> path = Main.GameContext.Map.Grid.PathFind(selected, new Coord(selected.Q, selected.R+2));
-
-        }
-
-        //Make a reference to all UI elements that are going to be used in this phase
         private void Start()
         {
             //hide panels at start of turn
@@ -79,24 +54,42 @@ namespace Gui.Menus
             base.Update();
         }
 
-        [Obsolete]
-        public void highlightOccupyingUnit(Coord selectedSectorCoord)
+        #endregion
+
+        #region Handlers
+
+        protected override void OnMouseLeftClick(Vector3 position)
         {
-            IUnit selectedUnit = Main.GameContext.Map.Grid[selectedSectorCoord].OccupyingUnit;
-            if (selectedUnit.Owner.Id == Main.GameContext.CurrentPlayerId && selectedUnit.AvailableMove > 0)
+            Coord? fetchCoord = GetSectorAtScreen(position);
+            if (!fetchCoord.HasValue) // if the player clicked off-screen, clear selection
+                DoUnitSelection(null, s => 0);
+            else if (ContainsUnit(fetchCoord.Value, true)) // if player clicked on owned unit, shift selection to that one
             {
-                SelectRangeAround(selectedSectorCoord,selectedUnit.MaxMove);
+                DoUnitSelection(fetchCoord.Value, s => s.OccupyingUnit.AvailableMove);
+                if (SelectedUnit != null) // if the player was able to select the unit
+                { // this should pass anyway, but it's good to double check
+                    if (SelectedUnit.OccupyingUnit.BuildRange > 0) // if this is a builder unit
+                    {
+                        // enable the open build menu button
+                    }
+                }
+                else
+                    Debug.Log("Owned unit selection failed");
+            }
+            else if (SelectedUnit != null) // if player has clicked a unit before, and has now clicked on a separate space, we need to prepare to move
+            {
+                SelectSector(fetchCoord); // try to select the clicked sector
+                // if it wasn't traversable, or it contains an enemy unit, then we won't bother moving
+                if (SelectedSector != null && !SelectedSectorContainsUnit(true))
+                {
+                    // do movement here
+                }
             }
 
         }
 
-        public void MoveUnit()
+        public void BuildMenuButton_OnClick()
         {
-
-        }
-
-		public void BuildMenuButton_OnClick()
-		{
             _BuildMenuPanel.SetActive(true);
         }
 
@@ -106,41 +99,37 @@ namespace Gui.Menus
 
         }
 
-		public void UpdateMana(int Mana)
-		{
-			GameObject Mask = GameObject.Find("ManaMask");
-			GameObject OverflowDisplay = GameObject.Find("ExtraPintsText");
-			Text OverflowText = OverflowDisplay.GetComponent<Text>();
+        #endregion
 
-			float MaskScale;
-			int Overflow;
-			if(Mana > 8)
-			{
-				MaskScale = 1;
-				Overflow = Mana - 8;
-			}
-			else
-			{
-				MaskScale = Mana / 8.0F;
-				Overflow = 0;
-			}
-			Debug.Log (MaskScale);
-			Mask.transform.localScale = new Vector3(MaskScale, 1, 1);
-			OverflowText.text = "+" + Overflow;
+        #region Helpers
 
-		}
-
-
-        public void BuyAttackUnit_OnClick()
+        public void MoveUnit()
         {
-            if (Main.GameContext.CurrentPlayer.Mana >= 3) //check for cost. Arbitrarily 3 for all units
-            {
 
+        }
+
+        public void UpdateMana(int Mana)
+        {
+            GameObject Mask = GameObject.Find("ManaMask");
+            GameObject OverflowDisplay = GameObject.Find("ExtraPintsText");
+            Text OverflowText = OverflowDisplay.GetComponent<Text>();
+
+            float MaskScale;
+            int Overflow;
+            if (Mana > 8)
+            {
+                MaskScale = 1;
+                Overflow = Mana - 8;
             }
             else
             {
-                StartCoroutine(ShowPopUpMessage(2)); // show popup message for two seconds if player has no mana
+                MaskScale = Mana / 8.0F;
+                Overflow = 0;
             }
+            Debug.Log(MaskScale);
+            Mask.transform.localScale = new Vector3(MaskScale, 1, 1);
+            OverflowText.text = "+" + Overflow;
+
         }
 
         public void SpawnAttackUnit(Vector3 positionOfSelectedBase)
@@ -161,17 +150,6 @@ namespace Gui.Menus
             }
         }
 
-
-        public void BuyDefenceUnit()
-        {
-            //TBD
-        }
-        public void BuyScoutUnit()
-        {
-            //TBD
-        }
-
-        #region Helper methods
         ///display a block bar on top of screen if there is an error
         ///TBD: modify so it takes a string parameter and customises the error message
         IEnumerator ShowPopUpMessage(float delay)
@@ -180,6 +158,7 @@ namespace Gui.Menus
             yield return new WaitForSeconds(delay);
             _ErrorPanel.SetActive(false);
         }
+
         #endregion
     }
 }

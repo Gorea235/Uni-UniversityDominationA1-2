@@ -48,8 +48,8 @@ namespace Gui.Menus
         protected override void OnMouseLeftClick(Vector3 position)
         {
             // will re-orginise to allow selection of one unit then selection of unit to attack
-            DoSectorSelection(position, sector => sector.OccupyingUnit.AttackRange);
-            if (SelectedSector != null)
+            DoUnitSelection(position, sector => sector.OccupyingUnit.AttackRange);
+            if (SelectedUnit != null)
             {
                 // do other selection processing if needed
             }

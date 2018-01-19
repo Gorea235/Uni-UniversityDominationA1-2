@@ -55,7 +55,7 @@ namespace Map
             AddDefaultMat(SectorTexture.James, MatJames);
             AddDefaultMat(SectorTexture.Langwith, MatLangwith);
             AddDefaultMat(SectorTexture.Vanbrugh, MatVanbrugh);
-            AddDefaultMat(SectorTexture.Wentworth, MatAlcuin);
+            AddDefaultMat(SectorTexture.Wentworth, MatWentworth);
             AddDefaultMat(SectorTexture.Concrete, MatConcrete);
             AddDefaultMat(SectorTexture.Grass, MatGrass);
             AddDefaultMat(SectorTexture.Stones, MatStones);
