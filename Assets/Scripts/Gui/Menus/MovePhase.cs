@@ -39,10 +39,10 @@ namespace Gui.Menus
             Sector selectedPlot = Main.GameContext.Map.Grid[(Coord)fetchCoord];
 
             Debug.Log(fetchCoord);
-
-            SelectSector(fetchCoord);
             if (SelectedSector == null)
+            {
                 fetchCoord = null;
+            }
             else {
                 if (selectedPlot.OccupyingUnit != null)
                 {
@@ -56,7 +56,7 @@ namespace Gui.Menus
                 }
                 else
                 {
-                    SelectSector(fetchCoord);
+                    SelectSector(fetchCoord,true);
                 }
             }
 
@@ -69,9 +69,8 @@ namespace Gui.Menus
         //Make a reference to all UI elements that are going to be used in this phase
         private void Start()
         {
-            _BuildMenuPanel = GameObject.Find("BuildListPanel");
-            _BuildMenuPanel.SetActive(false); //hide panel at start of game
-            _ErrorPanel = GameObject.Find("ErrorPanel");
+            //hide panels at start of turn
+            _BuildMenuPanel.SetActive(false);
             _ErrorPanel.SetActive(false);
         }
 
@@ -80,17 +79,7 @@ namespace Gui.Menus
             base.Update();
         }
 
-        public void TestButton_OnClick()
-        {
-            // event handlers can options have a string arg
-            // e.g. 'public void TestButton_OnClick(string arg) { }'
-            // when setting up the OnClick handler, you can give the string to
-            // be passed in (leaving it blank would pass in a string of "",
-            // which wouldn't be too helpful).
-            Debug.Log("button click event fired");
-            SkipCurrentFrameMouseClick = true;
-        }
-
+        [Obsolete]
         public void highlightOccupyingUnit(Coord selectedSectorCoord)
         {
             IUnit selectedUnit = Main.GameContext.Map.Grid[selectedSectorCoord].OccupyingUnit;

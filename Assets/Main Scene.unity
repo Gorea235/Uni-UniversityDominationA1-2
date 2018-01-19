@@ -3109,7 +3109,6 @@ GameObject:
   - component: {fileID: 1675871306}
   - component: {fileID: 1675871309}
   - component: {fileID: 1675871310}
-  - component: {fileID: 1675871311}
   m_Layer: 5
   m_Name: MovePhaseCanvas
   m_TagString: Untagged
@@ -3214,22 +3213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ace25fe8c5904f5ca1346810afac264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _BuildMenuPanel: {fileID: 0}
-  _ErrorPanel: {fileID: 0}
---- !u!114 &1675871311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1675871304}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fc1be4d65c227346811537f6bba16d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _panel: {fileID: 167078566}
-  _buttonOpen: {fileID: 759080850}
-  _buttonClose: {fileID: 1058452587}
+  _BuildMenuPanel: {fileID: 167078566}
+  _ErrorPanel: {fileID: 1484745078}
 --- !u!1 &1683508822
 GameObject:
   m_ObjectHideFlags: 0
