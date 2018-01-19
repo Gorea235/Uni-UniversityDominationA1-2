@@ -11,9 +11,9 @@ namespace Manager
     {
         #region Public Properties
 
-        public List<IPlayer> Players { get; }
-        public uint CurrentPlayerId { get; set; }
-        public IPlayer CurrentPlayer { get { return Players[(int)CurrentPlayerId]; } }
+        public Dictionary<int, IPlayer> Players { get; }
+        public int CurrentPlayerId { get; set; }
+        public IPlayer CurrentPlayer { get { return Players[CurrentPlayerId]; } }
         public GuiManager Gui { get; }
         public MapManager Map { get; }
         public AudioManager Audio { get; }
@@ -22,7 +22,7 @@ namespace Manager
 
         #region Consuctor
 
-        public Context(List<IPlayer> players, GuiManager gui, MapManager map, AudioManager audio)
+        public Context(Dictionary<int, IPlayer> players, GuiManager gui, MapManager map, AudioManager audio)
         {
             Players = players;
             Gui = gui;

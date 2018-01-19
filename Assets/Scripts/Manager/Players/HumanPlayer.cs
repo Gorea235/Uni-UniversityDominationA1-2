@@ -10,7 +10,7 @@ namespace Manager.Players
 
         #region Private Fields
 
-        uint _id;
+        int _id;
         int _mana; // set on player creation
         int _maxMana; // set on player creation
         bool _skipMove = false;
@@ -20,7 +20,7 @@ namespace Manager.Players
 
         #region Public Properties
 
-        public uint Id { get { return _id; } }
+        public int Id { get { return _id; } }
         public int Mana
         {
             get { return _mana; }
@@ -46,7 +46,7 @@ namespace Manager.Players
 
         #region Constructor
 
-        public HumanPlayer(uint id)
+        public HumanPlayer(int id)
         {
             _id = id;
         }

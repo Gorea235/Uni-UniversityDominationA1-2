@@ -22,7 +22,7 @@ namespace Manager
         {
             // pull in the game context
             GameContext = new Context(
-                new List<IPlayer>(),
+                new Dictionary<int, IPlayer>(),
                 GameObject.Find("Gui").GetComponent<GuiManager>(),
                 GameObject.Find("Map").GetComponent<MapManager>(),
                 gameObject.GetComponent<AudioManager>());
@@ -30,16 +30,18 @@ namespace Manager
             // basic default players
             // for full game, the menu that deals with allowing users to set up the game
             // and available players in said game will add each player instance.
-            GameContext.Players.Add(new HumanPlayer(0)
+            IPlayer tmp = new HumanPlayer(0)
             {
                 Mana = 10,
                 MaxMana = 10
-            });
-            GameContext.Players.Add(new HumanPlayer(1)
+            };
+            GameContext.Players.Add(tmp.Id, tmp);
+            tmp = new HumanPlayer(1)
             {
                 Mana = 10,
                 MaxMana = 10
-            });
+            };
+            GameContext.Players.Add(tmp.Id, tmp);
             GameContext.CurrentPlayerId = 0;
         }
 
