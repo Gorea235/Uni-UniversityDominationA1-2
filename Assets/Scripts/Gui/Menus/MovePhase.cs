@@ -11,7 +11,8 @@ namespace Gui.Menus
 {
     public class MovePhase : PhaseLogic
     {
-        [SerializeField] private GameObject _panel;
+        [SerializeField] private GameObject _BuildMenuPanel;
+        [SerializeField] private GameObject _ErrorPanel;
 
 
         public override bool IsEnabled
@@ -42,23 +43,24 @@ namespace Gui.Menus
             SelectSector(fetchCoord);
             if (SelectedSector == null)
                 fetchCoord = null;
-
-            if (selectedPlot.OccupyingUnit != null)
-            {
-                highlightOccupyingUnit((Coord)fetchCoord);
-
-                if (selectedPlot.OccupyingUnit is Map.Unit.BaseUnit )
+            else {
+                if (selectedPlot.OccupyingUnit != null)
                 {
-                    BuildMenuButton_OnClick();
+                    highlightOccupyingUnit((Coord)fetchCoord);
+
+                    if (selectedPlot.OccupyingUnit is Map.Unit.BaseUnit )
+                    {
+                        BuildMenuButton_OnClick();
+                    }
+
                 }
-
+                else
+                {
+                    SelectSector(fetchCoord);
+                }
             }
-            else
-            {
-                SelectSector(fetchCoord);
-            }
 
-           // SelectRangeAround(fetchCoord, 3);
+            // SelectRangeAround(fetchCoord, 3);
             //Coord selected = (Coord)fetchCoord;
             //Queue<Coord> path = Main.GameContext.Map.Grid.PathFind(selected, new Coord(selected.Q, selected.R+2));
 
@@ -67,8 +69,10 @@ namespace Gui.Menus
         //Make a reference to all UI elements that are going to be used in this phase
         private void Start()
         {
-            _panel = GameObject.Find("BuildListPanel");
-            _panel.SetActive(false); //hide panel at start of game
+            _BuildMenuPanel = GameObject.Find("BuildListPanel");
+            _BuildMenuPanel.SetActive(false); //hide panel at start of game
+            _ErrorPanel = GameObject.Find("ErrorPanel");
+            _ErrorPanel.SetActive(false);
         }
 
         protected override void Update()
@@ -104,12 +108,12 @@ namespace Gui.Menus
 
 		public void BuildMenuButton_OnClick()
 		{
-            _panel.SetActive(true);
+            _BuildMenuPanel.SetActive(true);
         }
 
         public void CloseBuildMenuButton_OnClick()
         {
-            _panel.SetActive(false);
+            _BuildMenuPanel.SetActive(false);
 
         }
 
@@ -138,10 +142,37 @@ namespace Gui.Menus
 		}
 
 
-        public void BuyAttackUnit()
+        public void BuyAttackUnit_OnClick()
         {
-            //TBD
+            if (Main.GameContext.CurrentPlayer.Mana >= 3) //check for cost. Arbitrarily 3 for all units
+            {
+
+            }
+            else
+            {
+                StartCoroutine(ShowPopUpMessage(2)); // show popup message for two seconds if player has no mana
+            }
         }
+
+        public void SpawnAttackUnit(Vector3 positionOfSelectedBase)
+        {
+            Coord? selectedBase = GetSectorAtScreen(positionOfSelectedBase);
+            HashSet<Coord> possibleBuildPositions = Main.GameContext.Map.Grid.GetRange((Coord)selectedBase, 2); //get possible building positions in range of the College sectors
+
+            IUnit spawnedAttack = Instantiate(Main.GameContext.Map.AttackUnit).GetComponent<IUnit>();
+            spawnedAttack.Init(Main.GameContext.Map.SectorMaterials, Main.GameContext.CurrentPlayer, College.Alcuin); //TBD: FIND A WAY TO REFERENCE THE COLLEGE FROM THE SECTOR MATERIAL
+
+            foreach (Coord collegePlot in possibleBuildPositions)
+            {
+                if (Main.GameContext.Map.Grid[collegePlot].OccupyingUnit == null)
+                {
+                    Main.GameContext.Map.Grid[collegePlot].OccupyingUnit = spawnedAttack;
+                    break;
+                }
+            }
+        }
+
+
         public void BuyDefenceUnit()
         {
             //TBD
@@ -150,5 +181,16 @@ namespace Gui.Menus
         {
             //TBD
         }
+
+        #region Helper methods
+        ///display a block bar on top of screen if there is an error
+        ///TBD: modify so it takes a string parameter and customises the error message
+        IEnumerator ShowPopUpMessage(float delay)
+        {
+            _ErrorPanel.SetActive(true);
+            yield return new WaitForSeconds(delay);
+            _ErrorPanel.SetActive(false);
+        }
+        #endregion
     }
 }
