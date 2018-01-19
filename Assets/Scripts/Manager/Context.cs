@@ -12,10 +12,10 @@ namespace Manager
         #region Public Properties
 
         public List<IPlayer> Players { get; }
+        public uint CurrentPlayer { get; set; }
         public GuiManager Gui { get; }
         public MapManager Map { get; }
         public AudioManager Audio { get; }
-        public uint CurrentPlayer { get; }
 
         #endregion
 
