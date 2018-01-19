@@ -32,23 +32,24 @@ namespace Gui.Menus
         protected override void OnMouseLeftClick(Vector3 position)
         {
             Coord? fetchCoord = GetSectorAtScreen(position);
-            Sector selectedSector = Main.GameContext.Map.Grid[(Coord)fetchCoord];
+            Sector selectedPlot = Main.GameContext.Map.Grid[(Coord)fetchCoord];
 
             Debug.Log(fetchCoord);
-
-            //if (selectedSector.OccupyingUnit != null)
-            //{
-            //    highlightOccupyingUnit((Coord)fetchCoord);
-            //}
-            //else
-            //{
-            //    SelectSector(fetchCoord);
-            //}
 
             SelectSector(fetchCoord);
             if (SelectedSector == null)
                 fetchCoord = null;
-            SelectRangeAround(fetchCoord, 3);
+
+            if (selectedPlot.OccupyingUnit != null)
+            {
+                highlightOccupyingUnit((Coord)fetchCoord);
+            }
+            else
+            {
+                SelectSector(fetchCoord);
+            }
+
+           // SelectRangeAround(fetchCoord, 3);
             //Coord selected = (Coord)fetchCoord;
             //Queue<Coord> path = Main.GameContext.Map.Grid.PathFind(selected, new Coord(selected.Q, selected.R+2));
 
