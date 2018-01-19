@@ -5,7 +5,7 @@ using Manager;
 
 namespace Manager.Players
 {
-    public class HumanPlayer : MonoBehaviour, IPlayer
+    public class HumanPlayer : IPlayer
     {
 
         #region Private Fields
