@@ -138,8 +138,30 @@ namespace Gui.Menus
             }
         }
 
-        public void MoveUnit()
+        public void MoveUnit(Coord fromPosition, Coord targetPosition)
         {
+            System.Collections.Generic.HashSet<Coord> range = Gc.Map.Grid.GetRange(fromPosition, Gc.Map.Grid[fromPosition].OccupyingUnit.MaxMove);
+            float step = Gc.Map.Grid[fromPosition].OccupyingUnit.MaxMove * Time.deltaTime; //speed of step made to scale with unit speed
+
+            if (range.Contains(targetPosition)) //see if position to go to is in range of our unit
+            {
+                Vector3 current = Gc.Map.Grid[fromPosition].transform.position; //get the Vector3 position of the first plot in our path, which is the plot our unit is currently on
+                Vector3 next = new Vector3();
+                System.Collections.Generic.Queue<Coord> path = Gc.Map.Grid.PathFind(fromPosition, targetPosition); //get the path
+                foreach (Coord plot in path)
+                {
+                    next = Gc.Map.Grid[plot].transform.position; //get the next plot in our path
+                    Gc.Map.Grid[fromPosition].OccupyingUnit.Transform.position = Vector3.MoveTowards(current, next, step); //move unit to next plot in path
+                    current = next; //reset so current to point at the one we are now at
+
+                }
+
+                Gc.Map.Grid[targetPosition].OccupyingUnit = Gc.Map.Grid[fromPosition].OccupyingUnit; //bind target position to have the transitioned unit
+                Gc.Map.Grid[fromPosition].OccupyingUnit = null; //remove binding from start position
+
+
+            }
+            else { } //handle 
 
         }
 
