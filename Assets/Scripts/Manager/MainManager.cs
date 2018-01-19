@@ -51,6 +51,9 @@ namespace Manager
             IUnit testUnit = Instantiate(GameContext.Map.BaseUnit).GetComponent<IUnit>();
             testUnit.Init(GameContext.Map.SectorMaterials, GameContext.Players[0], College.Halifax);
             GameContext.Map.Grid[new Map.Hex.Coord(1, 1)].OccupyingUnit = testUnit;
+
+            // start menu
+            GameContext.Gui.CurrentMenu = MenuType.MovePhase;
         }
 
         void Update()

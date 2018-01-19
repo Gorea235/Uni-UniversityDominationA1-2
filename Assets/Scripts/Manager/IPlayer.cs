@@ -8,8 +8,8 @@ namespace Manager
     public interface IPlayer
     {
         int Id { get; }
-        int Mana { get; set; }
-        int MaxMana { get; set; }
+        float Mana { get; set; }
+        float MaxMana { get; set; }
         bool ShouldSkipMovePhase { get; set; }
         bool ShouldSkipAttackPhase { get; set; }
         bool Equals(IPlayer other);

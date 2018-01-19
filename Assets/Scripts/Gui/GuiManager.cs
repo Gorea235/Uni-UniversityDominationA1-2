@@ -1,13 +1,23 @@
-﻿using Manager;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Gui
 {
     public class GuiManager : MonoBehaviour
     {
+        #region Unity Bindings
+
+        public GameObject menuMove;
+        public GameObject menuAttack;
+
+        #endregion
+
+        #region Private Fields
+
+        Dictionary<MenuType, IMenu> _menus = new Dictionary<MenuType, IMenu>();
+
+        #endregion
+
         #region Public Properties
 
         MenuType _currentMenu = MenuType.None;
@@ -16,28 +26,33 @@ namespace Gui
             get { return _currentMenu; }
             set
             {
-
+                SetCurrentMenuState(false);
                 _currentMenu = value;
+                SetCurrentMenuState(true);
             }
         }
 
         #endregion
 
         #region MonoBehaviour
-
-        void Awake()
-        {
-            
-        }
         
         void Start()
         {
-
+            // init menus
+            FetchMenu(MenuType.MovePhase, menuMove);
+            FetchMenu(MenuType.AttackPhase, menuAttack);
         }
-        
-        void Update()
-        {
 
+        #endregion
+
+        #region Helpers
+
+        void FetchMenu(MenuType menu, GameObject obj) => _menus.Add(menu, obj.GetComponent<IMenu>());
+
+        void SetCurrentMenuState(bool state)
+        {
+            if (_currentMenu != MenuType.None)
+                _menus[_currentMenu].IsEnabled = state;
         }
 
         #endregion

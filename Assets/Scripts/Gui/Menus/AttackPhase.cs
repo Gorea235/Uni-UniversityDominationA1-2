@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
+using Helpers;
 using Map;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Gui.Menus
 {
@@ -30,13 +28,14 @@ namespace Gui.Menus
                 gameObject.SetActive(value);
                 if (value)
                 {
-                    _oldBrightTint = Main.GameContext.Map.SectorMaterials.GetHighlightTint(HighlightLevel.Bright);
-                    _oldDimmedTint = Main.GameContext.Map.SectorMaterials.GetHighlightTint(HighlightLevel.Dimmed);
+                    _oldBrightTint = Gc.Map.SectorMaterials.GetHighlightTint(HighlightLevel.Bright);
+                    _oldDimmedTint = Gc.Map.SectorMaterials.GetHighlightTint(HighlightLevel.Dimmed);
                     SetHighlightTints(_brightTint, _dimmedTint);
                 }
                 else
                 {
                     SetHighlightTints(_oldBrightTint, _oldDimmedTint);
+                    DoUnitSelection(null, s => 0); // clear selection state
                 }
             }
         }
@@ -61,8 +60,8 @@ namespace Gui.Menus
 
         void SetHighlightTints(Color bright, Color dimmed)
         {
-            Main.GameContext.Map.SectorMaterials.SetHighlightTint(HighlightLevel.Bright, bright);
-            Main.GameContext.Map.SectorMaterials.SetHighlightTint(HighlightLevel.Dimmed, dimmed);
+            Gc.Map.SectorMaterials.SetHighlightTint(HighlightLevel.Bright, bright);
+            Gc.Map.SectorMaterials.SetHighlightTint(HighlightLevel.Dimmed, dimmed);
         }
 
         #endregion

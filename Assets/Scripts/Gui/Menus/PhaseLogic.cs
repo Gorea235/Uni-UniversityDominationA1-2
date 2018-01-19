@@ -40,7 +40,7 @@ namespace Gui
         /// </summary>
         bool _cameraIsPanning = false;
         /// <summary>
-        /// Whether the pointer is currently over a UI element.
+        /// Whether the pointer was over a UI element when it was clicked.
         /// </summary>
         bool _pointerWasOverGameObject = false;
 
@@ -52,6 +52,11 @@ namespace Gui
         /// The main game manager.
         /// </summary>
         protected MainManager Main { get; private set; }
+
+        /// <summary>
+        /// A shorthand for the <see cref="MainManager.GameContext"/> object.
+        /// </summary>
+        protected Context Gc { get { return Main.GameContext; } }
 
         /// <summary>
         /// Gets or sets whether to skip mouse click checking for
@@ -235,7 +240,7 @@ namespace Gui
         /// <param name="requireOwned">Whether to restrict valid units to owned ones only.</param>
         /// <returns>Whether the sector contains a unit.</returns>
         protected bool ContainsUnit(Sector sector, bool requireOwned) => sector.OccupyingUnit != null &&
-            (!requireOwned || sector.OccupyingUnit.Owner.Equals(Main.GameContext.CurrentPlayer));
+            (!requireOwned || sector.OccupyingUnit.Owner.Equals(Gc.CurrentPlayer));
 
         /// <summary>
         /// Tests whether the sector at the given coordinate contains a unit or not.
@@ -243,8 +248,8 @@ namespace Gui
         /// <param name="coord">The coordinate to test.</param>
         /// <param name="requireOwned">Whether to restrict valid units to owned ones only.</param>
         /// <returns>Whether the sector at the given coordinate contains a unit.</returns>
-        protected bool ContainsUnit(Coord coord, bool requireOwned) => Main.GameContext.Map.Grid.IsTraversable(coord) &&
-            ContainsUnit(Main.GameContext.Map.Grid[coord], requireOwned);
+        protected bool ContainsUnit(Coord coord, bool requireOwned) => Gc.Map.Grid.IsTraversable(coord) &&
+            ContainsUnit(Gc.Map.Grid[coord], requireOwned);
 
         /// <summary>
         /// Tests whether the currently selected sector contains a unit in.
@@ -252,7 +257,7 @@ namespace Gui
         /// <param name="excludeOwned">Whether to exclude owned units.</param>
         /// <returns>Whether the currently selected sector contains a unit.</returns>
         protected bool SelectedSectorContainsUnit(bool excludeOwned) => ContainsUnit(SelectedSector, false) &&
-            (!excludeOwned || !SelectedSector.OccupyingUnit.Owner.Equals(Main.GameContext.CurrentPlayer));
+            (!excludeOwned || !SelectedSector.OccupyingUnit.Owner.Equals(Gc.CurrentPlayer));
 
         /// <summary>
         /// Select the sector at the given coordinate. It will only select the sector
@@ -262,12 +267,12 @@ namespace Gui
         /// <param name="force">Whether to force the selection regarless of if an owned unit is present.</param>
         protected void SelectSector(Coord? coord, bool unit = false)
         {
-            if (!unit)
+            if (unit)
                 SelectedUnit = null;
             SelectedSector = null;
-            if (coord.HasValue && Main.GameContext.Map.Grid.IsTraversable(coord.Value))
+            if (coord.HasValue && Gc.Map.Grid.IsTraversable(coord.Value))
             {
-                Sector selection = Main.GameContext.Map.Grid[coord.Value];
+                Sector selection = Gc.Map.Grid[coord.Value];
                 if (unit)
                 {
                     if (ContainsUnit(selection, true))
@@ -290,11 +295,11 @@ namespace Gui
             SelectedRange.Clear();
             if (coord.HasValue)
             {
-                HashSet<Coord> coordRange = Main.GameContext.Map.Grid.GetRange(coord.Value, range);
+                HashSet<Coord> coordRange = Gc.Map.Grid.GetRange(coord.Value, range);
                 coordRange.Remove(coord.Value);
                 foreach (Coord c in coordRange)
-                    if (Main.GameContext.Map.Grid.IsTraversable(c))
-                        SelectedRange.Add(Main.GameContext.Map.Grid[c]);
+                    if (Gc.Map.Grid.IsTraversable(c))
+                        SelectedRange.Add(Gc.Map.Grid[c]);
             }
         }
 

@@ -1,20 +1,28 @@
-using System;
-using System.Collections;
+using Helpers;
 using Map.Hex;
+using System.Collections;
 using UnityEngine;
-using Manager;
-using Map;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
 namespace Gui.Menus
 {
     public class MovePhase : PhaseLogic
     {
+        #region Unity Bindings
+
+        public GameObject buildMenuPanel;
+        public GameObject buildMenuButton;
+        public GameObject errorPanel;
+        public GameObject endPhaseButton;
+        public GameObject manaPanel;
+        public GameObject manaPanelMask;
+        public GameObject manaPanelText;
+
+        #endregion
+
         #region Private Fields
 
-        GameObject _BuildMenuPanel;
-        GameObject _ErrorPanel;
+        const string manaPanelTextFormat = "({0})";
 
         #endregion
 
@@ -30,10 +38,17 @@ namespace Gui.Menus
             {
                 gameObject.SetActive(value);
                 if (value)
-                { } // menu active processing
+                {
+                    // setup default menu state
+                    buildMenuPanel.SetActive(false);
+                    buildMenuButton.SetActive(false);
+                    errorPanel.SetActive(false);
+                    endPhaseButton.SetActive(true);
+                    manaPanel.SetActive(true);
+                }
                 else
                 {
-                    SelectSector(null);
+                    DoUnitSelection(null, s => 0); // clear selection state
                 }
             }
         }
@@ -44,9 +59,7 @@ namespace Gui.Menus
 
         private void Start()
         {
-            //hide panels at start of turn
-            _BuildMenuPanel.SetActive(false);
-            _ErrorPanel.SetActive(false);
+            
         }
 
         protected override void Update()
@@ -68,10 +81,7 @@ namespace Gui.Menus
                 DoUnitSelection(fetchCoord.Value, s => s.OccupyingUnit.AvailableMove);
                 if (SelectedUnit != null) // if the player was able to select the unit
                 { // this should pass anyway, but it's good to double check
-                    if (SelectedUnit.OccupyingUnit.BuildRange > 0) // if this is a builder unit
-                    {
-                        // enable the open build menu button
-                    }
+                    // unit just selected
                 }
                 else
                     Debug.Log("Owned unit selection failed");
@@ -85,78 +95,56 @@ namespace Gui.Menus
                     // do movement here
                 }
             }
-
+            if (SelectedUnit != null && SelectedUnit.OccupyingUnit.BuildRange > 0) // if this is a builder unit
+                buildMenuButton.SetActive(true);
+            else
+                buildMenuButton.SetActive(false);
         }
 
-        public void BuildMenuButton_OnClick()
-        {
-            _BuildMenuPanel.SetActive(true);
-        }
+        public void BuildMenuButton_OnClick() => SetBuildMenuState(true);
 
-        public void CloseBuildMenuButton_OnClick()
-        {
-            _BuildMenuPanel.SetActive(false);
+        public void CloseBuildMenuButton_OnClick() => SetBuildMenuState(false);
 
-        }
+        public void EndPhaseButton_OnClick() => Debug.Log("end phase fired");
 
         #endregion
 
         #region Helpers
+
+        void SetBuildMenuState(bool state)
+        {
+            if (state)
+            {
+                buildMenuButton.SetActive(false);
+                buildMenuPanel.SetActive(true);
+            }
+            else
+            {
+                buildMenuPanel.SetActive(false);
+                DoUnitSelection(null, s => 0);
+            }
+        }
 
         public void MoveUnit()
         {
 
         }
 
-        public void UpdateMana(int Mana)
+        public void UpdateMana()
         {
-            GameObject Mask = GameObject.Find("ManaMask");
-            GameObject OverflowDisplay = GameObject.Find("ExtraPintsText");
-            Text OverflowText = OverflowDisplay.GetComponent<Text>();
-
-            float MaskScale;
-            int Overflow;
-            if (Mana > 8)
-            {
-                MaskScale = 1;
-                Overflow = Mana - 8;
-            }
-            else
-            {
-                MaskScale = Mana / 8.0F;
-                Overflow = 0;
-            }
-            Debug.Log(MaskScale);
-            Mask.transform.localScale = new Vector3(MaskScale, 1, 1);
-            OverflowText.text = "+" + Overflow;
-
-        }
-
-        public void SpawnAttackUnit(Vector3 positionOfSelectedBase)
-        {
-            Coord? selectedBase = GetSectorAtScreen(positionOfSelectedBase);
-            HashSet<Coord> possibleBuildPositions = Main.GameContext.Map.Grid.GetRange((Coord)selectedBase, 2); //get possible building positions in range of the College sectors
-
-            IUnit spawnedAttack = Instantiate(Main.GameContext.Map.AttackUnit).GetComponent<IUnit>();
-            spawnedAttack.Init(Main.GameContext.Map.SectorMaterials, Main.GameContext.CurrentPlayer, College.Alcuin); //TBD: FIND A WAY TO REFERENCE THE COLLEGE FROM THE SECTOR MATERIAL
-
-            foreach (Coord collegePlot in possibleBuildPositions)
-            {
-                if (Main.GameContext.Map.Grid[collegePlot].OccupyingUnit == null)
-                {
-                    Main.GameContext.Map.Grid[collegePlot].OccupyingUnit = spawnedAttack;
-                    break;
-                }
-            }
+            float manaPercent = Gc.CurrentPlayer.Mana / Gc.CurrentPlayer.MaxMana;
+            Debug.Log(string.Format("Player:{0} mana shown as {1:P2}", Gc.CurrentPlayer.Id, manaPercent));
+            manaPanelMask.transform.localScale = new Vector3(manaPercent, 1, 1);
+            manaPanelText.GetComponent<Text>().text = string.Format(manaPanelTextFormat, Gc.CurrentPlayer.Mana);
         }
 
         ///display a block bar on top of screen if there is an error
         ///TBD: modify so it takes a string parameter and customises the error message
         IEnumerator ShowPopUpMessage(float delay)
         {
-            _ErrorPanel.SetActive(true);
+            errorPanel.SetActive(true);
             yield return new WaitForSeconds(delay);
-            _ErrorPanel.SetActive(false);
+            errorPanel.SetActive(false);
         }
 
         #endregion
