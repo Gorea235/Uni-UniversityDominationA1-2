@@ -52,5 +52,14 @@ namespace Manager.Players
         }
 
         #endregion
+
+        #region Operators
+
+        public bool Equals(IPlayer other)
+        {
+            return Id == other.Id;
+        }
+
+        #endregion
     }
 }

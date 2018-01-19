@@ -12,5 +12,6 @@ namespace Manager
         int MaxMana { get; set; }
         bool ShouldSkipMovePhase { get; set; }
         bool ShouldSkipAttackPhase { get; set; }
+        bool Equals(IPlayer other);
     }
 }

@@ -34,7 +34,7 @@ namespace Map
         /// </summary>
         /// <param name="coord">The position of the sector to check.</param>
         /// <returns></returns>
-        bool IsTraversable(Coord coord) => _gridStore.ContainsKey(coord) && _gridStore[coord].Traversable;
+        public bool IsTraversable(Coord coord) => _gridStore.ContainsKey(coord) && _gridStore[coord].Traversable;
 
         /// <summary>
         /// Path finding algorithm between two coordinates.
@@ -83,12 +83,12 @@ namespace Map
             return path;
         }
 
-        public HashSet<Coord> MovementRange(Coord start, int maxMovement)
+        public HashSet<Coord> GetRange(Coord start, int range)
         {
             HashSet<Coord> visited = new HashSet<Coord> { start };
             List<List<Coord>> fringes = new List<List<Coord>> { new List<Coord>() { start } };
 
-            for (int i = 1; i <= maxMovement; i++)
+            for (int i = 1; i <= range; i++)
             {
                 fringes.Add(new List<Coord>());
                 foreach (Coord plot in fringes[i - 1])

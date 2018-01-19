@@ -5,6 +5,7 @@ using Map;
 using Map.Hex;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace Gui
 {
@@ -35,9 +36,13 @@ namespace Gui
         /// </summary>
         float _cameraPanScale = 0.05f;
         /// <summary>
-        /// Whether the camera is currently panning
+        /// Whether the camera is currently panning.
         /// </summary>
         bool _cameraIsPanning = false;
+        /// <summary>
+        /// Whether the pointer is currently over a UI element.
+        /// </summary>
+        bool _pointerWasOverGameObject = false;
 
         #endregion
 
@@ -81,7 +86,23 @@ namespace Gui
             }
         }
 
+        /// <summary>
+        /// The currently selected sector.
+        /// </summary>
         protected Sector SelectedSector { get; private set; }
+        /// <summary>
+        /// The currently selected range.
+        /// </summary>
+        protected HashSet<Sector> SelectedRange { get; private set; } = new HashSet<Sector>();
+        protected HighlightLevels SelectedRangeHighlight
+        {
+            set
+            {
+                foreach (Sector sector in SelectedRange)
+                    if (sector != SelectedSector)
+                        sector.Highlight = value;
+            }
+        }
 
         #endregion
 
@@ -124,12 +145,16 @@ namespace Gui
             bool mouseLeftUp = Input.GetMouseButtonUp(0);
             Vector3 mousePosition = Input.mousePosition;
 
+            // since the test only works on mouse down (for touch), we preseve the starting value
+            if (mouseLeftDown)
+                _pointerWasOverGameObject = EventSystem.current.IsPointerOverGameObject();
+
             // screen click processing
             if (DoScreenClickCheck && !SkipCurrentFrameMouseClick)
             {
-                // if the mouse was released and we were not panning
+                // if the mouse was released and not over a UI element, and we were not panning
                 // the camera, fire the click method
-                if (mouseLeftUp && !_cameraIsPanning)
+                if (mouseLeftUp && !_pointerWasOverGameObject && !_cameraIsPanning)
                     OnMouseLeftClick(mousePosition);
             }
 
@@ -150,10 +175,10 @@ namespace Gui
                 {
                     // if not panning and mouse move length is larger than
                     // min move length
-                    if (!_cameraIsPanning && (mousePosition - _mousePanStartPos).magnitude > _minMouseMoveLength)
+                    if (!_cameraIsPanning && (mousePosition - _mousePanStartPos).magnitude > _minMouseMoveLength &&
+                        !_pointerWasOverGameObject)
                     {
                         _cameraIsPanning = true;
-                        
                     }
 
                     // if the camera is currently being panned, to
@@ -173,6 +198,10 @@ namespace Gui
                 }
             }
 
+            // we clear the check after all processing is done
+            if (mouseLeftUp)
+                _pointerWasOverGameObject = false;
+
             // reset per-frame properties
             SkipCurrentFrameMouseClick = false;
         }
@@ -181,6 +210,11 @@ namespace Gui
 
         #region Helper Methods
 
+        /// <summary>
+        /// Get the coordinate that is under the given screen position.
+        /// </summary>
+        /// <param name="position">The position to look at.</param>
+        /// <returns>The coordinate at the screen position.</returns>
         protected Coord? GetSectorAtScreen(Vector3 position)
         {
             Ray rayFromCamera = Camera.main.ScreenPointToRay(position);
@@ -190,39 +224,43 @@ namespace Gui
             return null;
         }
 
+        /// <summary>
+        /// Select the sector at the given coordinate. It will only select the sector
+        /// if it contains a unit that the current player owns.
+        /// </summary>
+        /// <param name="coord">The coordinate of the sector to select. If null, will deselect.</param>
         protected void SelectSector(Coord? coord)
         {
             if (SelectedSector != null)
-                SelectedSector.Highlighted = false;
-            if (coord.HasValue)
+                SelectedSector.Highlight = HighlightLevels.None;
+            SelectedSector = null;
+            if (coord.HasValue && Main.GameContext.Map.Grid.IsTraversable(coord.Value) &&
+                Main.GameContext.Map.Grid[coord.Value].OccupyingUnit != null &&
+                Main.GameContext.Map.Grid[coord.Value].OccupyingUnit.Owner.Equals(Main.GameContext.CurrentPlayer))
             {
-                SelectedSector = Main.GameContext.Map.Grid[(Coord)coord];
-                if (SelectedSector != null && SelectedSector.Traversable)
-                    SelectedSector.Highlighted = true;
-                else
-                    SelectedSector = null;
+                SelectedSector = Main.GameContext.Map.Grid[coord.Value];
+                SelectedSector.Highlight = HighlightLevels.Bright;
             }
-            else
-                SelectedSector = null;
         }
 
-        protected void SelectSector(Coord? coord, int movementRange)
+        /// <summary>
+        /// Selects the range around the given coordinate, exlcuding the given one.
+        /// </summary>
+        /// <param name="coord">The starting coordinate. If null, will deselect.</param>
+        /// <param name="range">The size of the range.</param>
+        protected void SelectRangeAround(Coord? coord, int range)
         {
-
-            if (SelectedSector != null)
-                SelectedSector.Highlighted = false;
+            SelectedRangeHighlight = HighlightLevels.None;
             if (coord.HasValue)
             {
-                HashSet<Coord> range = Main.GameContext.Map.Grid.MovementRange((Coord)coord, movementRange);
-
-                foreach (Coord plot in range)
-                {
-                    SelectedSector = Main.GameContext.Map.Grid[plot];
-                    SelectedSector.Highlighted = true;
-                }
+                HashSet<Coord> coordRange = Main.GameContext.Map.Grid.GetRange(coord.Value, range);
+                coordRange.Remove(coord.Value);
+                SelectedRange.Clear();
+                foreach (Coord c in coordRange)
+                    if (Main.GameContext.Map.Grid.IsTraversable(c))
+                        SelectedRange.Add(Main.GameContext.Map.Grid[c]);
+                SelectedRangeHighlight = HighlightLevels.Dimmed;
             }
-            else
-                SelectedSector = null;
         }
 
 		public void OpenMenu(string MenuName)

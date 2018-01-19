@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Gui.Menus
 {
@@ -20,7 +21,7 @@ namespace Gui.Menus
 
         protected override void OnMouseLeftClick(Vector3 position)
         {
-            throw new NotImplementedException();
+            Debug.Log(GetSectorAtScreen(position));
         }
     }
 }

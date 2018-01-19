@@ -40,6 +40,7 @@ namespace Manager
                 Mana = 10,
                 MaxMana = 10
             });
+            GameContext.CurrentPlayerId = 0;
         }
 
         void Start()
