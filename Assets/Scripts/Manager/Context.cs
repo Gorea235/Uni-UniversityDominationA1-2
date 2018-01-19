@@ -9,6 +9,12 @@ namespace Manager
 {
     public class Context
     {
+        #region Private Fields
+
+        int _lastPlayerId;
+
+        #endregion
+
         #region Public Properties
 
         public Dictionary<int, IPlayer> Players { get; }
@@ -29,6 +35,12 @@ namespace Manager
             Map = map;
             Audio = audio;
         }
+
+        #endregion
+
+        #region Helper Functions
+
+        public int GetNewPlayerId() => _lastPlayerId++;
 
         #endregion
     }
