@@ -11,7 +11,7 @@ namespace Gui.Menus
 {
     public class MovePhase : PhaseLogic
     {
-        
+        [SerializeField] private GameObject _panel;
 
 
         public override bool IsEnabled
@@ -46,6 +46,12 @@ namespace Gui.Menus
             if (selectedPlot.OccupyingUnit != null)
             {
                 highlightOccupyingUnit((Coord)fetchCoord);
+
+                if (selectedPlot.OccupyingUnit is Map.Unit.BaseUnit )
+                {
+                    BuildMenuButton_OnClick();
+                }
+
             }
             else
             {
@@ -56,6 +62,13 @@ namespace Gui.Menus
             //Coord selected = (Coord)fetchCoord;
             //Queue<Coord> path = Main.GameContext.Map.Grid.PathFind(selected, new Coord(selected.Q, selected.R+2));
 
+        }
+
+        //Make a reference to all UI elements that are going to be used in this phase
+        private void Start()
+        {
+            _panel = GameObject.Find("BuildListPanel");
+            _panel.SetActive(false); //hide panel at start of game
         }
 
         protected override void Update()
@@ -91,8 +104,14 @@ namespace Gui.Menus
 
 		public void BuildMenuButton_OnClick()
 		{
-			
-		}
+            _panel.SetActive(true);
+        }
+
+        public void CloseBuildMenuButton_OnClick()
+        {
+            _panel.SetActive(false);
+
+        }
 
 		public void UpdateMana(int Mana)
 		{
