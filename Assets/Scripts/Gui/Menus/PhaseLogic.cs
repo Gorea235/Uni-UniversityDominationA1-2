@@ -5,6 +5,7 @@ using Map;
 using Map.Hex;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace Gui
 {
@@ -35,9 +36,13 @@ namespace Gui
         /// </summary>
         float _cameraPanScale = 0.05f;
         /// <summary>
-        /// Whether the camera is currently panning
+        /// Whether the camera is currently panning.
         /// </summary>
         bool _cameraIsPanning = false;
+        /// <summary>
+        /// Whether the pointer is currently over a UI element.
+        /// </summary>
+        bool _pointerWasOverGameObject = false;
 
         #endregion
 
@@ -94,7 +99,8 @@ namespace Gui
             set
             {
                 foreach (Sector sector in SelectedRange)
-                    sector.Highlight = value;
+                    if (sector != SelectedSector)
+                        sector.Highlight = value;
             }
         }
 
@@ -139,12 +145,16 @@ namespace Gui
             bool mouseLeftUp = Input.GetMouseButtonUp(0);
             Vector3 mousePosition = Input.mousePosition;
 
+            // since the test only works on mouse down (for touch), we preseve the starting value
+            if (mouseLeftDown)
+                _pointerWasOverGameObject = EventSystem.current.IsPointerOverGameObject();
+
             // screen click processing
             if (DoScreenClickCheck && !SkipCurrentFrameMouseClick)
             {
-                // if the mouse was released and we were not panning
+                // if the mouse was released and not over a UI element, and we were not panning
                 // the camera, fire the click method
-                if (mouseLeftUp && !_cameraIsPanning)
+                if (mouseLeftUp && !_pointerWasOverGameObject && !_cameraIsPanning)
                     OnMouseLeftClick(mousePosition);
             }
 
@@ -165,10 +175,10 @@ namespace Gui
                 {
                     // if not panning and mouse move length is larger than
                     // min move length
-                    if (!_cameraIsPanning && (mousePosition - _mousePanStartPos).magnitude > _minMouseMoveLength)
+                    if (!_cameraIsPanning && (mousePosition - _mousePanStartPos).magnitude > _minMouseMoveLength &&
+                        !_pointerWasOverGameObject)
                     {
                         _cameraIsPanning = true;
-
                     }
 
                     // if the camera is currently being panned, to
@@ -187,6 +197,10 @@ namespace Gui
                     _cameraIsPanning = false;
                 }
             }
+
+            // we clear the check after all processing is done
+            if (mouseLeftUp)
+                _pointerWasOverGameObject = false;
 
             // reset per-frame properties
             SkipCurrentFrameMouseClick = false;
