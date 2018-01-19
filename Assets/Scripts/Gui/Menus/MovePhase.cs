@@ -1,4 +1,5 @@
 using Helpers;
+using Map;
 using Map.Hex;
 using System.Collections;
 using UnityEngine;
@@ -74,6 +75,8 @@ namespace Gui.Menus
         protected override void OnMouseLeftClick(Vector3 position)
         {
             Coord? fetchCoord = GetSectorAtScreen(position);
+            Sector prevUnitSector = SelectedUnit;
+
             if (!fetchCoord.HasValue) // if the player clicked off-screen, clear selection
                 DoUnitSelection(null, s => 0);
             else if (ContainsUnit(fetchCoord.Value, true)) // if player clicked on owned unit, shift selection to that one
@@ -97,9 +100,18 @@ namespace Gui.Menus
             }
 
             if (SelectedUnit != null && SelectedUnit.OccupyingUnit.BuildRange > 0) // if this is a builder unit
-                buildMenuButton.SetActive(true);
+            {
+                if (!buildMenuPanel.activeInHierarchy || prevUnitSector != SelectedUnit)
+                {
+                    buildMenuButton.SetActive(true);
+                    buildMenuPanel.SetActive(false);
+                }
+            }
             else
+            {
                 buildMenuButton.SetActive(false);
+                buildMenuPanel.SetActive(false);
+            }
         }
 
         public void BuildMenuButton_OnClick() => SetBuildMenuState(true);
