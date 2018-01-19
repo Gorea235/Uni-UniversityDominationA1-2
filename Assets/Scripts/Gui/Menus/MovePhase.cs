@@ -74,7 +74,7 @@ namespace Gui.Menus
         public void highlightOccupyingUnit(Coord selectedSectorCoord)
         {
             IUnit selectedUnit = Main.GameContext.Map.Grid[selectedSectorCoord].OccupyingUnit;
-            if (selectedUnit.Owner.Id == Main.GameContext.CurrentPlayer && selectedUnit.AvailableMove > 0)
+            if (selectedUnit.Owner.Id == Main.GameContext.CurrentPlayerId && selectedUnit.AvailableMove > 0)
             {
                 SelectRangeAround(selectedSectorCoord,selectedUnit.MaxMove);
             }

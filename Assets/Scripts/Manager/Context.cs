@@ -12,7 +12,8 @@ namespace Manager
         #region Public Properties
 
         public List<IPlayer> Players { get; }
-        public uint CurrentPlayer { get; set; }
+        public uint CurrentPlayerId { get; set; }
+        public IPlayer CurrentPlayer { get { return Players[(int)CurrentPlayerId]; } }
         public GuiManager Gui { get; }
         public MapManager Map { get; }
         public AudioManager Audio { get; }

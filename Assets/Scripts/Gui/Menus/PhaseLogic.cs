@@ -225,7 +225,8 @@ namespace Gui
         }
 
         /// <summary>
-        /// Select the sector at the given coordinate.
+        /// Select the sector at the given coordinate. It will only select the sector
+        /// if it contains a unit that the current player owns.
         /// </summary>
         /// <param name="coord">The coordinate of the sector to select. If null, will deselect.</param>
         protected void SelectSector(Coord? coord)
@@ -233,7 +234,9 @@ namespace Gui
             if (SelectedSector != null)
                 SelectedSector.Highlight = HighlightLevels.None;
             SelectedSector = null;
-            if (coord.HasValue && Main.GameContext.Map.Grid.IsTraversable(coord.Value))
+            if (coord.HasValue && Main.GameContext.Map.Grid.IsTraversable(coord.Value) &&
+                Main.GameContext.Map.Grid[coord.Value].OccupyingUnit != null &&
+                Main.GameContext.Map.Grid[coord.Value].OccupyingUnit.Owner.Equals(Main.GameContext.CurrentPlayer))
             {
                 SelectedSector = Main.GameContext.Map.Grid[coord.Value];
                 SelectedSector.Highlight = HighlightLevels.Bright;
@@ -244,16 +247,16 @@ namespace Gui
         /// Selects the range around the given coordinate, exlcuding the given one.
         /// </summary>
         /// <param name="coord">The starting coordinate. If null, will deselect.</param>
-        /// <param name="movementRange">The size of the range.</param>
-        protected void SelectRangeAround(Coord? coord, int movementRange)
+        /// <param name="range">The size of the range.</param>
+        protected void SelectRangeAround(Coord? coord, int range)
         {
             SelectedRangeHighlight = HighlightLevels.None;
             if (coord.HasValue)
             {
-                HashSet<Coord> range = Main.GameContext.Map.Grid.MovementRange(coord.Value, movementRange);
-                range.Remove(coord.Value);
+                HashSet<Coord> coordRange = Main.GameContext.Map.Grid.GetRange(coord.Value, range);
+                coordRange.Remove(coord.Value);
                 SelectedRange.Clear();
-                foreach (Coord c in range)
+                foreach (Coord c in coordRange)
                     if (Main.GameContext.Map.Grid.IsTraversable(c))
                         SelectedRange.Add(Main.GameContext.Map.Grid[c]);
                 SelectedRangeHighlight = HighlightLevels.Dimmed;
