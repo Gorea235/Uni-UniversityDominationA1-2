@@ -91,6 +91,10 @@ namespace Gui
         /// </summary>
         protected Sector SelectedSector { get; private set; }
         /// <summary>
+        /// The currently selected unit.
+        /// </summary>
+        protected Sector SelectedUnit { get; private set; }
+        /// <summary>
         /// The currently selected range.
         /// </summary>
         protected HashSet<Sector> SelectedRange { get; private set; } = new HashSet<Sector>();
@@ -99,7 +103,7 @@ namespace Gui
             set
             {
                 foreach (Sector sector in SelectedRange)
-                    if (sector != SelectedSector)
+                    if (sector != SelectedUnit)
                         sector.Highlight = value;
             }
         }
@@ -225,19 +229,56 @@ namespace Gui
         }
 
         /// <summary>
+        /// Tests whether the given sector contains a unit or not.
+        /// </summary>
+        /// <param name="sector">The sector to test.</param>
+        /// <param name="requireOwned">Whether to restrict valid units to owned ones only.</param>
+        /// <returns>Whether the sector contains a unit.</returns>
+        protected bool ContainsUnit(Sector sector, bool requireOwned) => sector.OccupyingUnit != null &&
+            (!requireOwned || sector.OccupyingUnit.Owner.Equals(Main.GameContext.CurrentPlayer));
+
+        /// <summary>
+        /// Tests whether the sector at the given coordinate contains a unit or not.
+        /// </summary>
+        /// <param name="coord">The coordinate to test.</param>
+        /// <param name="requireOwned">Whether to restrict valid units to owned ones only.</param>
+        /// <returns>Whether the sector at the given coordinate contains a unit.</returns>
+        protected bool ContainsUnit(Coord coord, bool requireOwned) => Main.GameContext.Map.Grid.IsTraversable(coord) &&
+            ContainsUnit(Main.GameContext.Map.Grid[coord], requireOwned);
+
+        /// <summary>
+        /// Tests whether the currently selected sector contains a unit in.
+        /// </summary>
+        /// <param name="excludeOwned">Whether to exclude owned units.</param>
+        /// <returns>Whether the currently selected sector contains a unit.</returns>
+        protected bool SelectedSectorContainsUnit(bool excludeOwned) => ContainsUnit(SelectedSector, false) &&
+            (!excludeOwned || !SelectedSector.OccupyingUnit.Owner.Equals(Main.GameContext.CurrentPlayer));
+
+        /// <summary>
         /// Select the sector at the given coordinate. It will only select the sector
         /// if it contains a unit that the current player owns.
         /// </summary>
         /// <param name="coord">The coordinate of the sector to select. If null, will deselect.</param>
         /// <param name="force">Whether to force the selection regarless of if an owned unit is present.</param>
-        protected void SelectSector(Coord? coord, bool force = false)
+        protected void SelectSector(Coord? coord, bool unit = false)
         {
+            if (!unit)
+                SelectedUnit = null;
             SelectedSector = null;
-            if (coord.HasValue && Main.GameContext.Map.Grid.IsTraversable(coord.Value) &&
-                (force || (Main.GameContext.Map.Grid[coord.Value].OccupyingUnit != null &&
-                                 Main.GameContext.Map.Grid[coord.Value].OccupyingUnit.Owner.Equals(Main.GameContext.CurrentPlayer))))
-                SelectedSector = Main.GameContext.Map.Grid[coord.Value];
+            if (coord.HasValue && Main.GameContext.Map.Grid.IsTraversable(coord.Value))
+            {
+                Sector selection = Main.GameContext.Map.Grid[coord.Value];
+                if (unit)
+                {
+                    if (ContainsUnit(selection, true))
+                        SelectedUnit = selection;
+                }
+                else
+                    SelectedSector = selection;
+            }
         }
+
+        protected void SelectUnit(Coord? coord) => SelectSector(coord, true);
 
         /// <summary>
         /// Selects the range around the given coordinate, exlcuding the given one.
@@ -257,41 +298,45 @@ namespace Gui
             }
         }
 
+        /// <summary>
+        /// Reset the hightlights on all currently selected sectors.
+        /// </summary>
         protected void ClearHighlights()
         {
-            if (SelectedSector != null)
-                SelectedSector.Highlight = HighlightLevel.None;
+            if (SelectedUnit != null)
+                SelectedUnit.Highlight = HighlightLevel.None;
             SelectedRangeHighlight = HighlightLevel.None;
         }
 
-        protected void DoSectorSelection(Coord? coord, Func<Sector, int> range)
+        /// <summary>
+        /// Does the owned unit selection cycle.
+        /// Cycle:
+        ///     Clear current selection highlights,
+        ///     Select sector at coord,
+        ///     if selected, select the range using the range function.
+        /// </summary>
+        /// <param name="coord">The coordinate to centre the selection at.</param>
+        /// <param name="range">The range function used to calculated the selection range from the given sector.</param>
+        protected void DoUnitSelection(Coord? coord, Func<Sector, int> range)
         {
             ClearHighlights();
-            SelectSector(coord);
-            if (SelectedSector != null)
+            SelectUnit(coord);
+            if (SelectedUnit != null)
             {
-                SelectedSector.Highlight = HighlightLevel.Bright;
-                SelectRangeAround(coord, range(SelectedSector));
+                SelectedUnit.Highlight = HighlightLevel.Bright;
+                SelectRangeAround(coord, range(SelectedUnit));
                 SelectedRangeHighlight = HighlightLevel.Dimmed;
             }
         }
 
-        protected void DoSectorSelection(Vector3 position,
-                                         Func<Sector, int> range) => DoSectorSelection(GetSectorAtScreen(position), range);
-
-        [Obsolete]
-        public void OpenMenu(string MenuName)
-        {
-            var target = GameObject.Find(MenuName);
-            target.SetActive(true);
-        }
-
-        [Obsolete]
-        public void CloseMenu(string MenuName)
-        {
-            var target = GameObject.Find(MenuName);
-            target.SetActive(false);
-        }
+        /// <summary>
+        /// Does the owned unit selection cycle using the mouse position, rather than the coordinate.
+        /// </summary>
+        /// <param name="position">The position that was clicked.</param>
+        /// <param name="range">The range function used to calculated the selection range from the given sector.</param>
+        protected void DoUnitSelection(Vector3 position,
+                                         Func<Sector, int> range) => DoUnitSelection(GetSectorAtScreen(position), range);
+        
         #endregion
     }
 }
