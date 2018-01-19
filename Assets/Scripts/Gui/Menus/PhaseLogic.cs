@@ -225,6 +225,17 @@ namespace Gui
                 SelectedSector = null;
         }
 
+		public void OpenMenu(string MenuName)
+		{
+			var target = GameObject.Find (MenuName);
+			target.SetActive (true);
+		}
+
+		public void CloseMenu(string MenuName)
+		{
+			var target = GameObject.Find (MenuName);
+			target.SetActive (false);
+		}
         #endregion
     }
 }

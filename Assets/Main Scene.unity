@@ -776,6 +776,10 @@ MonoBehaviour:
   mapData: {fileID: 4900000, guid: 80cec00d3f6124112a836442e4a211a2, type: 3}
   sectorPrefab: {fileID: 1438600501034858, guid: c739fa889366c9a4d87c4fa47f42811e,
     type: 2}
+  AttackUnit: {fileID: 0}
+  BaseUnit: {fileID: 0}
+  DefenceUnit: {fileID: 0}
+  ScoutUnit: {fileID: 0}
 --- !u!4 &311963061
 Transform:
   m_ObjectHideFlags: 0
@@ -1512,6 +1516,7 @@ GameObject:
   - component: {fileID: 759080854}
   - component: {fileID: 759080853}
   - component: {fileID: 759080852}
+  - component: {fileID: 759080855}
   m_Layer: 5
   m_Name: BuildMenuButton
   m_TagString: Untagged
@@ -1576,7 +1581,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 759080853}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 759080855}
+        m_MethodName: OpenMenu
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: PanelBuildItem
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &759080853
@@ -1612,6 +1628,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 759080850}
+--- !u!114 &759080855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 759080850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ace25fe8c5904f5ca1346810afac264, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &780395912
 GameObject:
   m_ObjectHideFlags: 0
@@ -3038,7 +3065,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1675871304}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fc1be4d65c227346811537f6bba16d2, type: 3}
   m_Name: 

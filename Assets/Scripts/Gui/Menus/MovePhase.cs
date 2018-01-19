@@ -5,12 +5,15 @@ using UnityEngine;
 using Manager;
 using Map;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace Gui.Menus
 {
     public class MovePhase : PhaseLogic
     {
         
+
+
         public override bool IsEnabled
         {
             get
@@ -60,7 +63,34 @@ namespace Gui.Menus
             return null;
         }
 
+		public void BuildMenuButton_OnClick()
+		{
+			
+		}
 
+		public void UpdateMana(int Mana)
+		{
+			GameObject Mask = GameObject.Find("ManaMask");
+			GameObject OverflowDisplay = GameObject.Find("ExtraPintsText");
+			Text OverflowText = OverflowDisplay.GetComponent<Text>();
+
+			float MaskScale;
+			int Overflow;
+			if(Mana > 8)
+			{
+				MaskScale = 1;
+				Overflow = Mana - 8;
+			}
+			else
+			{
+				MaskScale = Mana / 8.0F;
+				Overflow = 0;
+			}
+			Debug.Log (MaskScale);
+			Mask.transform.localScale = new Vector3(MaskScale, 1, 1);
+			OverflowText.text = "+" + Overflow;
+
+		}
 
         public void BuyAttackUnit()
         {
