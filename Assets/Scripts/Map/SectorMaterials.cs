@@ -166,6 +166,44 @@ namespace Map
                                                                          _emissionCurrentTime / _emissionChangeTime,
                                                                          2))); // sets easing to quadratic
 
+        /// <summary>
+        /// Gets the highlight tint.
+        /// </summary>
+        /// <returns>The highlight tint.</returns>
+        /// <param name="level">Highlight level.</param>
+        public Color GetHighlightTint(HighlightLevel level)
+        {
+            switch (level)
+            {
+                case HighlightLevel.Bright:
+                    return _materials[SectorTexture.Alcuin][SectorMaterialType.Bright].GetColor("_Color");
+                case HighlightLevel.Dimmed:
+                    return _materials[SectorTexture.Alcuin][SectorMaterialType.Dimmed].GetColor("_Color");
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
+        /// <summary>
+        /// Sets the highlight tint.
+        /// </summary>
+        /// <param name="level">Highlight level.</param>
+        /// <param name="tint">The tint.</param>
+        public void SetHighlightTint(HighlightLevel level, Color tint)
+        {
+            switch (level)
+            {
+                case HighlightLevel.Bright:
+                    foreach (var mat in _materials.Values)
+                        mat[SectorMaterialType.Bright].SetColor("_Color", tint);
+                    break;
+                case HighlightLevel.Dimmed:
+                    foreach (var mat in _materials.Values)
+                        mat[SectorMaterialType.Dimmed].SetColor("_Color", tint);
+                    break;
+            }
+        }
+
         #endregion
     }
 }

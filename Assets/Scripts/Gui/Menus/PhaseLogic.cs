@@ -94,7 +94,7 @@ namespace Gui
         /// The currently selected range.
         /// </summary>
         protected HashSet<Sector> SelectedRange { get; private set; } = new HashSet<Sector>();
-        protected HighlightLevels SelectedRangeHighlight
+        protected HighlightLevel SelectedRangeHighlight
         {
             set
             {
@@ -208,7 +208,7 @@ namespace Gui
 
         #endregion
 
-        #region Helper Methods
+        #region Helpers
 
         /// <summary>
         /// Get the coordinate that is under the given screen position.
@@ -229,18 +229,14 @@ namespace Gui
         /// if it contains a unit that the current player owns.
         /// </summary>
         /// <param name="coord">The coordinate of the sector to select. If null, will deselect.</param>
-        protected void SelectSector(Coord? coord)
+        /// <param name="force">Whether to force the selection regarless of if an owned unit is present.</param>
+        protected void SelectSector(Coord? coord, bool force = false)
         {
-            if (SelectedSector != null)
-                SelectedSector.Highlight = HighlightLevels.None;
             SelectedSector = null;
             if (coord.HasValue && Main.GameContext.Map.Grid.IsTraversable(coord.Value) &&
-                Main.GameContext.Map.Grid[coord.Value].OccupyingUnit != null &&
-                Main.GameContext.Map.Grid[coord.Value].OccupyingUnit.Owner.Equals(Main.GameContext.CurrentPlayer))
-            {
+                (force || (Main.GameContext.Map.Grid[coord.Value].OccupyingUnit != null &&
+                                 Main.GameContext.Map.Grid[coord.Value].OccupyingUnit.Owner.Equals(Main.GameContext.CurrentPlayer))))
                 SelectedSector = Main.GameContext.Map.Grid[coord.Value];
-                SelectedSector.Highlight = HighlightLevels.Bright;
-            }
         }
 
         /// <summary>
@@ -250,30 +246,52 @@ namespace Gui
         /// <param name="range">The size of the range.</param>
         protected void SelectRangeAround(Coord? coord, int range)
         {
-            SelectedRangeHighlight = HighlightLevels.None;
+            SelectedRange.Clear();
             if (coord.HasValue)
             {
                 HashSet<Coord> coordRange = Main.GameContext.Map.Grid.GetRange(coord.Value, range);
                 coordRange.Remove(coord.Value);
-                SelectedRange.Clear();
                 foreach (Coord c in coordRange)
                     if (Main.GameContext.Map.Grid.IsTraversable(c))
                         SelectedRange.Add(Main.GameContext.Map.Grid[c]);
-                SelectedRangeHighlight = HighlightLevels.Dimmed;
             }
         }
 
-		public void OpenMenu(string MenuName)
-		{
-			var target = GameObject.Find (MenuName);
-			target.SetActive (true);
-		}
+        protected void ClearHighlights()
+        {
+            if (SelectedSector != null)
+                SelectedSector.Highlight = HighlightLevel.None;
+            SelectedRangeHighlight = HighlightLevel.None;
+        }
 
-		public void CloseMenu(string MenuName)
-		{
-			var target = GameObject.Find (MenuName);
-			target.SetActive (false);
-		}
+        protected void DoSectorSelection(Coord? coord, Func<Sector, int> range)
+        {
+            ClearHighlights();
+            SelectSector(coord);
+            if (SelectedSector != null)
+            {
+                SelectedSector.Highlight = HighlightLevel.Bright;
+                SelectRangeAround(coord, range(SelectedSector));
+                SelectedRangeHighlight = HighlightLevel.Dimmed;
+            }
+        }
+
+        protected void DoSectorSelection(Vector3 position,
+                                         Func<Sector, int> range) => DoSectorSelection(GetSectorAtScreen(position), range);
+
+        [Obsolete]
+        public void OpenMenu(string MenuName)
+        {
+            var target = GameObject.Find(MenuName);
+            target.SetActive(true);
+        }
+
+        [Obsolete]
+        public void CloseMenu(string MenuName)
+        {
+            var target = GameObject.Find(MenuName);
+            target.SetActive(false);
+        }
         #endregion
     }
 }

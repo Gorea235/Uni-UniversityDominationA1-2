@@ -20,6 +20,11 @@ namespace Map
         /// <remarks>The is the damage the unit can cause to other units.</remarks>
         int Attack { get; }
         /// <summary>
+        /// Gets the attack range of the unit.
+        /// </summary>
+        /// <value>The attack range.</value>
+        int AttackRange { get; }
+        /// <summary>
         /// Gets the max move range of the unit.
         /// </summary>
         /// <value>The max move range.</value>

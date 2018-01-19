@@ -11,6 +11,7 @@ namespace Map.Unit
 
         int _health = 160;
         const int _baseAttack = 15;
+        const int _baseAttackRange = 1;
         const int _baseMove = 2;
         int _availableMove;
         const int _baseDefence = 40;
@@ -31,6 +32,7 @@ namespace Map.Unit
             set { _health = value; }
         }
         public int Attack { get { return _baseAttack; } }
+        public int AttackRange { get { return _baseAttackRange; } }
         public int MaxMove { get { return _baseMove; } }
         public int AvailableMove
         {

@@ -24,7 +24,7 @@ namespace Map
         Material _defaultMaterial;
         Material _highlightBrightMaterial;
         Material _highlightDimmedMaterial;
-        HighlightLevels _highlightLevel;
+        HighlightLevel _highlightLevel;
 
         IUnit _occupyingUnit;
         ILandmark _landmark;
@@ -93,7 +93,7 @@ namespace Map
 
         #region Material Modifications
 
-        public HighlightLevels Highlight
+        public HighlightLevel Highlight
         {
             get { return _highlightLevel; }
             set
@@ -101,13 +101,13 @@ namespace Map
                 _highlightLevel = value;
                 switch (value)
                 {
-                    case HighlightLevels.Bright:
+                    case HighlightLevel.Bright:
                         ApplyMaterial(_highlightBrightMaterial);
                         break;
-                    case HighlightLevels.Dimmed:
+                    case HighlightLevel.Dimmed:
                         ApplyMaterial(_highlightDimmedMaterial);
                         break;
-                    case HighlightLevels.None:
+                    case HighlightLevel.None:
                         ApplyMaterial(_defaultMaterial);
                         break;
                 }

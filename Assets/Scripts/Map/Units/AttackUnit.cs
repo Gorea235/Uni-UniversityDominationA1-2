@@ -11,6 +11,7 @@ namespace Map.Unit
 
         int _health = 100;
         const int _baseAttack = 30;
+        const int _baseAttackRange = 3;
         const int _baseMove = 3;
         int _availableMove;
         const int _baseDefence = 20;
@@ -32,6 +33,7 @@ namespace Map.Unit
             set { _health = value; }
         }
         public int Attack { get { return _baseAttack; } }
+        public int AttackRange { get { return _baseAttackRange; } }
         public int MaxMove { get { return _baseMove; } }
         public int AvailableMove
         {
@@ -50,7 +52,7 @@ namespace Map.Unit
         #endregion
 
         #region Initialisation
-        
+
         public void Init(SectorMaterials materials, IPlayer owner, College college)
         {
             _owner = owner;
@@ -67,7 +69,7 @@ namespace Map.Unit
         {
 
         }
-        
+
         void Update()
         {
 
