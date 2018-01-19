@@ -22,7 +22,7 @@ namespace Gui.Menus
 
         #region Private Fields
 
-        const string manaPanelTextFormat = "({0})";
+        const string manaPanelTextFormat = " ({0})";
 
         #endregion
 
@@ -95,6 +95,7 @@ namespace Gui.Menus
                     // do movement here
                 }
             }
+
             if (SelectedUnit != null && SelectedUnit.OccupyingUnit.BuildRange > 0) // if this is a builder unit
                 buildMenuButton.SetActive(true);
             else
