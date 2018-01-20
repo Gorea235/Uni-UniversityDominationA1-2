@@ -24,6 +24,9 @@ namespace Map.Unit
         const int _baseDefence = 40;
         const int _buildRange = 0;
         const bool _buildable = true;
+        const int _baseCost = 10;
+        const float _baseManaMoveRatio = 0.8f;
+        const int _baseManaAttackCost = 5;
         readonly List<IEffect> _activeEffects = new List<IEffect>();
         IPlayer _owner;
         College _college;
@@ -50,6 +53,9 @@ namespace Map.Unit
         public int Defence { get { return _baseDefence; } }
         public int BuildRange { get { return _buildRange; } }
         public bool Buildable { get { return _buildable; } }
+        public int Cost { get { return _baseCost; } }
+        public float ManaMoveRatio { get { return _baseManaMoveRatio; } }
+        public int ManaAttackCost { get { return _baseManaAttackCost; } }
         public List<IEffect> ActiveEffects { get { return _activeEffects; } }
         public Sprite Icon { get { return icon; } }
         public IPlayer Owner { get { return _owner; } }

@@ -264,7 +264,7 @@ namespace Gui
         /// if it contains a unit that the current player owns.
         /// </summary>
         /// <param name="coord">The coordinate of the sector to select. If null, will deselect.</param>
-        /// <param name="force">Whether to force the selection regarless of if an owned unit is present.</param>
+        /// <param name="unit">Whether to force the selection regarless of if an owned unit is present.</param>
         protected void SelectSector(Coord? coord, bool unit = false)
         {
             if (unit)

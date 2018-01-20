@@ -60,6 +60,9 @@ namespace Map
         /// </summary>
         /// <value><c>true</c> if buildable; otherwise, <c>false</c>.</value>
         bool Buildable { get; }
+        int Cost { get; }
+        float ManaMoveRatio { get; }
+        int ManaAttackCost { get; }
         /// <summary>
         /// The active effects that have been applied to the unit.
         /// Currently, effects are planned to all take effect at the start of

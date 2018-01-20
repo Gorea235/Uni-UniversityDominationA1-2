@@ -11,7 +11,7 @@ namespace Manager.Players
         #region Private Fields
 
         int _id;
-        float _mana; // set on player creation
+        int _mana; // set on player creation
         float _maxMana; // set on player creation
         bool _skipMove = false;
         bool _skipAttack = false;
@@ -21,7 +21,7 @@ namespace Manager.Players
         #region Public Properties
 
         public int Id { get { return _id; } }
-        public float Mana
+        public int Mana
         {
             get { return _mana; }
             set { _mana = value; }

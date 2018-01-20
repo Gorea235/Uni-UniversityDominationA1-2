@@ -12,13 +12,15 @@ namespace Gui.Menus
         #region Unity Bindings
 
         // build menu
-        public GameObject buildMenuPanel;
         public GameObject buildMenuButton;
+        public GameObject buildMenuPanel;
         public GameObject buildMenuStatName;
         public GameObject buildMenuStatHp;
         public GameObject buildMenuStatSpd;
         public GameObject buildMenuStatAtk;
         public GameObject buildMenuContent;
+        public GameObject buildMenuBuyButton;
+        public GameObject buildMenuBuyCostText;
 
         // mana
         public GameObject manaPanel;
@@ -36,6 +38,7 @@ namespace Gui.Menus
 
         // predefined
         const string manaPanelTextFormat = " ({0})";
+        const string buildMenuButCostTextFormat = "{0} Pints";
         readonly List<GameObject> _buildMenuItems = new List<GameObject>();
 
         RectTransform _buildMenuContentRect;
@@ -56,6 +59,7 @@ namespace Gui.Menus
                 _buildMenuContentRect.sizeDelta = new Vector2();
                 if (value)
                 {
+                    buildMenuBuyButton.SetActive(false);
                     GameObject tmpObj;
                     RectTransform tmpRect;
                     float offset = 5;
@@ -173,7 +177,18 @@ namespace Gui.Menus
 
         public void BuildMenuButton_OnClick() => SetBuildMenuState(true);
 
-        public void BuildMenuUnitSelect_OnClick(int unitIndex) => Debug.Log(string.Format("building unit {0}", unitIndex));
+        public void BuildMenuUnitSelect_OnClick(int unitIndex)
+        {
+            buildMenuBuyButton.SetActive(true);
+            buildMenuBuyCostText.GetComponent<Text>().text = string.Format(buildMenuButCostTextFormat,
+                                                                           Gc.DefaultUnits[SelectedUnit.OccupyingUnit.College][unitIndex].Cost);
+        }
+
+        public void BuildMenuBuyButton_OnClick()
+        {
+            Debug.Log("buy button fired");
+            StartCoroutine(ShowPopUpMessage(1));
+        }
 
         public void CloseBuildMenuButton_OnClick() => SetBuildMenuState(false);
 

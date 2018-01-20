@@ -11,36 +11,36 @@ namespace Manager.Players
         #region Private Fields
 
         int _id;
-        float _mana; // set on player creation
-        float _maxMana; // set on player creation
-        bool _skipMove = true;
-        bool _skipAttack = true;
 
         #endregion
 
         #region Public Properties
 
+#pragma warning disable RECS0029 // Warns about property or indexer setters and event adders or removers that do not use the value parameter
+
         public int Id { get { return _id; } }
-        public float Mana
+        public int Mana
         {
-            get { return _mana; }
-            set { _mana = value; }
+            get { return 0; }
+            set { }
         }
         public float MaxMana
         {
-            get { return _maxMana; }
-            set { _maxMana = value; }
+            get { return 0; }
+            set { }
         }
         public bool ShouldSkipMovePhase
         {
-            get { return _skipMove; }
-            set { _skipMove = value; }
+            get { return true; }
+            set { }
         }
         public bool ShouldSkipAttackPhase
         {
-            get { return _skipAttack; }
-            set { _skipAttack = value; }
+            get { return true; }
+            set { }
         }
+
+#pragma warning restore RECS0029 // Warns about property or indexer setters and event adders or removers that do not use the value parameter
 
         #endregion
 
