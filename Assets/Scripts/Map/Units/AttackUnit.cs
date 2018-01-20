@@ -7,8 +7,15 @@ namespace Map.Unit
 {
     public class AttackUnit : MonoBehaviour, IUnit
     {
+        #region Unity Bindings
+
+        public Sprite icon;
+
+        #endregion
+
         #region Private Fields
 
+        const string _name = "Attack";
         int _health = 100;
         const int _baseAttack = 30;
         const int _baseAttackRange = 3;
@@ -27,6 +34,7 @@ namespace Map.Unit
         #region Public Properties
 
         // implemented properties from IUnit
+        public string Name { get { return _name; } }
         public int Health
         {
             get { return _health; }
@@ -44,6 +52,7 @@ namespace Map.Unit
         public int BuildRange { get { return _buildRange; } }
         public bool Buildable { get { return _buildable; } }
         public List<IEffect> ActiveEffects { get { return _activeEffects; } }
+        public Sprite Icon { get { return icon; } }
         public IPlayer Owner { get { return _owner; } }
         public College College { get { return _college; } }
         public Transform Transform { get { return gameObject.transform; } }
@@ -55,10 +64,14 @@ namespace Map.Unit
 
         public void Init(SectorMaterials materials, IPlayer owner, College college)
         {
+            Init(owner, college);
+            gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = materials.GetMaterial(college);
+        }
+
+        public void Init(IPlayer owner, College college)
+        {
             _owner = owner;
             _college = college;
-
-            gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = materials.GetMaterial(college);
         }
 
         #endregion

@@ -12,12 +12,6 @@ namespace Map
         public TextAsset mapData;
         public GameObject sectorPrefab;
 
-        // unit bindings
-        public GameObject AttackUnit;
-        public GameObject BaseUnit;
-        public GameObject DefenceUnit;
-        public GameObject ScoutUnit;
-
         #endregion
 
         #region Private Fields
@@ -32,7 +26,6 @@ namespace Map
 
         public Grid Grid { get { return _grid; } }
         public SectorMaterials SectorMaterials { get { return _sectorMaterials; } }
-        public GameObject[] AllUnits { get { return _allUnits; } }
 
         #endregion
 
@@ -41,10 +34,6 @@ namespace Map
         void Awake()
         {
             _sectorMaterials = gameObject.GetComponent<SectorMaterials>();
-
-            // init unit list
-            // i assume that we will have access to them by now
-            _allUnits = new[] { AttackUnit, BaseUnit, DefenceUnit, ScoutUnit };
         }
 
         void Start()

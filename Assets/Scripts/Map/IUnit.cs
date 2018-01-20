@@ -8,6 +8,10 @@ namespace Map
     public interface IUnit
     {
         /// <summary>
+        /// Gets the name of the unit.
+        /// </summary>
+        string Name { get; }
+        /// <summary>
         /// Gets or sets the health of the unit.
         /// </summary>
         /// <value>The health of the unit.</value>
@@ -70,6 +74,10 @@ namespace Map
         /// <value>The active effects.</value>
         List<IEffect> ActiveEffects { get; }
         /// <summary>
+        /// The build menu icon of the unit.
+        /// </summary>
+        Sprite Icon { get; }
+        /// <summary>
         /// The player that owns the unit.
         /// </summary>
         /// <value>The owner.</value>
@@ -95,5 +103,12 @@ namespace Map
         /// <param name="player">The owning player.</param>
         /// <param name="college">The college the unit is from.</param>
         void Init(SectorMaterials materials, Manager.IPlayer player, College college);
+        /// <summary>
+        /// Initialises the unit with the given player and college.
+        /// WARNING: This function should only be used in <see cref="Manager.MainManager.Awake"/>.
+        /// </summary>
+        /// <param name="player">The owning player.</param>
+        /// <param name="college">The college the unit is from.</param>
+        void Init(Manager.IPlayer player, College college);
     }
 }

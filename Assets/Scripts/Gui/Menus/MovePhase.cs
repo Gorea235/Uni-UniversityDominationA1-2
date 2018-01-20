@@ -1,7 +1,7 @@
-using Helpers;
 using Map;
 using Map.Hex;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,19 +11,75 @@ namespace Gui.Menus
     {
         #region Unity Bindings
 
+        // build menu
         public GameObject buildMenuPanel;
         public GameObject buildMenuButton;
-        public GameObject errorPanel;
-        public GameObject endPhaseButton;
+        public GameObject buildMenuStatName;
+        public GameObject buildMenuStatHp;
+        public GameObject buildMenuStatSpd;
+        public GameObject buildMenuStatAtk;
+        public GameObject buildMenuContent;
+
+        // mana
         public GameObject manaPanel;
         public GameObject manaPanelMask;
         public GameObject manaPanelText;
+
+        // other
+        public GameObject errorPanel;
+        public GameObject endPhaseButton;
+        public GameObject unitSelectPrefab;
 
         #endregion
 
         #region Private Fields
 
+        // predefined
         const string manaPanelTextFormat = " ({0})";
+        readonly List<GameObject> _buildMenuItems = new List<GameObject>();
+
+        RectTransform _buildMenuContentRect;
+
+        #endregion
+
+        #region Private Properties
+
+        bool BuildMenuState
+        {
+            get { return buildMenuPanel.activeInHierarchy; }
+            set
+            {
+                buildMenuPanel.SetActive(value);
+                foreach (GameObject obj in _buildMenuItems)
+                    Destroy(obj);
+                _buildMenuItems.Clear();
+                _buildMenuContentRect.sizeDelta = new Vector2();
+                if (value)
+                {
+                    GameObject tmpObj;
+                    RectTransform tmpRect;
+                    float offset = 5;
+                    for (int i = 0; i < Gc.UnitPrefabs.Length; i++)
+                    {
+                        if (Gc.DefaultUnits[SelectedUnit.OccupyingUnit.College][i].Buildable)
+                        {
+                            tmpObj = Instantiate(unitSelectPrefab, buildMenuContent.transform);
+                            tmpObj.GetComponent<Button>().onClick.AddListener(GetBuildUnitButtonLambda(i));
+                            tmpObj.transform.Find("Icon").GetComponent<Image>().sprite = Gc.DefaultUnits[SelectedUnit.OccupyingUnit.College][i].Icon;
+                            tmpObj.transform.Find("Text").GetComponent<Text>().text = Gc.DefaultUnits[SelectedUnit.OccupyingUnit.College][i].Name;
+                            tmpRect = tmpObj.GetComponent<RectTransform>();
+                            tmpRect.localPosition = new Vector3(5, -offset, 0);
+                            offset += tmpRect.rect.height;
+                            _buildMenuItems.Add(tmpObj);
+                        }
+                    }
+                    offset += 5;
+                    _buildMenuContentRect.sizeDelta = new Vector2(0, offset);
+                }
+            }
+        }
+
+        UnityEngine.Events.UnityAction GetBuildUnitButtonLambda(int i) => () => BuildMenuUnitSelect_OnClick(i);
 
         #endregion
 
@@ -41,7 +97,7 @@ namespace Gui.Menus
                 if (value)
                 {
                     // setup default menu state
-                    buildMenuPanel.SetActive(false);
+                    BuildMenuState = false;
                     buildMenuButton.SetActive(false);
                     errorPanel.SetActive(false);
                     endPhaseButton.SetActive(true);
@@ -58,9 +114,10 @@ namespace Gui.Menus
 
         #region MonoBehaviour
 
-        private void Start()
+        protected override void Awake()
         {
-            
+            base.Awake();
+            _buildMenuContentRect = buildMenuContent.GetComponent<RectTransform>();
         }
 
         protected override void Update()
@@ -101,20 +158,22 @@ namespace Gui.Menus
 
             if (SelectedUnit != null && SelectedUnit.OccupyingUnit.BuildRange > 0) // if this is a builder unit
             {
-                if (!buildMenuPanel.activeInHierarchy || prevUnitSector != SelectedUnit)
+                if (!BuildMenuState || prevUnitSector != SelectedUnit)
                 {
                     buildMenuButton.SetActive(true);
-                    buildMenuPanel.SetActive(false);
+                    BuildMenuState = false;
                 }
             }
             else
             {
                 buildMenuButton.SetActive(false);
-                buildMenuPanel.SetActive(false);
+                BuildMenuState = false;
             }
         }
 
         public void BuildMenuButton_OnClick() => SetBuildMenuState(true);
+
+        public void BuildMenuUnitSelect_OnClick(int unitIndex) => Debug.Log(string.Format("building unit {0}", unitIndex));
 
         public void CloseBuildMenuButton_OnClick() => SetBuildMenuState(false);
 
@@ -129,11 +188,11 @@ namespace Gui.Menus
             if (state)
             {
                 buildMenuButton.SetActive(false);
-                buildMenuPanel.SetActive(true);
+                BuildMenuState = true;
             }
             else
             {
-                buildMenuPanel.SetActive(false);
+                BuildMenuState = false;
                 DoUnitSelection(null, s => 0);
             }
         }

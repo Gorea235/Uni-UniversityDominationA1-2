@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 23896993233118644}
   - component: {fileID: 95642624807864556}
   - component: {fileID: 114772970456816698}
-  - component: {fileID: 114306742381383042}
   m_Layer: 0
   m_Name: DefenceUnit
   m_TagString: Untagged
@@ -177,17 +176,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114306742381383042
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1369620463003568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5447412e7ab11104ea7e0eacf05f725d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114772970456816698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -199,3 +187,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5447412e7ab11104ea7e0eacf05f725d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 7abf8b203161df841aa917d13285864a, type: 3}
