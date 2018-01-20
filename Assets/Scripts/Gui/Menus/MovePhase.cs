@@ -16,8 +16,11 @@ namespace Gui.Menus
         public GameObject buildMenuPanel;
         public GameObject buildMenuStatName;
         public GameObject buildMenuStatHp;
-        public GameObject buildMenuStatSpd;
-        public GameObject buildMenuStatAtk;
+        public GameObject buildMenuStatMove;
+        public GameObject buildMenuStatMoveCost;
+        public GameObject buildMenuStatAttack;
+        public GameObject buildMenuStatAttackRange;
+        public GameObject buildMenuStatAttackCost;
         public GameObject buildMenuContent;
         public GameObject buildMenuBuyButton;
         public GameObject buildMenuBuyCostText;
@@ -37,8 +40,14 @@ namespace Gui.Menus
         #region Private Fields
 
         // predefined
-        const string manaPanelTextFormat = " ({0})";
+        const string manaPanelTextFormat = " {0}";
         const string buildMenuButCostTextFormat = "{0} Pints";
+        const string buildMenuStatHpFormat = "HP: {0}";
+        const string buildMenuStatMoveFormat = "Move Range: {0}";
+        const string buildMenuStatMoveCostFormat = "Move Cost: {0} Mana/Move";
+        const string buildMenuStatAttackFormat = "Attack: {0}";
+        const string buildMenuStatAttackRangeFormat = "Attack Range: {0}";
+        const string buildMenuStatAttackCostFormat = "Attack Cost: {0}";
         readonly List<GameObject> _buildMenuItems = new List<GameObject>();
 
         Coord _selectedUnitLocation;
@@ -106,6 +115,7 @@ namespace Gui.Menus
                 {
                     // setup default menu state
                     BuildMenuState = false;
+                    SetUnitBuildStats(null);
                     buildMenuButton.SetActive(false);
                     errorPanel.SetActive(false);
                     endPhaseButton.SetActive(true);
@@ -137,6 +147,23 @@ namespace Gui.Menus
         protected override void Update()
         {
             base.Update();
+
+            // build unit highlighting
+            if (_currentBuildSector != null)
+            {
+                if (_currentBuildSector.Highlight == HighlightLevel.Bright)
+                    _currentBuildSector.Highlight = HighlightLevel.Dimmed;
+                _currentBuildSector = null;
+            }
+            if (_isBuildingUnit)
+            {
+                Coord? fetchCoord = GetSectorAtScreen(Input.mousePosition);
+                if (fetchCoord.HasValue && Gc.Map.Grid.IsTraversable(fetchCoord.Value) && SelectedRange.Contains(Gc.Map.Grid[fetchCoord.Value]))
+                {
+                    _currentBuildSector = Gc.Map.Grid[fetchCoord.Value];
+                    _currentBuildSector.Highlight = HighlightLevel.Bright;
+                }
+            }
         }
 
         #endregion
@@ -205,10 +232,13 @@ namespace Gui.Menus
 
         public void BuildMenuUnitSelect_OnClick(int unitIndex)
         {
+            // enable and setup buy button
             buildMenuBuyButton.SetActive(true);
-            int cost = Gc.DefaultUnits[SelectedUnit.OccupyingUnit.College][unitIndex].Cost;
-            buildMenuBuyButton.GetComponent<Button>().interactable = cost <= Gc.CurrentPlayer.Mana;
-            buildMenuBuyCostText.GetComponent<Text>().text = string.Format(buildMenuButCostTextFormat, cost);
+            IUnit unit = Gc.DefaultUnits[SelectedUnit.OccupyingUnit.College][unitIndex];
+            buildMenuBuyButton.GetComponent<Button>().interactable = unit.Cost <= Gc.CurrentPlayer.Mana;
+            buildMenuBuyCostText.GetComponent<Text>().text = string.Format(buildMenuButCostTextFormat, unit.Cost);
+            // setup stats
+            SetUnitBuildStats(unit);
             _unitToBuild = unitIndex;
         }
 
@@ -247,6 +277,17 @@ namespace Gui.Menus
             }
             else
                 DoUnitSelection(null, s => 0);
+        }
+
+        void SetUnitBuildStats(IUnit unit)
+        {
+            buildMenuStatName.GetComponent<Text>().text = unit?.Name ?? "";
+            buildMenuStatHp.GetComponent<Text>().text = string.Format(buildMenuStatHpFormat, unit?.Health.ToString() ?? "");
+            buildMenuStatMove.GetComponent<Text>().text = string.Format(buildMenuStatMoveFormat, unit?.MaxMove.ToString() ?? "");
+            buildMenuStatMoveCost.GetComponent<Text>().text = string.Format(buildMenuStatMoveCostFormat, unit?.ManaMoveRatio.ToString() ?? "");
+            buildMenuStatAttack.GetComponent<Text>().text = string.Format(buildMenuStatAttackFormat, unit?.Attack.ToString() ?? "");
+            buildMenuStatAttackRange.GetComponent<Text>().text = string.Format(buildMenuStatAttackRangeFormat, unit?.AttackRange.ToString() ?? "");
+            buildMenuStatAttackCost.GetComponent<Text>().text = string.Format(buildMenuStatAttackCostFormat, unit?.ManaAttackCost.ToString() ?? "");
         }
 
         public void MoveUnit(Coord fromPosition, Coord targetPosition)
