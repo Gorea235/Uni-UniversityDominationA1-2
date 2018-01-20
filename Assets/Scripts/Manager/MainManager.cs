@@ -48,12 +48,13 @@ namespace Manager
         void Start()
         {
             // testing unit creation
-            IUnit testUnit = Instantiate(GameContext.Map.BaseUnit).GetComponent<IUnit>();
+            IUnit testUnit = Instantiate(GameContext.Map.AttackUnit).GetComponent<IUnit>();
             testUnit.Init(GameContext.Map.SectorMaterials, GameContext.Players[0], College.Halifax);
             GameContext.Map.Grid[new Map.Hex.Coord(1, 1)].OccupyingUnit = testUnit;
 
             // start menu
             GameContext.Gui.CurrentMenu = MenuType.MovePhase;
+            //GameContext.Gui.CurrentMenu = MenuType.AttackPhase;
         }
 
         void Update()

@@ -20,7 +20,7 @@ namespace Map.Unit
         readonly List<IEffect> _activeEffects = new List<IEffect>();
         IPlayer _owner;
         College _college;
-        readonly Vector3 _defaultOffset = new Vector3(0, 0, 0);
+        readonly Vector3 _defaultOffset = new Vector3(0, 0, 0.294f);
 
         #endregion
 

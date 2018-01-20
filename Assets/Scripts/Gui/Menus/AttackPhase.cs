@@ -1,5 +1,6 @@
 using Helpers;
 using Map;
+using Map.Hex;
 using UnityEngine;
 
 namespace Gui.Menus
@@ -8,7 +9,7 @@ namespace Gui.Menus
     {
         #region Private Fields
 
-        readonly Color _brightTint = new Color(1, 0.4f, 0.4f);
+        readonly Color _brightTint = new Color(1, 0.8f, 0.8f);
         readonly Color _dimmedTint = new Color(1f, 0.4f, 0.4f);
         Color _oldBrightTint;
         Color _oldDimmedTint;
@@ -52,7 +53,35 @@ namespace Gui.Menus
             {
                 // do other selection processing if needed
             }
+
+            Coord? fetchCoord = GetSectorAtScreen(position);
+
+            if (!fetchCoord.HasValue) // if the player clicked off-screen, clear selection
+                DoUnitSelection(null, s => 0);
+            else if (ContainsUnit(fetchCoord.Value, true)) // if player clicked on owned unit, shift selection to that one
+            {
+                DoUnitSelection(fetchCoord.Value, s => s.OccupyingUnit.AttackRange);
+                if (SelectedUnit != null) // if the player was able to select the unit
+                { // this should pass anyway, but it's good to double check
+                    // unit just selected
+                }
+                else
+                    Debug.Log("Owned unit selection failed");
+            }
+            else if (SelectedUnit != null) // if player has clicked a unit before, and has now clicked on a separate space, we need to prepare to move
+            {
+                SelectSector(fetchCoord); // try to select the clicked sector
+                // only consider an attack selection if it wasn't traversable and if an enemy was on it
+                if (SelectedSector != null && SelectedSectorContainsUnit(true))
+                {
+                    // do attack setup here
+                }
+            }
         }
+
+        public void ConfirmAttackButton_OnClick() => Debug.Log("confirm attack fired");
+
+        public void EndTurnButton_OnClick() => Debug.Log("end turn fired");
 
         #endregion
 
