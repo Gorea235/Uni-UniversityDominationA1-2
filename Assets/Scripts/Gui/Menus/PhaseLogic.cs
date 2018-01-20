@@ -260,7 +260,7 @@ namespace Gui
             (!excludeOwned || !SelectedSector.OccupyingUnit.Owner.Equals(Gc.CurrentPlayer));
 
         /// <summary>
-        /// Select the sector at the given coordinate. It will only select the sector
+        /// Select the sector at the given coordinate. If unit is true, t will only select the sector
         /// if it contains a unit that the current player owns.
         /// </summary>
         /// <param name="coord">The coordinate of the sector to select. If null, will deselect.</param>

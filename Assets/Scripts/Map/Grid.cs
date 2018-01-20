@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Map
 {
-    public class Grid
+    public class Grid : IEnumerable<KeyValuePair<Coord, Sector>>
     {
         #region Private Fields
 
@@ -134,6 +134,20 @@ namespace Map
             // todo: landmark processing
             float elapsedTime = Time.realtimeSinceStartup - startTime;
             Debug.Log(string.Format("Grid initialised in {0} seconds", elapsedTime));
+        }
+
+        #endregion
+
+        #region Enumerator
+
+        public IEnumerator GetEnumerator()
+        {
+            return ((IEnumerable)_gridStore).GetEnumerator();
+        }
+
+        IEnumerator<KeyValuePair<Coord, Sector>> IEnumerable<KeyValuePair<Coord, Sector>>.GetEnumerator()
+        {
+            return _gridStore.GetEnumerator();
         }
 
         #endregion

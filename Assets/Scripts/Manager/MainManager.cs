@@ -63,14 +63,14 @@ namespace Manager
             // and available players in said game will add each player instance.
             IPlayer tmp = new HumanPlayer(GameContext.GetNewPlayerId())
             {
-                Mana = 10,
-                MaxMana = 10
+                Mana = 25,
+                MaxMana = 25
             };
             GameContext.Players.Add(tmp.Id, tmp);
             tmp = new HumanPlayer(GameContext.GetNewPlayerId())
             {
-                Mana = 10,
-                MaxMana = 10
+                Mana = 25,
+                MaxMana = 25
             };
             GameContext.Players.Add(tmp.Id, tmp);
             GameContext.CurrentPlayerId = 0;

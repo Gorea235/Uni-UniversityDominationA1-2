@@ -41,7 +41,11 @@ namespace Gui.Menus
         const string buildMenuButCostTextFormat = "{0} Pints";
         readonly List<GameObject> _buildMenuItems = new List<GameObject>();
 
+        Coord _selectedUnitLocation;
         RectTransform _buildMenuContentRect;
+        bool _isBuildingUnit = false;
+        int _unitToBuild;
+        Sector _currentBuildSector;
 
         #endregion
 
@@ -106,6 +110,12 @@ namespace Gui.Menus
                     errorPanel.SetActive(false);
                     endPhaseButton.SetActive(true);
                     manaPanel.SetActive(true);
+                    // reset available move on all current units
+                    foreach (KeyValuePair<Coord, Sector> kv in Gc.Map.Grid)
+                        if (kv.Value.OccupyingUnit != null && kv.Value.OccupyingUnit.Owner.Equals(Gc.CurrentPlayer))
+                            kv.Value.OccupyingUnit.AvailableMove = kv.Value.OccupyingUnit.MaxMove;
+                    // update mana
+                    UpdateMana();
                 }
                 else
                 {
@@ -138,40 +148,56 @@ namespace Gui.Menus
             Coord? fetchCoord = GetSectorAtScreen(position);
             Sector prevUnitSector = SelectedUnit;
 
-            if (!fetchCoord.HasValue) // if the player clicked off-screen, clear selection
-                DoUnitSelection(null, s => 0);
-            else if (ContainsUnit(fetchCoord.Value, true)) // if player clicked on owned unit, shift selection to that one
+            if (_isBuildingUnit)
             {
-                DoUnitSelection(fetchCoord.Value, s => s.OccupyingUnit.AvailableMove);
-                if (SelectedUnit != null) // if the player was able to select the unit
-                { // this should pass anyway, but it's good to double check
-                    // unit just selected
-                }
-                else
-                    Debug.Log("Owned unit selection failed");
-            }
-            else if (SelectedUnit != null) // if player has clicked a unit before, and has now clicked on a separate space, we need to prepare to move
-            {
-                SelectSector(fetchCoord); // try to select the clicked sector
-                // if it wasn't traversable, or it contains an enemy unit, then we won't bother moving
-                if (SelectedSector != null && !SelectedSectorContainsUnit(true))
+                SelectSector(fetchCoord);
+                if (SelectedSector != null && SelectedRange.Contains(SelectedSector) && SelectedSector.OccupyingUnit == null)
                 {
-                    // do movement here
+                    IUnit newUnit = Instantiate(Gc.UnitPrefabs[_unitToBuild]).GetComponent<IUnit>();
+                    newUnit.Init(Gc.Map.SectorMaterials, SelectedUnit.OccupyingUnit.Owner, SelectedUnit.OccupyingUnit.College);
+                    SelectedSector.OccupyingUnit = newUnit;
+                    Gc.CurrentPlayer.Mana -= newUnit.Cost;
+                    UpdateMana();
                 }
-            }
-
-            if (SelectedUnit != null && SelectedUnit.OccupyingUnit.BuildRange > 0) // if this is a builder unit
-            {
-                if (!BuildMenuState || prevUnitSector != SelectedUnit)
-                {
-                    buildMenuButton.SetActive(true);
-                    BuildMenuState = false;
-                }
+                SetUnitBuildingState(false);
             }
             else
             {
-                buildMenuButton.SetActive(false);
-                BuildMenuState = false;
+                if (!fetchCoord.HasValue) // if the player clicked off-screen, clear selection
+                    DoUnitSelection(null, s => 0);
+                else if (ContainsUnit(fetchCoord.Value, true)) // if player clicked on owned unit, shift selection to that one
+                {
+                    DoUnitSelection(fetchCoord.Value, s => s.OccupyingUnit.AvailableMove);
+                    if (SelectedUnit != null) // if the player was able to select the unit
+                    { // this should pass anyway, but it's good to double check
+                        _selectedUnitLocation = fetchCoord.Value;
+                    }
+                    else
+                        Debug.Log("Owned unit selection failed");
+                }
+                else if (SelectedUnit != null) // if player has clicked a unit before, and has now clicked on a separate space, we need to prepare to move
+                {
+                    SelectSector(fetchCoord); // try to select the clicked sector
+                                              // if it wasn't traversable, or it contains an enemy unit, then we won't bother moving
+                    if (SelectedSector != null && !SelectedSectorContainsUnit(true))
+                    {
+                        // do movement here
+                    }
+                }
+
+                if (SelectedUnit != null && SelectedUnit.OccupyingUnit.BuildRange > 0) // if this is a builder unit
+                {
+                    if (!BuildMenuState || prevUnitSector != SelectedUnit)
+                    {
+                        buildMenuButton.SetActive(true);
+                        BuildMenuState = false;
+                    }
+                }
+                else
+                {
+                    buildMenuButton.SetActive(false);
+                    BuildMenuState = false;
+                }
             }
         }
 
@@ -180,15 +206,13 @@ namespace Gui.Menus
         public void BuildMenuUnitSelect_OnClick(int unitIndex)
         {
             buildMenuBuyButton.SetActive(true);
-            buildMenuBuyCostText.GetComponent<Text>().text = string.Format(buildMenuButCostTextFormat,
-                                                                           Gc.DefaultUnits[SelectedUnit.OccupyingUnit.College][unitIndex].Cost);
+            int cost = Gc.DefaultUnits[SelectedUnit.OccupyingUnit.College][unitIndex].Cost;
+            buildMenuBuyButton.GetComponent<Button>().interactable = cost <= Gc.CurrentPlayer.Mana;
+            buildMenuBuyCostText.GetComponent<Text>().text = string.Format(buildMenuButCostTextFormat, cost);
+            _unitToBuild = unitIndex;
         }
 
-        public void BuildMenuBuyButton_OnClick()
-        {
-            Debug.Log("buy button fired");
-            StartCoroutine(ShowPopUpMessage(1));
-        }
+        public void BuildMenuBuyButton_OnClick() => SetUnitBuildingState(true);
 
         public void CloseBuildMenuButton_OnClick() => SetBuildMenuState(false);
 
@@ -212,16 +236,29 @@ namespace Gui.Menus
             }
         }
 
+        void SetUnitBuildingState(bool state)
+        {
+            _isBuildingUnit = state;
+            if (state)
+            {
+                BuildMenuState = false;
+                SelectRangeAround(_selectedUnitLocation, SelectedUnit.OccupyingUnit.BuildRange);
+                SelectedRangeHighlight = HighlightLevel.Dimmed;
+            }
+            else
+                DoUnitSelection(null, s => 0);
+        }
+
         public void MoveUnit(Coord fromPosition, Coord targetPosition)
         {
-            System.Collections.Generic.HashSet<Coord> range = Gc.Map.Grid.GetRange(fromPosition, Gc.Map.Grid[fromPosition].OccupyingUnit.MaxMove);
+            HashSet<Coord> range = Gc.Map.Grid.GetRange(fromPosition, Gc.Map.Grid[fromPosition].OccupyingUnit.MaxMove);
             float step = Gc.Map.Grid[fromPosition].OccupyingUnit.MaxMove * Time.deltaTime; //speed of step made to scale with unit speed
 
             if (range.Contains(targetPosition)) //see if position to go to is in range of our unit
             {
                 Vector3 current = Gc.Map.Grid[fromPosition].transform.position; //get the Vector3 position of the first plot in our path, which is the plot our unit is currently on
                 Vector3 next = new Vector3();
-                System.Collections.Generic.Queue<Coord> path = Gc.Map.Grid.PathFind(fromPosition, targetPosition); //get the path
+                Queue<Coord> path = Gc.Map.Grid.PathFind(fromPosition, targetPosition); //get the path
                 foreach (Coord plot in path)
                 {
                     next = Gc.Map.Grid[plot].transform.position; //get the next plot in our path
