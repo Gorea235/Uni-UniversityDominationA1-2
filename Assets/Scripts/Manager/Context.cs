@@ -10,8 +10,7 @@ namespace Manager
     public class Context
     {
         #region Private Fields
-
-        MainManager _main;
+        
         int _lastPlayerId;
 
         #endregion
@@ -32,10 +31,9 @@ namespace Manager
 
         #region Consuctor
 
-        public Context(MainManager main, GuiManager gui, MapManager map, AudioManager audio,
-            GameObject[] unitPrefabs, Dictionary<College, Dictionary<int, IUnit>> defaultUnits)
+        public Context(GuiManager gui, MapManager map, AudioManager audio, GameObject[] unitPrefabs,
+            Dictionary<College, Dictionary<int, IUnit>> defaultUnits)
         {
-            _main = main;
             Gui = gui;
             Map = map;
             Audio = audio;
