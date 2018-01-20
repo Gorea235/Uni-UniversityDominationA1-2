@@ -51,7 +51,6 @@ namespace Manager
             // pull in the game context
             // done last to collect game state
             GameContext = new Context(
-                this,
                 GameObject.Find("Gui").GetComponent<GuiManager>(),
                 GameObject.Find("Map").GetComponent<MapManager>(),
                 gameObject.GetComponent<AudioManager>(),
