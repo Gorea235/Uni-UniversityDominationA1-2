@@ -9,7 +9,7 @@ namespace Manager
     {
         int Id { get; }
         int Mana { get; set; }
-        float MaxMana { get; set; }
+        int MaxMana { get; set; }
         bool ShouldSkipMovePhase { get; set; }
         bool ShouldSkipAttackPhase { get; set; }
         bool Equals(IPlayer other);

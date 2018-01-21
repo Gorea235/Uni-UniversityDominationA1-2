@@ -119,9 +119,8 @@ namespace Gui.Menus
 
         public void EndTurnButton_OnClick()
         {
-            int next = Gc.PlayerOrder.Dequeue();
-            Gc.CurrentPlayerId = next;
-            Gc.PlayerOrder.Enqueue(next);
+            Gc.NextPlayer();
+            Gc.Gui.CurrentMenu = MenuType.MovePhase;
         }
 
         #endregion
@@ -147,9 +146,9 @@ namespace Gui.Menus
             }
             attacker.HasAttacked = true;
             attacker.Owner.Mana -= attacker.ManaAttackCost;
+            UpdateMana();
 
             DoUnitSelection(null, s => 0);
-            Debug.Log(string.Format("attacked tried to do {0} damage, defender now on {1} health", attacker.Attack, defender.Health));
         }
 
         #endregion

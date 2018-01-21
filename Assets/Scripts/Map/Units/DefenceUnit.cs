@@ -25,13 +25,13 @@ namespace Map.Unit
         const int _baseDefence = 40;
         const int _buildRange = 0;
         const bool _buildable = true;
-        const int _baseCost = 10;
-        const float _baseManaMoveRatio = 0.8f;
-        const int _baseManaAttackCost = 5;
+        const int _baseCost = 50;
+        const int _baseManaMoveRatio = 4;
+        const int _baseManaAttackCost = 15;
         readonly List<IEffect> _activeEffects = new List<IEffect>();
         IPlayer _owner;
         College _college;
-        readonly Vector3 _defaultOffset = new Vector3(0, 0, 0.294f);
+        readonly Vector3 _defaultOffset = new Vector3(-0.176f, 0.234f, 0.294f);
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace Map.Unit
         public int BuildRange { get { return _buildRange; } }
         public bool Buildable { get { return _buildable; } }
         public int Cost { get { return _baseCost; } }
-        public float ManaMoveRatio { get { return _baseManaMoveRatio; } }
+        public int ManaMoveRatio { get { return _baseManaMoveRatio; } }
         public int ManaAttackCost { get { return _baseManaAttackCost; } }
         public List<IEffect> ActiveEffects { get { return _activeEffects; } }
         public Sprite Icon { get { return icon; } }

@@ -24,7 +24,7 @@ namespace Manager.Players
             get { return 0; }
             set { }
         }
-        public float MaxMana
+        public int MaxMana
         {
             get { return 0; }
             set { }

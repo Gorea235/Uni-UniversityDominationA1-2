@@ -358,8 +358,7 @@ namespace Gui
 
         protected void UpdateMana()
         {
-            float manaPercent = Gc.CurrentPlayer.Mana / Gc.CurrentPlayer.MaxMana;
-            Debug.Log(string.Format("Player:{0} mana shown as {1:P2}", Gc.CurrentPlayer.Id, manaPercent));
+            float manaPercent = (float)Gc.CurrentPlayer.Mana / Gc.CurrentPlayer.MaxMana;
             manaPanelMask.transform.localScale = new Vector3(manaPercent, 1, 1);
             manaPanelText.GetComponent<Text>().text = string.Format(manaPanelTextFormat, Gc.CurrentPlayer.Mana);
         }

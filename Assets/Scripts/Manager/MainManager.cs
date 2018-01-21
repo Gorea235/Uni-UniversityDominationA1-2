@@ -63,33 +63,35 @@ namespace Manager
             // and available players in said game will add each player instance.
             IPlayer tmp = new HumanPlayer(GameContext.GetNewPlayerId())
             {
-                Mana = 25,
-                MaxMana = 25
+                Mana = 120,
+                MaxMana = 120
             };
             GameContext.Players.Add(tmp.Id, tmp);
             tmp = new HumanPlayer(GameContext.GetNewPlayerId())
             {
-                Mana = 25,
-                MaxMana = 25
+                Mana = 120,
+                MaxMana = 120
             };
             GameContext.Players.Add(tmp.Id, tmp);
-            GameContext.CurrentPlayerId = 0;
+            GameContext.StartingPlayerId = GameContext.CurrentPlayerId = 0;
+            GameContext.PlayerOrder.Enqueue(1);
+            GameContext.PlayerOrder.Enqueue(0);
         }
 
         void Start()
         {
             // testing unit creation
-            IUnit testUnit = Instantiate(AttackUnit).GetComponent<IUnit>();
+            IUnit testUnit = Instantiate(BaseUnit).GetComponent<IUnit>();
             testUnit.Init(GameContext.Map.SectorMaterials, GameContext.Players[0], College.Halifax);
-            GameContext.Map.Grid[new Map.Hex.Coord(1, 1)].OccupyingUnit = testUnit;
+            GameContext.Map.Grid[new Map.Hex.Coord(0, -3)].OccupyingUnit = testUnit;
 
-            testUnit = Instantiate(AttackUnit).GetComponent<IUnit>();
+            testUnit = Instantiate(BaseUnit).GetComponent<IUnit>();
             testUnit.Init(GameContext.Map.SectorMaterials, GameContext.Players[1], College.Constantine);
-            GameContext.Map.Grid[new Map.Hex.Coord(3, -1)].OccupyingUnit = testUnit;
+            GameContext.Map.Grid[new Map.Hex.Coord(7, -3)].OccupyingUnit = testUnit;
 
             // start menu
-            //GameContext.Gui.CurrentMenu = MenuType.MovePhase;
-            GameContext.Gui.CurrentMenu = MenuType.AttackPhase;
+            GameContext.Gui.CurrentMenu = MenuType.MovePhase;
+            //GameContext.Gui.CurrentMenu = MenuType.AttackPhase;
         }
 
         void Update()

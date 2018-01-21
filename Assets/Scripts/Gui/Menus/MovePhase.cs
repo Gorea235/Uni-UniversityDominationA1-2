@@ -208,7 +208,7 @@ namespace Gui.Menus
                     DoUnitSelection(null, s => 0);
                 else if (ContainsUnit(fetchCoord.Value, true)) // if player clicked on owned unit, shift selection to that one
                 {
-                    DoUnitSelection(fetchCoord.Value, s => s.OccupyingUnit.AvailableMove);
+                    DoUnitSelection(fetchCoord.Value, s => (int)Mathf.Clamp(Mathf.Floor(s.OccupyingUnit.Owner.Mana / s.OccupyingUnit.ManaMoveRatio), 0, s.OccupyingUnit.AvailableMove));
                     if (SelectedUnit != null) // if the player was able to select the unit
                     { // this should pass anyway, but it's good to double check
                         _selectedUnitLocation = fetchCoord.Value;
@@ -223,10 +223,7 @@ namespace Gui.Menus
                     if (SelectedSector != null && !SelectedSectorContainsUnit(true) && !BuildMenuState && !_isBuildingUnit)
                     {
                         if (SelectedRange.Contains(SelectedSector))
-                        {
-                            SelectedUnit.OccupyingUnit.AvailableMove -= _selectedUnitLocation.DistanceTo(fetchCoord.Value);
-                            MoveUnit();
-                        }
+                            MoveUnit(_selectedUnitLocation.DistanceTo(fetchCoord.Value));
                     }
                 }
 
@@ -308,11 +305,14 @@ namespace Gui.Menus
             buildMenuStatAttackCost.GetComponent<Text>().text = string.Format(buildMenuStatAttackCostFormat, unit?.ManaAttackCost.ToString() ?? "");
         }
 
-        void MoveUnit()
+        void MoveUnit(int distance)
         {
+            SelectedUnit.OccupyingUnit.AvailableMove -= distance;
             SelectedSector.OccupyingUnit = SelectedUnit.OccupyingUnit;
+            SelectedUnit.OccupyingUnit.Owner.Mana -= distance * SelectedUnit.OccupyingUnit.ManaMoveRatio;
             SelectedUnit.OccupyingUnit = null;
             DoUnitSelection(null, s => 0);
+            UpdateMana();
         }
 
         ///display a block bar on top of screen if there is an error

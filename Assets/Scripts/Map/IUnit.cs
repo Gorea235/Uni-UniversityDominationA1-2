@@ -72,7 +72,7 @@ namespace Map
         /// <summary>
         /// The ratio of move amount to mana cost this unit has.
         /// </summary>
-        float ManaMoveRatio { get; }
+        int ManaMoveRatio { get; }
         /// <summary>
         /// The amount of mana it costs for this unit to attack.
         /// </summary>

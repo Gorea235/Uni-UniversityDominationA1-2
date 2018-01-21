@@ -12,7 +12,7 @@ namespace Manager.Players
 
         int _id;
         int _mana; // set on player creation
-        float _maxMana; // set on player creation
+        int _maxMana; // set on player creation
         bool _skipMove = false;
         bool _skipAttack = false;
 
@@ -26,7 +26,7 @@ namespace Manager.Players
             get { return _mana; }
             set { _mana = value; }
         }
-        public float MaxMana
+        public int MaxMana
         {
             get { return _maxMana; }
             set { _maxMana = value; }
