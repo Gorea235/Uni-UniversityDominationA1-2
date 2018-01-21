@@ -235,7 +235,7 @@ namespace Gui.Menus
                     if (SelectedSector != null && !SelectedSectorContainsUnit(true) && !BuildMenuState)
                     { // only move the unit if we are allowed, and are actually looking to move
                         if (SelectedRange.Contains(SelectedSector))
-                            MoveUnit(_selectedUnitLocation.DistanceTo(fetchCoord.Value));
+                            MoveUnit();
                     }
                 }
 
@@ -355,8 +355,9 @@ namespace Gui.Menus
         /// standard movement calculations and actions.
         /// </summary>
         /// <param name="distance">The distance that the unit was moved.</param>
-        void MoveUnit(int distance)
+        void MoveUnit()
         {
+            int distance = _currentSecondaryHighlightedSectors.Count;
             SelectedUnit.OccupyingUnit.AvailableMove -= distance;
             SelectedSector.OccupyingUnit = SelectedUnit.OccupyingUnit;
             SelectedUnit.OccupyingUnit.Owner.Mana -= distance * SelectedUnit.OccupyingUnit.ManaMoveRatio;
