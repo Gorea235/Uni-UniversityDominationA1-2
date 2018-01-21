@@ -84,35 +84,24 @@ namespace Map.Hex
         }
 
         /// <summary>
-        /// Lerps the bitch
+        /// Performs a linear interpolation between 2 values.
         /// </summary>
-        /// <returns>slURP</returns>
-        /// <param name="a">The first Coord item.</param>
-        /// <param name="b">The second Coord item.</param>
-        /// <param name="t">t I guess...</param>
-        static double Lerp(double a, double b, double t)
-        {
-            return a * (1 - t) + b * t;
-        }
+        /// <param name="a">The start value.</param>
+        /// <param name="b">The end value.</param>
+        /// <param name="t">The percentage to interpolate.</param>
+        /// <returns>The point that is <c>t%</c> between <c>a</c> and <c>b</c>.</returns>
+        static double Lerp(double a, double b, double t) => a * (1 - t) + b * t;
 
-        public CoordDouble Lerp(CoordDouble b, double t)
-        {
-            //return new CoordDouble(Q * (1 - t) + b.Q * t, R * (1 - t) + b.R * t, S * (1 - t) + b.S * t);
-            //return new CoordDouble(Lerp(Q, b.Q, t), Lerp(R, b.R, t), Lerp(S, b.S, t));
-            return new CoordDouble(Lerp(Q, b.Q, t), Lerp(R, b.R, t));
-        }
-
-        //static public List<Coord> Linedraw(Coord a, Coord b)
-        //{
-        //    int N = a.DistanceTo(b);
-        //    CoordDouble a_nudge = new CoordDouble(a.Q + 0.000001, a.R + 0.000001, a.S - 0.000002);
-        //    CoordDouble b_nudge = new CoordDouble(b.Q + 0.000001, b.R + 0.000001, b.S - 0.000002);
-        //    List<Coord> results = new List<Coord> { };
-        //    double step = 1.0 / Math.Max(N, 1);
-        //    for (int i = 0; i <= N; i++)
-        //        results.Add(a_nudge.Lerp(b_nudge, step * i).Round());
-        //    return results;
-        //}
+        /// <summary>
+        /// Performs an linear interpolation to the given <see cref="CoordDouble"/>.
+        /// </summary>
+        /// <param name="b">The coordinate to interpolate to.</param>
+        /// <param name="t">The percentage to interpolate.</param>
+        /// <returns>
+        /// The <see cref="CoordDouble"/> that is <c>t%</c> between the current coordinate and
+        /// the given one.
+        /// </returns>
+        public CoordDouble Lerp(CoordDouble b, double t) => new CoordDouble(Lerp(Q, b.Q, t), Lerp(R, b.R, t));
 
         #endregion
     }
