@@ -5,19 +5,11 @@ using UnityEngine;
 
 namespace Manager
 {
-    public class AudioSound : MonoBehaviour
+    /// <summary>
+    /// Enum relating to each available sound.
+    /// </summary>
+    public enum AudioSound
     {
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

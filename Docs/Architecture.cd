@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Gui.GuiManager">
+    <Position X="5.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAgAAAACAAAgAAACAAAAAAAAAAACQCAAA=</HashCode>
+      <FileName>Assets\Scripts\Gui\GuiManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gui.PhaseLogic">
+    <Position X="2.5" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQQAgAAAAAcAAIQgBBECAAAAAgACIAAQEAZARAAMMMI=</HashCode>
+      <FileName>Assets\Scripts\Gui\Menus\PhaseLogic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gui.Menus.AttackPhase">
+    <Position X="7.5" Y="5" Width="1.75" />
+    <InheritanceLine Type="Gui.PhaseLogic" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="4.75" Y="6.062" />
+        <Point X="5.148" Y="6.062" />
+        <Point X="5.148" Y="4.781" />
+        <Point X="7.408" Y="4.781" />
+        <Point X="7.408" Y="5.842" />
+        <Point X="7.5" Y="5.842" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAIAAAAAAAEAAAAAAAEAAgEAAAAAARAAkAQ=</HashCode>
+      <FileName>Assets\Scripts\Gui\Menus\AttackPhase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gui.Menus.MovePhase">
+    <Position X="5.5" Y="5" Width="1.75" />
+    <InheritanceLine Type="Gui.PhaseLogic" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.75" Y="6.062" />
+        <Point X="5.146" Y="6.062" />
+        <Point X="5.146" Y="5.812" />
+        <Point X="5.5" Y="5.812" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>CIQQAClBAACUBAhggIUAEAkDIABAQAAAGgAABKIBsGA=</HashCode>
+      <FileName>Assets\Scripts\Gui\Menus\MovePhase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Helpers.MathHelpers">
+    <Position X="11.5" Y="12.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IAAAQAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Assets\Scripts\Helpers\MathHelpers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Manager.AudioManager">
+    <Position X="11.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAAACACAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Manager\AudioManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Manager.Context">
+    <Position X="13.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIAAAAAAJIQAAAAAAEAAAAAEAAwAEAAAAAAgAQAAAA=</HashCode>
+      <FileName>Assets\Scripts\Manager\Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Manager.MainManager">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAADAAAAAAAAAAAAAAAAAAEAEAABAAAAAgAEA=</HashCode>
+      <FileName>Assets\Scripts\Manager\MainManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Map.Grid">
+    <Position X="19.5" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAQAAAAAABAACAAAAACAAAAAAABAAAgAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\Grid.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Map.GridItem">
+    <Position X="9.75" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAgAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\GridItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Map.MapManager">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAQAAiAAACAAAQAAAIAAABAAAAAAAAAAAQAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Map\MapManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Map.MapData">
+    <Position X="9.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\MapData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Map.Sector">
+    <Position X="22.75" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AACAAAIAAAAAIAAIABAAABQQEARAAEAAAAADAAAAABA=</HashCode>
+      <FileName>Assets\Scripts\Map\Sector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Map.SectorMaterials">
+    <Position X="26" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>BAQAAEQIAAgAAAAAggApIAgAQAACCEAKAAEJAA0CAGE=</HashCode>
+      <FileName>Assets\Scripts\Map\SectorMaterials.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Map.Hex.Layout">
+    <Position X="31.75" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAYAAgICAAAACIAAAAgAABAAAAAAAAAgAAgA=</HashCode>
+      <FileName>Assets\Scripts\Map\Hex\Layout.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Map.Unit.AttackUnit" BaseTypeListCollapsed="true">
+    <Position X="18" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AICIqCKAQEWAgAIQMACCADQwAqAAAAASBRACAgEAAEA=</HashCode>
+      <FileName>Assets\Scripts\Map\Units\AttackUnit.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Map.Unit.BaseUnit" BaseTypeListCollapsed="true">
+    <Position X="20.25" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AICIqCKAQEWAgAIQMACCADQwAqAAAAASBRACAgEAAEA=</HashCode>
+      <FileName>Assets\Scripts\Map\Units\BaseUnit.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Map.Unit.DefenceUnit" BaseTypeListCollapsed="true">
+    <Position X="22.5" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AICIqCKAQEWAgAIQMACCADQwAqAAAAASBRACAgEAAEA=</HashCode>
+      <FileName>Assets\Scripts\Map\Units\DefenceUnit.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Map.Unit.ScoutUnit" BaseTypeListCollapsed="true">
+    <Position X="24.75" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AICIqCKAQEWAgAIQMACCADQwAqAAAAASBRACAgEAAEA=</HashCode>
+      <FileName>Assets\Scripts\Map\Units\ScoutUnit.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Manager.Players.AiPlayer" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAgABAAAAMAAAAAAAgAAAAIAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Manager\Players\AiPlayer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Manager.Players.HumanPlayer" BaseTypeListCollapsed="true">
+    <Position X="13.5" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AgASAAAAAAAAAAAAgABAAAIMAAAAAAAgAQAAIAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Manager\Players\HumanPlayer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Struct Name="Map.Hex.Coord">
+    <Position X="28.25" Y="10.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAACE4EEAAQBAAAIAAYAAJAAAAACgIyE=</HashCode>
+      <FileName>Assets\Scripts\Map\Hex\Coord.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Map.Hex.CoordDouble">
+    <Position X="31.75" Y="8.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAKgAQA=</HashCode>
+      <FileName>Assets\Scripts\Map\Hex\CoordDouble.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Map.Hex.Orientation">
+    <Position X="35" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAiAAAAAAAAAAAAAAAAAEAEAAAAECECAAAAAIAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\Hex\Orientation.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Map.Hex.SerializableCoord">
+    <Position X="11.5" Y="14.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAACABAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\Hex\SerializableCoord.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="Gui.IMenu">
+    <Position X="0.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Gui\IMenu.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Manager.IPlayer">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAgAAAAAAMAAAAAAAgAAAAIAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Manager\IPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Map.IEffect" Collapsed="true">
+    <Position X="0.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\IEffect.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Map.ILandmark">
+    <Position X="0.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAACAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\ILandmark.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Map.IUnit">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACICAKAAESAAAIQAACAADQgAIAAAAAABAACAgEAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\IUnit.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Gui.MenuType">
+    <Position X="7.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAgAAAAAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\Gui\MenuType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Manager.AudioMusic" Collapsed="true">
+    <Position X="10.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\Manager\AudioMusic.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Manager.AudioSound" Collapsed="true">
+    <Position X="10.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Manager\AudioSound.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Map.College">
+    <Position X="16.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAIAwAABAAQAgAIAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\College.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Map.SectorMaterialType">
+    <Position X="29.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAoAAAAAAAAAAIAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\SectorMaterialType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Map.SectorTexture">
+    <Position X="29.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAIAwAARAAQAgAoAAAAEAAAABAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\SectorTexture.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Map.Hex.DiagonalDirection">
+    <Position X="35" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACCCABABAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\Hex\DiagonalDirection.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Map.Hex.Direction">
+    <Position X="35" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACABABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAQ=</HashCode>
+      <FileName>Assets\Scripts\Map\Hex\Direction.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Map.HighlightLevel">
+    <Position X="29.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\Map\HighlightLevel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

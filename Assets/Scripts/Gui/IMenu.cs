@@ -5,19 +5,14 @@ using UnityEngine;
 
 namespace Gui
 {
-    public class IMenu : MonoBehaviour
+    /// <summary>
+    /// The generic menu interface to enable equal handling.
+    /// </summary>
+    public interface IMenu
     {
-
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        /// <summary>
+        /// Whether the menu is enabled or not.
+        /// </summary>
+        bool IsEnabled { get; set; }
     }
 }

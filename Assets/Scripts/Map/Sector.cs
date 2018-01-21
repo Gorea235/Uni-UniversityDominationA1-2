@@ -1,34 +1,37 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Map.Hex;
 using UnityEngine;
 
 namespace Map
 {
+    /// <summary>
+    /// The sector class that manages all the data in a given hexagonal sector.
+    /// </summary>
     public class Sector : MonoBehaviour
     {
-        #region Unity Bindings
+        #region Constants
 
-        public Material MatGrass;
-        public Material MatWater;
-        public Material MatStone;
-        public Material MatConcrete;
-        public Material MatAlcuin;
-        public Material MatConstantine;
-        public Material MatDerwent;
-        public Material MatGoodricke;
-        public Material MatHalifax;
-        public Material MatJames;
-        public Material MatLangwith;
-        public Material MatVanbrugh;
-        public Material MatWentworth;
+        /// <summary>
+        /// The textures that are said to be non-traversable by default.
+        /// </summary>
+        public static readonly SectorTexture[] notTraversableTextures = {
+            SectorTexture.Water
+        };
 
         #endregion
 
         #region Private fields
 
-        Coord _currentCoord;
+        MeshRenderer _renderer;
+        SectorMaterials _sectorMaterials;
+        Material _defaultMaterial;
+        Material _highlightBrightMaterial;
+        Material _highlightDimmedMaterial;
+        HighlightLevel _highlightLevel;
+
         IUnit _occupyingUnit;
         ILandmark _landmark;
 
@@ -36,86 +39,106 @@ namespace Map
 
         #region Public Properties
 
+        /// <summary>
+        /// The currently occupying unit on the sector.
+        /// </summary>
         public IUnit OccupyingUnit
         {
             get { return _occupyingUnit; }
             set
             {
                 _occupyingUnit = value;
-                _occupyingUnit.Position = Layout.Default.HexToPixel(_currentCoord);
+                if (value != null)
+                {
+                    _occupyingUnit.Transform.parent = gameObject.transform;
+                    _occupyingUnit.Transform.localPosition = _occupyingUnit.DefaultOffset;
+                }
             }
         }
-        public ILandmark Landmark { get; set; }
+        /// <summary>
+        /// The current landmark on this sector.
+        /// </summary>
+        public ILandmark Landmark
+        {
+            get { return _landmark; }
+            set
+            {
+                _landmark = value;
+                if (value != null)
+                    _landmark.Transform.parent = gameObject.transform;
+            }
+        }
+        /// <summary>
+        /// Whether the current sector is traversable by units.
+        /// </summary>
+        public bool Traversable { get; private set; }
 
         #endregion
 
         #region Initialisation
 
-        public void Init(Coord currentCoord, SectorTexture texture)
+        /// <summary>
+        /// Initialised the Sector. <paramref name="traversable"/> will be ignored
+        /// if the texture in in the 'not traversable' textures list.
+        /// </summary>
+        /// <returns>The init.</returns>
+        /// <param name="currentCoord">The coordinate of the Sector.</param>
+        /// <param name="texture">The texture of the Sector.</param>
+        /// <param name="traversable">
+        /// Whether the sector is traversable (ignored
+        /// if texture is in the 'not traversable' list).
+        /// </param>
+        public void Init(SectorMaterials sectorMaterials, Coord currentCoord, SectorTexture texture, bool traversable)
         {
-            _currentCoord = currentCoord;
-            gameObject.transform.position = Layout.Default.HexToPixel(currentCoord);
+            // setup base vars
+            _renderer = gameObject.GetComponentInChildren<MeshRenderer>();
 
-            // Set texture
-            switch (texture)
-            {
-                case SectorTexture.Grass:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatGrass;
-                    break;
-                case SectorTexture.Water:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatWater;
-                    break;
-                case SectorTexture.Stones:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatStone;
-                    break;
-                case SectorTexture.Concrete:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatConcrete;
-                    break;
-                case SectorTexture.Alcuin:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatAlcuin;
-                    break;
-                case SectorTexture.Constantine:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatConstantine;
-                    break;
-                case SectorTexture.Derwent:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatDerwent;
-                    break;
-                case SectorTexture.Goodricke:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatGoodricke;
-                    break;
-                case SectorTexture.Halifax:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatHalifax;
-                    break;
-                case SectorTexture.James:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatJames;
-                    break;
-                case SectorTexture.Langwith:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatLangwith;
-                    break;
-                case SectorTexture.Vanbrugh:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatVanbrugh;
-                    break;
-                case SectorTexture.Wentworth:
-                    gameObject.GetComponentInChildren<MeshRenderer>().material = MatWentworth;
-                    break;
-            }
+            gameObject.transform.position = Layout.Default.HexToPixel(currentCoord); // get the position the sector should be in
+            Traversable = traversable && !notTraversableTextures.Contains(texture); // work out whether the sector is traversable or not
+
+            // Setup materials
+            _sectorMaterials = sectorMaterials;
+            _defaultMaterial = _sectorMaterials.GetMaterial(texture, Traversable ? SectorMaterialType.Normal : SectorMaterialType.Dark);
+            _highlightBrightMaterial = _sectorMaterials.GetMaterial(texture, SectorMaterialType.Bright);
+            _highlightDimmedMaterial = _sectorMaterials.GetMaterial(texture, SectorMaterialType.Dimmed);
+            ApplyMaterial(_defaultMaterial);
         }
 
         #endregion
 
-        #region MonoBehaviour
+        #region Material Modifications
 
-        // Use this for initialization
-        void Start()
+        /// <summary>
+        /// Gets and sets the current highlight of the sector.
+        /// </summary>
+        public HighlightLevel Highlight
         {
-            // dev testing
-            //Init(new Hex.Coord(), SectorTexture.Grass);
+            get { return _highlightLevel; }
+            set
+            {
+                _highlightLevel = value;
+                switch (value)
+                {
+                    case HighlightLevel.Bright:
+                        ApplyMaterial(_highlightBrightMaterial);
+                        break;
+                    case HighlightLevel.Dimmed:
+                        ApplyMaterial(_highlightDimmedMaterial);
+                        break;
+                    case HighlightLevel.None:
+                        ApplyMaterial(_defaultMaterial);
+                        break;
+                }
+            }
         }
 
-        // Update is called once per frame
-        void Update()
+        /// <summary>
+        /// Applies the given material to the sector.
+        /// </summary>
+        /// <param name="material"></param>
+        void ApplyMaterial(Material material)
         {
-
+            _renderer.material = material;
         }
 
         #endregion

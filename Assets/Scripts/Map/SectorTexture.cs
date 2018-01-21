@@ -3,12 +3,17 @@ using System.Collections;
 
 namespace Map
 {
+    /// <summary>
+    /// The textures available to sectors.
+    /// </summary>
     public enum SectorTexture
     {
+        // ground types
         Grass,
-        Water,
+        Water, // set up to be non traversable by default
         Stones,
         Concrete,
+        // college types
         Alcuin,
         Constantine,
         Derwent,

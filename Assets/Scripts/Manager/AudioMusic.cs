@@ -5,19 +5,14 @@ using UnityEngine;
 
 namespace Manager
 {
-    public class AudioMusic : MonoBehaviour
+    /// <summary>
+    /// Enum relating to each item of music we have available in the game.
+    /// </summary>
+    public enum AudioMusic
     {
-
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        /// <summary>
+        /// No music.
+        /// </summary>
+        None
     }
 }

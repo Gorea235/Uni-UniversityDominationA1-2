@@ -2,6 +2,9 @@
 
 namespace Map.Hex
 {
+    /// <summary>
+    /// A serializable version of <see cref="Coord"/> that we can use for map loading.
+    /// </summary>
     [Serializable]
     public struct SerializableCoord
     {
@@ -15,8 +18,8 @@ namespace Map.Hex
         }
 
         /// <summary>
-        /// Converts the <see cref="T:Map.Hex.SerializableCoord"/> to a
-        /// <see cref="T:Map.Hex.Coord"/> via an explict cast.
+        /// Converts the <see cref="SerializableCoord"/> to a
+        /// <see cref="Coord"/> via an explict cast.
         /// </summary>
         /// <returns>The standard coordinate.</returns>
         /// <param name="coord">The serializable doordinate.</param>
