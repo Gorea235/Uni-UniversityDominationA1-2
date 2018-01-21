@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Gui.GuiManager">
-    <Position X="5.75" Y="0.5" Width="1.5" />
+    <Position X="5.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAgAAAACAAAgAAACAAAAAAAAAAACQCAAA=</HashCode>
       <FileName>Assets\Scripts\Gui\GuiManager.cs</FileName>
@@ -16,13 +16,15 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Gui.Menus.AttackPhase">
-    <Position X="7.5" Y="6.5" Width="1.75" />
+    <Position X="7.5" Y="5" Width="1.75" />
     <InheritanceLine Type="Gui.PhaseLogic" ManuallyRouted="true" FixedFromPoint="true">
       <Path>
         <Point X="4.75" Y="6.062" />
-        <Point X="7.408" Y="6.062" />
-        <Point X="7.408" Y="7.342" />
-        <Point X="7.5" Y="7.342" />
+        <Point X="5.148" Y="6.062" />
+        <Point X="5.148" Y="4.781" />
+        <Point X="7.408" Y="4.781" />
+        <Point X="7.408" Y="5.842" />
+        <Point X="7.5" Y="5.842" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -31,13 +33,13 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Gui.Menus.MovePhase">
-    <Position X="5.5" Y="6.5" Width="1.75" />
-    <InheritanceLine Type="Gui.PhaseLogic" ManuallyRouted="true" FixedFromPoint="true">
+    <Position X="5.5" Y="5" Width="1.75" />
+    <InheritanceLine Type="Gui.PhaseLogic" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="4.75" Y="6.062" />
-        <Point X="5.115" Y="6.062" />
-        <Point X="5.115" Y="7.535" />
-        <Point X="5.5" Y="7.535" />
+        <Point X="5.146" Y="6.062" />
+        <Point X="5.146" Y="5.812" />
+        <Point X="5.5" Y="5.812" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -74,7 +76,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Map.Grid">
-    <Position X="19.5" Y="2.5" Width="1.5" />
+    <Position X="19.5" Y="2.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AIAAAAQAAAAAABAACAAAAACAAAAAAABAAAgAAAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Map\Grid.cs</FileName>
@@ -103,7 +105,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Map.Sector">
-    <Position X="22.75" Y="1.75" Width="2" />
+    <Position X="22.75" Y="1.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AACAAAIAAAAAIAAIABAAABQQEARAAEAAAAADAAAAABA=</HashCode>
       <FileName>Assets\Scripts\Map\Sector.cs</FileName>
@@ -124,7 +126,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Map.Unit.AttackUnit" BaseTypeListCollapsed="true">
-    <Position X="18.5" Y="9.25" Width="1.5" />
+    <Position X="18" Y="9.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AICIqCKAQEWAgAIQMACCADQwAqAAAAASBRACAgEAAEA=</HashCode>
       <FileName>Assets\Scripts\Map\Units\AttackUnit.cs</FileName>
@@ -132,7 +134,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Map.Unit.BaseUnit" BaseTypeListCollapsed="true">
-    <Position X="20.25" Y="9.25" Width="1.5" />
+    <Position X="20.25" Y="9.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AICIqCKAQEWAgAIQMACCADQwAqAAAAASBRACAgEAAEA=</HashCode>
       <FileName>Assets\Scripts\Map\Units\BaseUnit.cs</FileName>
@@ -140,7 +142,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Map.Unit.DefenceUnit" BaseTypeListCollapsed="true">
-    <Position X="22" Y="9.25" Width="1.5" />
+    <Position X="22.5" Y="9.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AICIqCKAQEWAgAIQMACCADQwAqAAAAASBRACAgEAAEA=</HashCode>
       <FileName>Assets\Scripts\Map\Units\DefenceUnit.cs</FileName>
@@ -148,7 +150,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Map.Unit.ScoutUnit" BaseTypeListCollapsed="true">
-    <Position X="23.75" Y="9.25" Width="1.5" />
+    <Position X="24.75" Y="9.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AICIqCKAQEWAgAIQMACCADQwAqAAAAASBRACAgEAAEA=</HashCode>
       <FileName>Assets\Scripts\Map\Units\ScoutUnit.cs</FileName>
@@ -156,7 +158,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Manager.Players.AiPlayer" BaseTypeListCollapsed="true">
-    <Position X="15.25" Y="6.25" Width="1.5" />
+    <Position X="15.75" Y="6.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAgABAAAAMAAAAAAAgAAAAIAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Manager\Players\AiPlayer.cs</FileName>
@@ -164,7 +166,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Manager.Players.HumanPlayer" BaseTypeListCollapsed="true">
-    <Position X="13.5" Y="6.25" Width="1.5" />
+    <Position X="13.5" Y="6.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AgASAAAAAAAAAAAAgABAAAIMAAAAAAAgAQAAIAAAAAA=</HashCode>
       <FileName>Assets\Scripts\Manager\Players\HumanPlayer.cs</FileName>
@@ -256,7 +258,7 @@
     </TypeIdentifier>
   </Enum>
   <Enum Name="Map.College">
-    <Position X="16.75" Y="11.5" Width="1.5" />
+    <Position X="16.25" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAAAAAAAAAAAAAAIAwAABAAQAgAIAAAAAAAAABAAAAA=</HashCode>
       <FileName>Assets\Scripts\Map\College.cs</FileName>
