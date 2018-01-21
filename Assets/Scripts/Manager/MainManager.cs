@@ -83,9 +83,13 @@ namespace Manager
             testUnit.Init(GameContext.Map.SectorMaterials, GameContext.Players[0], College.Halifax);
             GameContext.Map.Grid[new Map.Hex.Coord(1, 1)].OccupyingUnit = testUnit;
 
+            testUnit = Instantiate(AttackUnit).GetComponent<IUnit>();
+            testUnit.Init(GameContext.Map.SectorMaterials, GameContext.Players[1], College.Constantine);
+            GameContext.Map.Grid[new Map.Hex.Coord(3, -1)].OccupyingUnit = testUnit;
+
             // start menu
-            GameContext.Gui.CurrentMenu = MenuType.MovePhase;
-            //GameContext.Gui.CurrentMenu = MenuType.AttackPhase;
+            //GameContext.Gui.CurrentMenu = MenuType.MovePhase;
+            GameContext.Gui.CurrentMenu = MenuType.AttackPhase;
         }
 
         void Update()

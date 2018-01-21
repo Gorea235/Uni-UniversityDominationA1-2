@@ -6,6 +6,7 @@ using Map.Hex;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Gui
 {
@@ -15,9 +16,16 @@ namespace Gui
 
         public GameObject sharedPanel;
 
+        // mana
+        public GameObject manaPanel;
+        public GameObject manaPanelMask;
+        public GameObject manaPanelText;
+
         #endregion
 
         #region Private Fields
+
+        const string manaPanelTextFormat = " {0}";
 
         // ======= camera movement fields =======
         /// <summary>
@@ -347,7 +355,15 @@ namespace Gui
         /// <param name="range">The range function used to calculated the selection range from the given sector.</param>
         protected void DoUnitSelection(Vector3 position,
                                          Func<Sector, int> range) => DoUnitSelection(GetSectorAtScreen(position), range);
-        
+
+        protected void UpdateMana()
+        {
+            float manaPercent = Gc.CurrentPlayer.Mana / Gc.CurrentPlayer.MaxMana;
+            Debug.Log(string.Format("Player:{0} mana shown as {1:P2}", Gc.CurrentPlayer.Id, manaPercent));
+            manaPanelMask.transform.localScale = new Vector3(manaPercent, 1, 1);
+            manaPanelText.GetComponent<Text>().text = string.Format(manaPanelTextFormat, Gc.CurrentPlayer.Mana);
+        }
+
         #endregion
     }
 }

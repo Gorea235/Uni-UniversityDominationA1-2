@@ -18,7 +18,7 @@ namespace Manager
         #region Public Properties
 
         public Dictionary<int, IPlayer> Players { get; } = new Dictionary<int, IPlayer>();
-        public List<int> PlayerOrder { get; } = new List<int>();
+        public Queue<int> PlayerOrder { get; } = new Queue<int>();
         public int CurrentPlayerId { get; set; }
         public IPlayer CurrentPlayer { get { return Players[CurrentPlayerId]; } }
         public GuiManager Gui { get; }

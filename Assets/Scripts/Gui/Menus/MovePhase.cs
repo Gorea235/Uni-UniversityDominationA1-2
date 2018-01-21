@@ -25,11 +25,6 @@ namespace Gui.Menus
         public GameObject buildMenuBuyButton;
         public GameObject buildMenuBuyCostText;
 
-        // mana
-        public GameObject manaPanel;
-        public GameObject manaPanelMask;
-        public GameObject manaPanelText;
-
         // other
         public GameObject errorPanel;
         public GameObject endPhaseButton;
@@ -40,7 +35,6 @@ namespace Gui.Menus
         #region Private Fields
 
         // predefined
-        const string manaPanelTextFormat = " {0}";
         const string buildMenuButCostTextFormat = "{0} Pints";
         const string buildMenuStatHpFormat = "HP: {0}";
         const string buildMenuStatMoveFormat = "Move Range: {0}";
@@ -314,19 +308,11 @@ namespace Gui.Menus
             buildMenuStatAttackCost.GetComponent<Text>().text = string.Format(buildMenuStatAttackCostFormat, unit?.ManaAttackCost.ToString() ?? "");
         }
 
-        public void MoveUnit()
+        void MoveUnit()
         {
             SelectedSector.OccupyingUnit = SelectedUnit.OccupyingUnit;
             SelectedUnit.OccupyingUnit = null;
             DoUnitSelection(null, s => 0);
-        }
-
-        public void UpdateMana()
-        {
-            float manaPercent = Gc.CurrentPlayer.Mana / Gc.CurrentPlayer.MaxMana;
-            Debug.Log(string.Format("Player:{0} mana shown as {1:P2}", Gc.CurrentPlayer.Id, manaPercent));
-            manaPanelMask.transform.localScale = new Vector3(manaPercent, 1, 1);
-            manaPanelText.GetComponent<Text>().text = string.Format(manaPanelTextFormat, Gc.CurrentPlayer.Mana);
         }
 
         ///display a block bar on top of screen if there is an error

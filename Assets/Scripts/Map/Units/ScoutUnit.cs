@@ -19,6 +19,7 @@ namespace Map.Unit
         int _health = 70;
         const int _baseAttack = 20;
         const int _baseAttackRange = 2;
+        bool _hasAttacked = false;
         const int _baseMove = 5;
         int _availableMove;
         const int _baseDefence = 15;
@@ -44,6 +45,11 @@ namespace Map.Unit
         }
         public int Attack { get { return _baseAttack; } }
         public int AttackRange { get { return _baseAttackRange; } }
+        public bool HasAttacked
+        {
+            get { return _hasAttacked; }
+            set { _hasAttacked = value; }
+        }
         public int MaxMove { get { return _baseMove; } }
         public int AvailableMove
         {
@@ -81,17 +87,9 @@ namespace Map.Unit
 
         #endregion
 
-        #region MonoBehaviour
+        #region Public Methods
 
-        void Start()
-        {
-
-        }
-        
-        void Update()
-        {
-
-        }
+        public void Kill() => Destroy(gameObject);
 
         #endregion
     }

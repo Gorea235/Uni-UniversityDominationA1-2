@@ -29,6 +29,10 @@ namespace Map
         /// <value>The attack range.</value>
         int AttackRange { get; }
         /// <summary>
+        /// Whether this unit has attacked during the current turn;
+        /// </summary>
+        bool HasAttacked { get; set; }
+        /// <summary>
         /// Gets the max move range of the unit.
         /// </summary>
         /// <value>The max move range.</value>
@@ -40,6 +44,7 @@ namespace Map
         int AvailableMove { get; set; }
         /// <summary>
         /// Gets the defence value of the unit.
+        /// Currently the percentage reduction in damage received.
         /// </summary>
         /// <value>The defence value.</value>
         /// <remarks>
@@ -60,8 +65,17 @@ namespace Map
         /// </summary>
         /// <value><c>true</c> if buildable; otherwise, <c>false</c>.</value>
         bool Buildable { get; }
+        /// <summary>
+        /// The amount of mana this unit requires to build.
+        /// </summary>
         int Cost { get; }
+        /// <summary>
+        /// The ratio of move amount to mana cost this unit has.
+        /// </summary>
         float ManaMoveRatio { get; }
+        /// <summary>
+        /// The amount of mana it costs for this unit to attack.
+        /// </summary>
         int ManaAttackCost { get; }
         /// <summary>
         /// The active effects that have been applied to the unit.
@@ -113,5 +127,9 @@ namespace Map
         /// <param name="player">The owning player.</param>
         /// <param name="college">The college the unit is from.</param>
         void Init(Manager.IPlayer player, College college);
+        /// <summary>
+        /// Kills the unit. This involves removing it from the scene.
+        /// </summary>
+        void Kill();
     }
 }
