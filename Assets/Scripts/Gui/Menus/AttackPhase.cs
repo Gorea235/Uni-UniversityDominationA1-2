@@ -7,6 +7,10 @@ using UnityEngine;
 
 namespace Gui.Menus
 {
+    /// <summary>
+    /// The attack phase menu logic.
+    /// Inherits from <see cref="PhaseLogic"/>, and thus <see cref="IMenu"/>.
+    /// </summary>
     public class AttackPhase : PhaseLogic
     {
         #region Unity Bindings
@@ -28,6 +32,9 @@ namespace Gui.Menus
 
         #region Public Properties
 
+        /// <summary>
+        /// See <see cref="IMenu.IsEnabled"/>.
+        /// </summary>
         public override bool IsEnabled
         {
             get
@@ -87,6 +94,9 @@ namespace Gui.Menus
 
         #region Handlers
 
+        /// <summary>
+        /// Overridden from <see cref="PhaseLogic.OnMouseLeftClick(Vector3)"/>.
+        /// </summary>
         protected override void OnMouseLeftClick(Vector3 position)
         {
             Coord? fetchCoord = GetSectorAtScreen(position);
@@ -111,12 +121,15 @@ namespace Gui.Menus
                 // only consider an attack selection if it wasn't traversable and if an enemy was on it
                 if (SelectedSector != null && SelectedSectorContainsUnit(true))
                 {
-                    if (SelectedRange.Contains(SelectedSector))
+                    if (SelectedRange.Contains(SelectedSector)) // only attack the unit if it was in range
                         AttackUnit();
                 }
             }
         }
 
+        /// <summary>
+        /// Fired when the 'End Turn' button is clicked.
+        /// </summary>
         public void EndTurnButton_OnClick()
         {
             Gc.NextPlayer();
@@ -127,17 +140,30 @@ namespace Gui.Menus
 
         #region Helpers
 
+        /// <summary>
+        /// Sets up the highlight tints. This is needed because attack phase, and only attack phase,
+        /// uses red tints for the highlighting.
+        /// </summary>
+        /// <param name="bright">The tint of the bright highlight.</param>
+        /// <param name="dimmed">The tint of the dimmed highlight.</param>
         void SetHighlightTints(Color bright, Color dimmed)
         {
             Gc.Map.SectorMaterials.SetHighlightTint(HighlightLevel.Bright, bright);
             Gc.Map.SectorMaterials.SetHighlightTint(HighlightLevel.Dimmed, dimmed);
         }
 
+        /// <summary>
+        /// Using the <see cref="PhaseLogic.SelectedUnit"/> as the attacker, and the
+        /// <see cref="PhaseLogic.SelectedSector"/> as the defender, it will perform the 
+        /// standard attack calculations, removing the unit if it was killed.
+        /// </summary>
         void AttackUnit()
         {
             IUnit attacker = SelectedUnit.OccupyingUnit;
             IUnit defender = SelectedSector.OccupyingUnit;
 
+            // defence is the % reduction the unit has to attack damage
+            // e.g. DefenceUnit has 40% (as of writing), which means it takes only 80% of the damage.
             defender.Health -= (int)Math.Round(attacker.Attack * (1 - (defender.Defence / 100f)));
             if (defender.Health <= 0)
             {

@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Manager
 {
+    /// <summary>
+    /// Enum relating to each available sound.
+    /// </summary>
     public enum AudioSound
     {
 

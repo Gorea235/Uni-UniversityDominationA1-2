@@ -38,6 +38,7 @@ namespace Map.Unit
         #region Public Properties
 
         // implemented properties from IUnit
+
         public string Name { get { return _name; } }
         public int Health
         {
@@ -74,12 +75,18 @@ namespace Map.Unit
 
         #region Initialisation
 
+        /// <summary>
+        /// See <see cref="IUnit.Init(SectorMaterials, IPlayer, College)"/>.
+        /// </summary>
         public void Init(SectorMaterials materials, IPlayer owner, College college)
         {
             Init(owner, college);
             gameObject.GetComponentsInChildren<MeshRenderer>()[1].material = materials.GetMaterial(college);
         }
 
+        /// <summary>
+        /// See <see cref="IUnit.Init(IPlayer, College)"/>.
+        /// </summary>
         public void Init(IPlayer owner, College college)
         {
             _owner = owner;
@@ -90,6 +97,9 @@ namespace Map.Unit
 
         #region Public Methods
 
+        /// <summary>
+        /// See <see cref="IUnit.Kill()"/>.
+        /// </summary>
         public void Kill() => Destroy(gameObject);
 
         #endregion

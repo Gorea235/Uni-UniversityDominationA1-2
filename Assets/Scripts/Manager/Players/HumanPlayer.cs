@@ -20,6 +20,8 @@ namespace Manager.Players
 
         #region Public Properties
 
+        // all properties here are implementations for IPlayer
+
         public int Id { get { return _id; } }
         public int Mana
         {
@@ -46,6 +48,10 @@ namespace Manager.Players
 
         #region Constructor
 
+        /// <summary>
+        /// Constructions an new <c>HumanPlayer</c> with the given ID.
+        /// </summary>
+        /// <param name="id"></param>
         public HumanPlayer(int id)
         {
             _id = id;
@@ -55,6 +61,9 @@ namespace Manager.Players
 
         #region Operators
 
+        /// <summary>
+        /// See <see cref="IPlayer.Equals(IPlayer)"/>.
+        /// </summary>
         public bool Equals(IPlayer other)
         {
             return Id == other.Id;

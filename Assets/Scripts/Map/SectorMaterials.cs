@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace Map
 {
+    /// <summary>
+    /// A class used to manage all of the materials used by sectors and units of the game.
+    /// </summary>
     public class SectorMaterials : MonoBehaviour
     {
         #region Unity Bindings
@@ -42,7 +45,7 @@ namespace Map
 
         #region Initialisation
 
-        void Awake() // use the MonoBehaviour initialisation for better robustness
+        void Awake() // initialise all of the materials we need
         {
             // init material dictionary
             _materials = new Dictionary<SectorTexture, Dictionary<SectorMaterialType, Material>>();
@@ -62,6 +65,7 @@ namespace Map
             AddDefaultMat(SectorTexture.Water, MatWater);
             // add modified materials to dictionary
             Material tmpMat;
+            // loop through SectorTexture as it provides all of the materials we will use as the base
             foreach (SectorTexture texture in Enum.GetValues(typeof(SectorTexture)))
             {
                 // add bright texture
@@ -87,6 +91,11 @@ namespace Map
             }
         }
 
+        /// <summary>
+        /// Adds the default material to the material dictionary.
+        /// </summary>
+        /// <param name="texture">The enum that will reference it.</param>
+        /// <param name="material">The normal material.</param>
         void AddDefaultMat(SectorTexture texture, Material material)
         {
             _materials.Add(texture, new Dictionary<SectorMaterialType, Material> {
@@ -94,8 +103,18 @@ namespace Map
             });
         }
 
+        /// <summary>
+        /// Creates a new material using the normal one of the given SectorTexture.
+        /// </summary>
+        /// <param name="texture">The texture to use.</param>
+        /// <returns>The new material copied from the base.</returns>
         Material GetFromDefaultMat(SectorTexture texture) => new Material(_materials[texture][SectorMaterialType.Normal]);
 
+        /// <summary>
+        /// Performs a linear interpolation between white and black by the given percentage.
+        /// </summary>
+        /// <param name="amountWhite">The percentage between white and black to get.</param>
+        /// <returns>The grey colour.</returns>
         Color GetGrey(float amountWhite) => Color.Lerp(Color.white, Color.black, amountWhite);
 
         #endregion
@@ -112,7 +131,7 @@ namespace Map
 
         /// <summary>
         /// Gets the material for the given college. It will use
-        /// <see cref="T:SectorMaterialType.Normal"/> for the material type.
+        /// <see cref="SectorMaterialType.Normal"/> for the material type.
         /// </summary>
         /// <returns>The material.</returns>
         /// <param name="college">The college texture to get.</param>
@@ -122,7 +141,7 @@ namespace Map
 
         #region MonoBehaviour
 
-        void Update()
+        void Update() // used for global material change calculations
         {
             // === process highlight glow ===
             _emissionCurrentTime += Time.deltaTime; // the current time through the transition
@@ -155,8 +174,17 @@ namespace Map
 
         #region Helpers
 
-        // the following is a little odd, but I'm gonna walk through it
-        // here (mostly so I know what's going on)
+        /// <summary>
+        /// Gets the emission level using the start and end position using the
+        /// current emission time.
+        /// </summary>
+        /// <param name="from">The emission level to start at.</param>
+        /// <param name="to">The emission level to go to.</param>
+        /// <returns>The current emission level for the current time.</returns>
+        /// <remarks>
+        /// The following code for this function is a little odd, but I'm gonna walk through it
+        /// here (mostly so I know what's going on).
+        /// </remarks>
         Color GetEmissionLevel(float from, float to) => GetGrey( // GetGrey will get the colour grey that's t percent
                                                                  //(between 0-1) between black and white
                                                                  Mathf.Lerp(from,  // the emission that is being transitioned from

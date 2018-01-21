@@ -10,6 +10,9 @@ namespace Manager
         #region Public Properties
 
         AudioMusic _audioMusic = AudioMusic.None;
+        /// <summary>
+        /// The currently playing music.
+        /// </summary>
         public AudioMusic CurrentMusic
         {
             get { return _audioMusic; }
@@ -24,6 +27,10 @@ namespace Manager
 
         #region Public Function
 
+        /// <summary>
+        /// Will play the given sound.
+        /// </summary>
+        /// <param name="sound"></param>
         public void PlaySound(AudioSound sound)
         {
 

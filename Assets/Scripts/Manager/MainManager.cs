@@ -22,6 +22,10 @@ namespace Manager
 
         #region Properties
 
+        /// <summary>
+        /// The overall game context. This acts as the entry point to all of the information
+        /// of the current game state.
+        /// </summary>
         public Context GameContext { get; private set; }
 
         #endregion
@@ -67,15 +71,15 @@ namespace Manager
                 MaxMana = 120
             };
             GameContext.Players.Add(tmp.Id, tmp);
+            GameContext.PlayerOrder.Enqueue(tmp.Id);
             tmp = new HumanPlayer(GameContext.GetNewPlayerId())
             {
                 Mana = 120,
                 MaxMana = 120
             };
             GameContext.Players.Add(tmp.Id, tmp);
-            GameContext.StartingPlayerId = GameContext.CurrentPlayerId = 0;
-            GameContext.PlayerOrder.Enqueue(1);
-            GameContext.PlayerOrder.Enqueue(0);
+            GameContext.PlayerOrder.Enqueue(tmp.Id);
+            GameContext.StartingPlayerId = GameContext.CurrentPlayerId;
         }
 
         void Start()
@@ -92,11 +96,6 @@ namespace Manager
             // start menu
             GameContext.Gui.CurrentMenu = MenuType.MovePhase;
             //GameContext.Gui.CurrentMenu = MenuType.AttackPhase;
-        }
-
-        void Update()
-        {
-
         }
 
         #endregion

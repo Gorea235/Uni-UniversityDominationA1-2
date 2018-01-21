@@ -1,5 +1,9 @@
 ﻿namespace Map
 {
+    /// <summary>
+    /// The enum of all available colleges in the game. They also relate directly to
+    /// their relevant texture.
+    /// </summary>
     public enum College
     {
         Alcuin = SectorTexture.Alcuin,

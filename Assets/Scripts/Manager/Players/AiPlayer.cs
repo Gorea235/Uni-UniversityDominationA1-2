@@ -16,6 +16,8 @@ namespace Manager.Players
 
         #region Public Properties
 
+        // all properties here are implementations for IPlayer
+
 #pragma warning disable RECS0029 // Warns about property or indexer setters and event adders or removers that do not use the value parameter
 
         public int Id { get { return _id; } }
@@ -46,6 +48,10 @@ namespace Manager.Players
 
         #region Constructor
 
+        /// <summary>
+        /// Constructs a new AiPlayer with the given ID.
+        /// </summary>
+        /// <param name="id">The ID of the player.</param>
         public AiPlayer(int id)
         {
             _id = id;
@@ -55,6 +61,9 @@ namespace Manager.Players
 
         #region Operators
 
+        /// <summary>
+        /// See <see cref="IPlayer.Equals(IPlayer)"/>.
+        /// </summary>
         public bool Equals(IPlayer other)
         {
             return Id == other.Id;

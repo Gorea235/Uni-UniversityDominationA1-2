@@ -7,10 +7,16 @@ using UnityEngine;
 
 namespace Map
 {
+    /// <summary>
+    /// The sector class that manages all the data in a given hexagonal sector.
+    /// </summary>
     public class Sector : MonoBehaviour
     {
         #region Constants
 
+        /// <summary>
+        /// The textures that are said to be non-traversable by default.
+        /// </summary>
         public static readonly SectorTexture[] notTraversableTextures = {
             SectorTexture.Water
         };
@@ -33,6 +39,9 @@ namespace Map
 
         #region Public Properties
 
+        /// <summary>
+        /// The currently occupying unit on the sector.
+        /// </summary>
         public IUnit OccupyingUnit
         {
             get { return _occupyingUnit; }
@@ -46,15 +55,22 @@ namespace Map
                 }
             }
         }
+        /// <summary>
+        /// The current landmark on this sector.
+        /// </summary>
         public ILandmark Landmark
         {
             get { return _landmark; }
             set
             {
                 _landmark = value;
-                _landmark.Transform.parent = gameObject.transform;
+                if (value != null)
+                    _landmark.Transform.parent = gameObject.transform;
             }
         }
+        /// <summary>
+        /// Whether the current sector is traversable by units.
+        /// </summary>
         public bool Traversable { get; private set; }
 
         #endregion
@@ -77,12 +93,8 @@ namespace Map
             // setup base vars
             _renderer = gameObject.GetComponentInChildren<MeshRenderer>();
 
-            gameObject.transform.position = Layout.Default.HexToPixel(currentCoord);
-
-            if (!notTraversableTextures.Contains(texture))
-                Traversable = traversable;
-            else
-                Traversable = false;
+            gameObject.transform.position = Layout.Default.HexToPixel(currentCoord); // get the position the sector should be in
+            Traversable = traversable && !notTraversableTextures.Contains(texture); // work out whether the sector is traversable or not
 
             // Setup materials
             _sectorMaterials = sectorMaterials;
@@ -96,6 +108,9 @@ namespace Map
 
         #region Material Modifications
 
+        /// <summary>
+        /// Gets and sets the current highlight of the sector.
+        /// </summary>
         public HighlightLevel Highlight
         {
             get { return _highlightLevel; }
@@ -117,6 +132,10 @@ namespace Map
             }
         }
 
+        /// <summary>
+        /// Applies the given material to the sector.
+        /// </summary>
+        /// <param name="material"></param>
         void ApplyMaterial(Material material)
         {
             _renderer.material = material;

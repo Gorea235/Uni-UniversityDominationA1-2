@@ -17,6 +17,11 @@ namespace Map
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets the <see cref="Sector"/> at the given <see cref="Coord"/>.
+        /// </summary>
+        /// <param name="coord">The coordinate of the sector to get.</param>
+        /// <returns>The sector at the given coordinate.</returns>
         public Sector this[Coord coord]
         {
             get
@@ -33,7 +38,7 @@ namespace Map
         /// Checks whether a sector is traversable in a null-safe way.
         /// </summary>
         /// <param name="coord">The position of the sector to check.</param>
-        /// <returns></returns>
+        /// <returns>Whether the given coordinate is traversable.</returns>
         public bool IsTraversable(Coord coord) => _gridStore.ContainsKey(coord) && _gridStore[coord].Traversable;
 
         /// <summary>
@@ -112,24 +117,32 @@ namespace Map
 
         #region Constructor
 
+        /// <summary>
+        /// Initialises the full grid using the given map data.
+        /// </summary>
+        /// <param name="parent">The parent object of the sectors.</param>
+        /// <param name="sectorPrefab">The sector prefab.</param>
+        /// <param name="sectorMaterials">The sector materials object.</param>
+        /// <param name="mapData">The map data to use to load.</param>
         public Grid(GameObject parent, GameObject sectorPrefab, SectorMaterials sectorMaterials, string mapData)
         {
             Debug.Log("Initialising grid");
             float startTime = Time.realtimeSinceStartup;
-            MapData preProcessedMap = JsonUtility.FromJson<MapData>(mapData);
+            MapData preProcessedMap = JsonUtility.FromJson<MapData>(mapData); // parse map data into object
             GameObject tmpSectorObj;
             Sector tmpSector;
             Coord tmpCoord;
             foreach (var gridItem in preProcessedMap.sectors)
             {
-                tmpCoord = (Coord)gridItem.coordinate;
-                tmpSectorObj = UnityEngine.Object.Instantiate(sectorPrefab, parent.transform);
-                tmpSector = tmpSectorObj.GetComponent<Sector>();
+                tmpCoord = (Coord)gridItem.coordinate; // convert coordinate to Coord
+                tmpSectorObj = UnityEngine.Object.Instantiate(sectorPrefab, parent.transform); // instantiate the new sector prefab
+                tmpSector = tmpSectorObj.GetComponent<Sector>(); // grab the Sector class on the object
+                // initialise the sector using the necessary data
                 tmpSector.Init(sectorMaterials,
                                tmpCoord,
-                               (SectorTexture)Enum.Parse(typeof(SectorTexture), gridItem.texture),
-                               gridItem.traversable);
-                _gridStore.Add(tmpCoord, tmpSector);
+                               (SectorTexture)Enum.Parse(typeof(SectorTexture), gridItem.texture), // hand in the texture the sector should have
+                               gridItem.traversable); // hand in whether the sector is traversable or not
+                _gridStore.Add(tmpCoord, tmpSector); // add the sector to the grid storage
             }
             // todo: landmark processing
             float elapsedTime = Time.realtimeSinceStartup - startTime;
@@ -139,6 +152,8 @@ namespace Map
         #endregion
 
         #region Enumerator
+
+        // enumerator implementation to allow iterating through sectors
 
         public IEnumerator GetEnumerator()
         {

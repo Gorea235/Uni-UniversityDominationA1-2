@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 namespace Gui.Menus
 {
+    /// <summary>
+    /// The movement phase menu logic.
+    /// Inherits from <see cref="PhaseLogic"/>, and thus <see cref="IMenu"/>.
+    /// </summary>
     public class MovePhase : PhaseLogic
     {
         #region Unity Bindings
@@ -96,6 +100,9 @@ namespace Gui.Menus
 
         #region Public Properties
 
+        /// <summary>
+        /// See <see cref="IMenu.IsEnabled"/>.
+        /// </summary>
         public override bool IsEnabled
         {
             get
@@ -184,22 +191,27 @@ namespace Gui.Menus
 
         #region Handlers
 
+        /// <summary>
+        /// Overridden from <see cref="PhaseLogic.OnMouseLeftClick(Vector3)"/>.
+        /// </summary>
         protected override void OnMouseLeftClick(Vector3 position)
         {
             Coord? fetchCoord = GetSectorAtScreen(position);
             Sector prevUnitSector = SelectedUnit;
 
+            // if we are attempting to build a unit, handle either creation or cancellation
             if (_isBuildingUnit)
             {
-                SelectSector(fetchCoord);
+                SelectSector(fetchCoord); // we need to know where the player clicked
                 if (SelectedSector != null && SelectedRange.Contains(SelectedSector) && SelectedSector.OccupyingUnit == null)
-                {
+                { // if the player clicked a valid build spot, then build the unit
                     IUnit newUnit = Instantiate(Gc.UnitPrefabs[_unitToBuild]).GetComponent<IUnit>();
                     newUnit.Init(Gc.Map.SectorMaterials, SelectedUnit.OccupyingUnit.Owner, SelectedUnit.OccupyingUnit.College);
                     SelectedSector.OccupyingUnit = newUnit;
                     Gc.CurrentPlayer.Mana -= newUnit.Cost;
                     UpdateMana();
                 }
+                // we are no longer building
                 SetUnitBuildingState(false);
             }
             else
@@ -220,8 +232,8 @@ namespace Gui.Menus
                 {
                     SelectSector(fetchCoord); // try to select the clicked sector
                                               // if it wasn't traversable, or it contains an enemy unit, then we won't bother moving
-                    if (SelectedSector != null && !SelectedSectorContainsUnit(true) && !BuildMenuState && !_isBuildingUnit)
-                    {
+                    if (SelectedSector != null && !SelectedSectorContainsUnit(true) && !BuildMenuState)
+                    { // only move the unit if we are allowed, and are actually looking to move
                         if (SelectedRange.Contains(SelectedSector))
                             MoveUnit(_selectedUnitLocation.DistanceTo(fetchCoord.Value));
                     }
@@ -229,13 +241,14 @@ namespace Gui.Menus
 
                 if (SelectedUnit != null && SelectedUnit.OccupyingUnit.BuildRange > 0) // if this is a builder unit
                 {
+                    // if player selected a new builder unit, make sure the build menu is close and give the option to open it
                     if (!BuildMenuState || prevUnitSector != SelectedUnit)
                     {
                         buildMenuButton.SetActive(true);
                         BuildMenuState = false;
                     }
                 }
-                else
+                else // if not on a builder unit, then make sure the build menu and open button are hidden
                 {
                     buildMenuButton.SetActive(false);
                     BuildMenuState = false;
@@ -243,8 +256,16 @@ namespace Gui.Menus
             }
         }
 
+        /// <summary>
+        /// Fired when the 'Open Build Menu' button is clicked.
+        /// </summary>
         public void BuildMenuButton_OnClick() => SetBuildMenuState(true);
 
+        /// <summary>
+        /// Fired when a unit button in the build menu is clicked. Each handler for the
+        /// unit buttons is created with the index of the unit it is referencing.
+        /// </summary>
+        /// <param name="unitIndex">The index of the unit to start building.</param>
         public void BuildMenuUnitSelect_OnClick(int unitIndex)
         {
             // enable and setup buy button
@@ -257,45 +278,68 @@ namespace Gui.Menus
             _unitToBuild = unitIndex;
         }
 
+        /// <summary>
+        /// Fired when the 'Buy Unit' button is clicked.
+        /// </summary>
         public void BuildMenuBuyButton_OnClick() => SetUnitBuildingState(true);
 
+        /// <summary>
+        /// Fired when the 'Close Build Menu' button is clicked.
+        /// </summary>
         public void CloseBuildMenuButton_OnClick() => SetBuildMenuState(false);
 
+        /// <summary>
+        /// Fired when the 'End Phase' button is clicked.
+        /// </summary>
         public void EndPhaseButton_OnClick() => Gc.Gui.CurrentMenu = MenuType.AttackPhase;
 
         #endregion
 
         #region Helpers
 
+        /// <summary>
+        /// Sets the state of the build menu.
+        /// </summary>
+        /// <param name="state">Whether the build menu should be opened or closed.</param>
         void SetBuildMenuState(bool state)
         {
             if (state)
             {
-                buildMenuButton.SetActive(false);
-                BuildMenuState = true;
+                buildMenuButton.SetActive(false); // we don't need the open button any more
+                BuildMenuState = true; // we need the build menu open now
             }
             else
             {
-                BuildMenuState = false;
-                DoUnitSelection(null, s => 0);
+                BuildMenuState = false; // we need the build menu closed
+                DoUnitSelection(null, s => 0); // we will delect the unit
             }
         }
 
+        /// <summary>
+        /// Sets whether we are looking to build a unit or not.
+        /// </summary>
+        /// <param name="state"></param>
         void SetUnitBuildingState(bool state)
         {
             _isBuildingUnit = state;
-            if (state)
+            if (state) // if we are, then we need to select the build range and disable the build menu
             {
                 BuildMenuState = false;
                 SelectRangeAround(_selectedUnitLocation, SelectedUnit.OccupyingUnit.BuildRange);
                 SelectedRangeHighlight = HighlightLevel.Dimmed;
             }
             else
-                DoUnitSelection(null, s => 0);
+                DoUnitSelection(null, s => 0); // otherwise just clear the build range
         }
 
+        /// <summary>
+        /// Sets the stats shown in the build menu to the given unit's stats.
+        /// If null, then the stats are cleared.
+        /// </summary>
+        /// <param name="unit">The unit to set the stats to.</param>
         void SetUnitBuildStats(IUnit unit)
         {
+            // we use the C# null propergators and checkers to allow a null unit to clear the stats
             buildMenuStatName.GetComponent<Text>().text = unit?.Name ?? "";
             buildMenuStatHp.GetComponent<Text>().text = string.Format(buildMenuStatHpFormat, unit?.Health.ToString() ?? "");
             buildMenuStatMove.GetComponent<Text>().text = string.Format(buildMenuStatMoveFormat, unit?.MaxMove.ToString() ?? "");
@@ -305,6 +349,12 @@ namespace Gui.Menus
             buildMenuStatAttackCost.GetComponent<Text>().text = string.Format(buildMenuStatAttackCostFormat, unit?.ManaAttackCost.ToString() ?? "");
         }
 
+        /// <summary>
+        /// Using the <see cref="PhaseLogic.SelectedUnit"/> as the unit to move, and the
+        /// <see cref="PhaseLogic.SelectedSector"/> as the target sector, it will perform the 
+        /// standard movement calculations and actions.
+        /// </summary>
+        /// <param name="distance">The distance that the unit was moved.</param>
         void MoveUnit(int distance)
         {
             SelectedUnit.OccupyingUnit.AvailableMove -= distance;
@@ -315,8 +365,12 @@ namespace Gui.Menus
             UpdateMana();
         }
 
-        ///display a block bar on top of screen if there is an error
-        ///TBD: modify so it takes a string parameter and customises the error message
+        /// <summary>
+        /// Display a block bar on top of screen if there is an error.
+        /// TBD: modify so it takes a string parameter and customises the error message
+        /// </summary>
+        /// <param name="delay">The time to show the bar for.</param>
+        /// <returns>The enumerator for unit concurrency.</returns>
         IEnumerator ShowPopUpMessage(float delay)
         {
             errorPanel.SetActive(true);

@@ -117,6 +117,9 @@ namespace Gui
         /// The currently selected range.
         /// </summary>
         protected HashSet<Sector> SelectedRange { get; private set; } = new HashSet<Sector>();
+        /// <summary>
+        /// A shorthand for setting the <see cref="SelectedRange"/> highlight.
+        /// </summary>
         protected HighlightLevel SelectedRangeHighlight
         {
             set
@@ -147,11 +150,14 @@ namespace Gui
 
         #region MonoBehaviour
 
+        /// <summary>
+        /// Used to fetch the <see cref="MainManager"/> class to allow access to the
+        /// <see cref="Context"/> object.
+        /// </summary>
         protected virtual void Awake()
         {
             Main = GameObject.Find("Manager").GetComponent<MainManager>();
         }
-
 
         /// <summary>
         /// Does generic Update process.
@@ -297,6 +303,10 @@ namespace Gui
             }
         }
 
+        /// <summary>
+        /// A shorthand for <c>SelectSector(coord, true)</c>.
+        /// </summary>
+        /// <param name="coord"></param>
         protected void SelectUnit(Coord? coord) => SelectSector(coord, true);
 
         /// <summary>
@@ -356,6 +366,9 @@ namespace Gui
         protected void DoUnitSelection(Vector3 position,
                                          Func<Sector, int> range) => DoUnitSelection(GetSectorAtScreen(position), range);
 
+        /// <summary>
+        /// Updates the mana bar with the current players mana.
+        /// </summary>
         protected void UpdateMana()
         {
             float manaPercent = (float)Gc.CurrentPlayer.Mana / Gc.CurrentPlayer.MaxMana;

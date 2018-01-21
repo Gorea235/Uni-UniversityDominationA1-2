@@ -189,12 +189,12 @@ namespace Map.Hex
         #region Operators
 
         /// <summary>
-        /// Adds a <see cref="T:Map.Hex.Coord"/> to a <see cref="T:Map.Hex.Coord"/>,
-        /// yielding a new <see cref="T:Map.Hex.Coord"/>.
+        /// Adds a <see cref="Coord"/> to a <see cref=".Coord"/>,
+        /// yielding a new <see cref="Coord"/>.
         /// </summary>
-        /// <param name="a">The first <see cref="T:Map.Hex.Coord"/> to add.</param>
-        /// <param name="b">The second <see cref="T:Map.Hex.Coord"/> to add.</param>
-        /// <returns>The <see cref="T:Map.Hex.Coord"/> that is the sum of the values of <c>a</c> and <c>b</c>.</returns>
+        /// <param name="a">The first <see cref="Coord"/> to add.</param>
+        /// <param name="b">The second <see cref="Coord"/> to add.</param>
+        /// <returns>The <see cref="Coord"/> that is the sum of the values of <c>a</c> and <c>b</c>.</returns>
         public static Coord operator +(Coord a, Coord b)
         {
             //return new Coord(a.Q + b.Q, a.R + b.R, a.S + b.S);
@@ -202,12 +202,12 @@ namespace Map.Hex
         }
 
         /// <summary>
-        /// Subtracts a <see cref="T:Map.Hex.Coord"/> from a <see cref="T:Map.Hex.Coord"/>,
-        /// yielding a new <see cref="T:Map.Hex.Coord"/>.
+        /// Subtracts a <see cref="Coord"/> from a <see cref="Coord"/>,
+        /// yielding a new <see cref="Coord"/>.
         /// </summary>
-        /// <param name="a">The <see cref="T:Map.Hex.Coord"/> to subtract from (the minuend).</param>
-        /// <param name="b">The <see cref="T:Map.Hex.Coord"/> to subtract (the subtrahend).</param>
-        /// <returns>The <see cref="T:Map.Hex.Coord"/> that is the <c>a</c> minus <c>b</c>.</returns>
+        /// <param name="a">The <see cref="Coord"/> to subtract from (the minuend).</param>
+        /// <param name="b">The <see cref="Coord"/> to subtract (the subtrahend).</param>
+        /// <returns>The <see cref="Coord"/> that is the <c>a</c> minus <c>b</c>.</returns>
         public static Coord operator -(Coord a, Coord b)
         {
             //return new Coord(a.Q - b.Q, a.R - b.R, a.S - b.S);
@@ -215,11 +215,11 @@ namespace Map.Hex
         }
 
         /// <summary>
-        /// Computes the product of <c>a</c> and <c>k</c>, yielding a new <see cref="T:Map.Hex.Coord"/>.
+        /// Computes the product of <c>a</c> and <c>k</c>, yielding a new <see cref="Coord"/>.
         /// </summary>
-        /// <param name="a">The <see cref="T:Map.Hex.Coord"/> to multiply.</param>
+        /// <param name="a">The <see cref="Coord"/> to multiply.</param>
         /// <param name="k">The <see cref="int"/> to multiply.</param>
-        /// <returns>The <see cref="T:Map.Hex.Coord"/> that is the <c>a</c> * <c>k</c>.</returns>
+        /// <returns>The <see cref="Coord"/> that is the <c>a</c> * <c>k</c>.</returns>
         static public Coord operator *(Coord a, int k)
         {
             //return new Coord(a.Q * k, a.R * k, a.S * k);
@@ -227,11 +227,11 @@ namespace Map.Hex
         }
 
         /// <summary>
-        /// Computes the product of <c>k</c> and <c>a</c>, yielding a new <see cref="T:Map.Hex.Coord"/>.
+        /// Computes the product of <c>k</c> and <c>a</c>, yielding a new <see cref="Coord"/>.
         /// </summary>
         /// <param name="k">The <see cref="int"/> to multiply.</param>
-        /// <param name="a">The <see cref="T:Map.Hex.Coord"/> to multiply.</param>
-        /// <returns>The <see cref="T:Map.Hex.Coord"/> that is the <c>k</c> * <c>a</c>
+        /// <param name="a">The <see cref="Coord"/> to multiply.</param>
+        /// <returns>The <see cref="Coord"/> that is the <c>k</c> * <c>a</c>
         /// (internally just swiches to <c>a</c> * <c>k</c>).</returns>
         static public Coord operator *(int k, Coord a)
         {
@@ -240,11 +240,11 @@ namespace Map.Hex
         }
 
         /// <summary>
-        /// Determines whether a specified instance of <see cref="T:Map.Hex.Coord"/>
-        /// is equal to another specified <see cref="T:Map.Hex.Coord"/>.
+        /// Determines whether a specified instance of <see cref="Coord"/>
+        /// is equal to another specified <see cref="Coord"/>.
         /// </summary>
-        /// <param name="a">The first <see cref="T:Map.Hex.Coord"/> to compare.</param>
-        /// <param name="b">The second <see cref="T:Map.Hex.Coord"/> to compare.</param>
+        /// <param name="a">The first <see cref="Coord"/> to compare.</param>
+        /// <param name="b">The second <see cref="Coord"/> to compare.</param>
         /// <returns><c>true</c> if <c>a</c> and <c>b</c> are equal; otherwise, <c>false</c>.</returns>
         public static bool operator ==(Coord a, Coord b)
         {
@@ -253,11 +253,11 @@ namespace Map.Hex
         }
 
         /// <summary>
-        /// Determines whether a specified instance of <see cref="T:Map.Hex.Coord"/>
-        /// is not equal to another specified <see cref="T:Map.Hex.Coord"/>.
+        /// Determines whether a specified instance of <see cref="Coord"/>
+        /// is not equal to another specified <see cref="Coord"/>.
         /// </summary>
-        /// <param name="a">The first <see cref="T:Map.Hex.Coord"/> to compare.</param>
-        /// <param name="b">The second <see cref="T:Map.Hex.Coord"/> to compare.</param>
+        /// <param name="a">The first <see cref="Coord"/> to compare.</param>
+        /// <param name="b">The second <see cref="Coord"/> to compare.</param>
         /// <returns><c>true</c> if <c>a</c> and <c>b</c> are not equal; otherwise, <c>false</c>.</returns>
         public static bool operator !=(Coord a, Coord b)
         {
@@ -266,10 +266,10 @@ namespace Map.Hex
 
         /// <summary>
         /// Determines whether the specified <see cref="object"/> is equal to
-        /// the current <see cref="T:Map.Hex.Coord"/>.
+        /// the current <see cref="Coord"/>.
         /// </summary>
-        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="T:Map.Hex.Coord"/>.</param>
-        /// <returns><c>true</c> if the specified <see cref="object"/> is equal to the current <see cref="T:Map.Hex.Coord"/>;
+        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="Coord"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="object"/> is equal to the current <see cref="Coord"/>;
         /// otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
@@ -280,7 +280,7 @@ namespace Map.Hex
         }
 
         /// <summary>
-        /// Serves as a hash function for a <see cref="T:Map.Hex.Coord"/> object.
+        /// Serves as a hash function for a <see cref="Coord"/> object.
         /// </summary>
         /// <returns>
         /// A hash code for this instance that is suitable for use in hashing
@@ -294,7 +294,7 @@ namespace Map.Hex
         /// in order to implement this.
         /// The reason for the concrete implementation, rather than using
         /// the base version, is that it ensures properly distributed hashes,
-        /// while also ensuring 2 instantiations of <see cref="T:Map.Hex.Coord"/>
+        /// while also ensuring 2 instantiations of <see cref="Coord"/>
         /// will always produce the same hash, since they should be identical.
         /// 
         /// Since according to
@@ -313,17 +313,17 @@ namespace Map.Hex
         }
 
         /// <summary>
-        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:Map.Hex.Coord"/>.
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="Coord"/>.
         /// </summary>
-        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Map.Hex.Coord"/>.</returns>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="Coord"/>.</returns>
         public override string ToString()
         {
             return string.Format("Coord({0}, {1}, {2})", Q, R, S);
         }
 
         /// <summary>
-        /// Converts the <see cref="T:Map.Hex.Coord"/> to a
-        /// <see cref="T:Map.Hex.SerializableCoord"/> via an explict cast.
+        /// Converts the <see cref="Coord"/> to a
+        /// <see cref="SerializableCoord"/> via an explict cast.
         /// </summary>
         /// <returns>The serializable coordinate.</returns>
         /// <param name="coord">The standard doordinate.</param>
