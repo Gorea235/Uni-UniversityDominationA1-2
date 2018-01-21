@@ -79,7 +79,7 @@ namespace Manager
         void Start()
         {
             // testing unit creation
-            IUnit testUnit = Instantiate(BaseUnit).GetComponent<IUnit>();
+            IUnit testUnit = Instantiate(AttackUnit).GetComponent<IUnit>();
             testUnit.Init(GameContext.Map.SectorMaterials, GameContext.Players[0], College.Halifax);
             GameContext.Map.Grid[new Map.Hex.Coord(1, 1)].OccupyingUnit = testUnit;
 

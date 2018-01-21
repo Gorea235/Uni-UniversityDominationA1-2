@@ -54,7 +54,7 @@ namespace Gui.Menus
         RectTransform _buildMenuContentRect;
         bool _isBuildingUnit = false;
         int _unitToBuild;
-        Sector _currentBuildSector;
+        HashSet<Sector> _currentSecondaryHighlightedSectors = new HashSet<Sector>();
 
         #endregion
 
@@ -111,6 +111,7 @@ namespace Gui.Menus
             set
             {
                 gameObject.SetActive(value);
+                sharedPanel.SetActive(value);
                 if (value)
                 {
                     // setup default menu state
@@ -148,20 +149,39 @@ namespace Gui.Menus
         {
             base.Update();
 
+            Coord? fetchCoord = GetSectorAtScreen(Input.mousePosition);
+
             // build unit highlighting
-            if (_currentBuildSector != null)
+            if (_currentSecondaryHighlightedSectors.Count > 0)
             {
-                if (_currentBuildSector.Highlight == HighlightLevel.Bright)
-                    _currentBuildSector.Highlight = HighlightLevel.Dimmed;
-                _currentBuildSector = null;
+                foreach (Sector sector in _currentSecondaryHighlightedSectors)
+                    if (sector.Highlight == HighlightLevel.Bright)
+                        sector.Highlight = HighlightLevel.Dimmed;
+                _currentSecondaryHighlightedSectors.Clear();
             }
             if (_isBuildingUnit)
             {
-                Coord? fetchCoord = GetSectorAtScreen(Input.mousePosition);
                 if (fetchCoord.HasValue && Gc.Map.Grid.IsTraversable(fetchCoord.Value) && SelectedRange.Contains(Gc.Map.Grid[fetchCoord.Value]))
                 {
-                    _currentBuildSector = Gc.Map.Grid[fetchCoord.Value];
-                    _currentBuildSector.Highlight = HighlightLevel.Bright;
+                    _currentSecondaryHighlightedSectors.Add(Gc.Map.Grid[fetchCoord.Value]);
+                    Gc.Map.Grid[fetchCoord.Value].Highlight = HighlightLevel.Bright;
+                }
+            }
+            else if (SelectedUnit != null)
+            {
+                if (fetchCoord.HasValue && _selectedUnitLocation.DistanceTo(fetchCoord.Value) <= SelectedUnit.OccupyingUnit.AvailableMove &&
+                    Gc.Map.Grid.IsTraversable(fetchCoord.Value))
+                {
+                    Stack<Coord> path = Gc.Map.Grid.PathFind(_selectedUnitLocation, fetchCoord.Value);
+                    Coord item;
+                    int count = 0;
+                    while (count < SelectedUnit.OccupyingUnit.AvailableMove && path.Count > 0)
+                    {
+                        item = path.Pop();
+                        Gc.Map.Grid[item].Highlight = HighlightLevel.Bright;
+                        _currentSecondaryHighlightedSectors.Add(Gc.Map.Grid[item]);
+                        count++;
+                    }
                 }
             }
         }
@@ -206,9 +226,13 @@ namespace Gui.Menus
                 {
                     SelectSector(fetchCoord); // try to select the clicked sector
                                               // if it wasn't traversable, or it contains an enemy unit, then we won't bother moving
-                    if (SelectedSector != null && !SelectedSectorContainsUnit(true))
+                    if (SelectedSector != null && !SelectedSectorContainsUnit(true) && !BuildMenuState && !_isBuildingUnit)
                     {
-                        // do movement here
+                        if (SelectedRange.Contains(SelectedSector))
+                        {
+                            SelectedUnit.OccupyingUnit.AvailableMove -= _selectedUnitLocation.DistanceTo(fetchCoord.Value);
+                            MoveUnit();
+                        }
                     }
                 }
 
@@ -246,7 +270,7 @@ namespace Gui.Menus
 
         public void CloseBuildMenuButton_OnClick() => SetBuildMenuState(false);
 
-        public void EndPhaseButton_OnClick() => Debug.Log("end phase fired");
+        public void EndPhaseButton_OnClick() => Gc.Gui.CurrentMenu = MenuType.AttackPhase;
 
         #endregion
 
@@ -290,31 +314,11 @@ namespace Gui.Menus
             buildMenuStatAttackCost.GetComponent<Text>().text = string.Format(buildMenuStatAttackCostFormat, unit?.ManaAttackCost.ToString() ?? "");
         }
 
-        public void MoveUnit(Coord fromPosition, Coord targetPosition)
+        public void MoveUnit()
         {
-            HashSet<Coord> range = Gc.Map.Grid.GetRange(fromPosition, Gc.Map.Grid[fromPosition].OccupyingUnit.MaxMove);
-            float step = Gc.Map.Grid[fromPosition].OccupyingUnit.MaxMove * Time.deltaTime; //speed of step made to scale with unit speed
-
-            if (range.Contains(targetPosition)) //see if position to go to is in range of our unit
-            {
-                Vector3 current = Gc.Map.Grid[fromPosition].transform.position; //get the Vector3 position of the first plot in our path, which is the plot our unit is currently on
-                Vector3 next = new Vector3();
-                Queue<Coord> path = Gc.Map.Grid.PathFind(fromPosition, targetPosition); //get the path
-                foreach (Coord plot in path)
-                {
-                    next = Gc.Map.Grid[plot].transform.position; //get the next plot in our path
-                    Gc.Map.Grid[fromPosition].OccupyingUnit.Transform.position = Vector3.MoveTowards(current, next, step); //move unit to next plot in path
-                    current = next; //reset so current to point at the one we are now at
-
-                }
-
-                Gc.Map.Grid[targetPosition].OccupyingUnit = Gc.Map.Grid[fromPosition].OccupyingUnit; //bind target position to have the transitioned unit
-                Gc.Map.Grid[fromPosition].OccupyingUnit = null; //remove binding from start position
-
-
-            }
-            else { } //handle 
-
+            SelectedSector.OccupyingUnit = SelectedUnit.OccupyingUnit;
+            SelectedUnit.OccupyingUnit = null;
+            DoUnitSelection(null, s => 0);
         }
 
         public void UpdateMana()

@@ -43,11 +43,11 @@ namespace Map
         /// </summary>
         /// <param name="start">Coord from which to start the path finding</param>
         /// <param name="finish">Coordinate we are looking how to get to</param>
-        /// <returns>Queue of Coord values representing the path from start to finish</returns>
-        public Queue<Coord> PathFind(Coord start, Coord finish)
+        /// <returns>Stack of Coord values representing the path from start to finish</returns>
+        public Stack<Coord> PathFind(Coord start, Coord finish)
         {
             Coord current;
-            Queue<Coord> path = new Queue<Coord>();
+            Stack<Coord> path = new Stack<Coord>();
             Queue<Coord> frontier = new Queue<Coord>();
             frontier.Enqueue(start);
             Dictionary<Coord, Coord> cameFrom = new Dictionary<Coord, Coord>();
@@ -76,7 +76,7 @@ namespace Map
 
             while (current != start)
             {
-                path.Enqueue(current);
+                path.Push(current);
                 current = cameFrom[current];
             }
 

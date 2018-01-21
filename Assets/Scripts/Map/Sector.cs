@@ -39,8 +39,11 @@ namespace Map
             set
             {
                 _occupyingUnit = value;
-                _occupyingUnit.Transform.parent = gameObject.transform;
-                _occupyingUnit.Transform.localPosition = _occupyingUnit.DefaultOffset;
+                if (value != null)
+                {
+                    _occupyingUnit.Transform.parent = gameObject.transform;
+                    _occupyingUnit.Transform.localPosition = _occupyingUnit.DefaultOffset;
+                }
             }
         }
         public ILandmark Landmark

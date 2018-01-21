@@ -11,6 +11,12 @@ namespace Gui
 {
     public abstract class PhaseLogic : MonoBehaviour, IMenu
     {
+        #region Unity Bindings
+
+        public GameObject sharedPanel;
+
+        #endregion
+
         #region Private Fields
 
         // ======= camera movement fields =======
