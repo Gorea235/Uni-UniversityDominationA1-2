@@ -82,12 +82,12 @@ namespace Manager
         {
             // testing unit creation
             IUnit testUnit = Instantiate(BaseUnit).GetComponent<IUnit>();
-            testUnit.Init(GameContext.Map.SectorMaterials, GameContext.Players[0], College.Halifax);
-            GameContext.Map.Grid[new Map.Hex.Coord(0, -3)].OccupyingUnit = testUnit;
+            testUnit.Init(GameContext.Map.SectorMaterials, GameContext.Players[0], College.James);
+            GameContext.Map.Grid[new Map.Hex.Coord(20, -23, 3)].OccupyingUnit = testUnit;
 
             testUnit = Instantiate(BaseUnit).GetComponent<IUnit>();
-            testUnit.Init(GameContext.Map.SectorMaterials, GameContext.Players[1], College.Constantine);
-            GameContext.Map.Grid[new Map.Hex.Coord(7, -3)].OccupyingUnit = testUnit;
+            testUnit.Init(GameContext.Map.SectorMaterials, GameContext.Players[1], College.Goodricke);
+            GameContext.Map.Grid[new Map.Hex.Coord(39,-8,-31)].OccupyingUnit = testUnit;
 
             // start menu
             GameContext.Gui.CurrentMenu = MenuType.MovePhase;
